@@ -1,0 +1,1635 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>medtokenizers.modules.base &mdash; MedTokenizers 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MedTokenizers
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/tokenizers.html">Choosing a Tokenizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/training.html">Training Tokenizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/evaluation.html">Evaluating Tokenizers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tokenizers.html">Tokenizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/quantizers.html">Quantizers &amp; Building Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/evaluation.html">Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/training.html">Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/io.html">I/O &amp; Preprocessing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MedTokenizers</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">medtokenizers.modules.base</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for medtokenizers.modules.base</h1><div class="highlight"><pre>
+<span></span><span class="sd">&quot;&quot;&quot;Base classes for the medtokenizers architecture.</span>
+
+<span class="sd">This module defines the abstract base classes that establish the contract</span>
+<span class="sd">for all tokenizers and quantizers in the library. It provides:</span>
+
+<span class="sd">1. **BaseQuantizer**: Abstract interface for discrete quantization methods</span>
+<span class="sd">2. **BaseTokenizer**: Abstract interface for tokenizers with HuggingFace Hub integration</span>
+
+<span class="sd">Design Philosophy</span>
+<span class="sd">-----------------</span>
+<span class="sd">The base classes enforce a consistent API across all implementations while</span>
+<span class="sd">remaining flexible enough to support diverse architectures (VAE, VQ-VAE, FSQ,</span>
+<span class="sd">RESFSQ, etc.). Key design decisions:</span>
+
+<span class="sd">- **Unified encode/decode interface**: All tokenizers expose the same methods</span>
+<span class="sd">- **HuggingFace Hub integration**: Easy model sharing and loading</span>
+<span class="sd">- **Batch processing utilities**: Built-in support for large volume processing</span>
+<span class="sd">- **Sliding window inference**: For volumes larger than GPU memory</span>
+
+<span class="sd">Type Safety</span>
+<span class="sd">-----------</span>
+<span class="sd">Uses jaxtyping for tensor shape annotations and beartype for runtime</span>
+<span class="sd">validation. This catches shape mismatches early and documents expected</span>
+<span class="sd">tensor shapes clearly.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">itertools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">json</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">ABC</span><span class="p">,</span> <span class="n">abstractmethod</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterable</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">beartype</span><span class="w"> </span><span class="kn">import</span> <span class="n">beartype</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jaxtyping</span><span class="w"> </span><span class="kn">import</span> <span class="n">Float</span><span class="p">,</span> <span class="n">Int</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">jaxtyped_compile_safe</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generator</span>
+
+<span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="BaseQuantizer">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.BaseQuantizer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseQuantizer</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for all quantization methods.</span>
+
+<span class="sd">    Quantizers map continuous encoder outputs to discrete codes from a</span>
+<span class="sd">    finite vocabulary. This is the key component that enables discrete</span>
+<span class="sd">    latent representations in VQ-VAE and related architectures.</span>
+
+<span class="sd">    The Quantization Contract</span>
+<span class="sd">    -------------------------</span>
+<span class="sd">    All quantizers must implement:</span>
+
+<span class="sd">    1. **forward(z)** -&gt; (codes, loss, indices)</span>
+<span class="sd">       - codes: Continuous codes (for decoder input)</span>
+<span class="sd">       - loss: Auxiliary quantization loss (commitment, entropy, etc.)</span>
+<span class="sd">       - indices: Integer codebook indices</span>
+
+<span class="sd">    2. **indices_to_codes(indices)** -&gt; codes</span>
+<span class="sd">       - Decode indices back to continuous codes</span>
+
+<span class="sd">    3. **get_codebook_size()** -&gt; int</span>
+<span class="sd">       - Return the total number of codes</span>
+
+<span class="sd">    Implementation Notes</span>
+<span class="sd">    --------------------</span>
+<span class="sd">    - The `dtype` attribute controls output precision</span>
+<span class="sd">    - Subclasses should call super().__init__() first</span>
+<span class="sd">    - Use @jaxtyped decorator for shape validation</span>
+
+<span class="sd">    Example Subclass:</span>
+<span class="sd">        &gt;&gt;&gt; class MyQuantizer(BaseQuantizer):</span>
+<span class="sd">        ...     def forward(self, z):</span>
+<span class="sd">        ...         # Quantization logic</span>
+<span class="sd">        ...         return codes, loss, indices</span>
+<span class="sd">        ...</span>
+<span class="sd">        ...     def indices_to_codes(self, indices):</span>
+<span class="sd">        ...         # Decoding logic</span>
+<span class="sd">        ...         return codes</span>
+<span class="sd">        ...</span>
+<span class="sd">        ...     def get_codebook_size(self):</span>
+<span class="sd">        ...         return self.num_codes</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="BaseQuantizer.__init__">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.BaseQuantizer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span></div>
+
+
+<div class="viewcode-block" id="BaseQuantizer.forward">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.BaseQuantizer.forward">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="nd">@jaxtyped_compile_safe</span><span class="p">(</span><span class="n">beartype</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
+        <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">],</span>
+        <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch *loss_dims&quot;</span><span class="p">],</span>
+        <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch *spatial&quot;</span><span class="p">],</span>
+    <span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Quantize continuous input to discrete codes.</span>
+
+<span class="sd">        This is the core quantization operation. It maps continuous encoder</span>
+<span class="sd">        outputs to the nearest codes in the quantizer&#39;s vocabulary.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            z: Continuous input tensor from encoder.</span>
+<span class="sd">               Shape: ``(batch, channels, *spatial)`` where spatial is (H, W) or (H, W, D)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            codes: Continuous codes to pass to decoder.</span>
+<span class="sd">                   Shape: same as input z</span>
+<span class="sd">            loss: Auxiliary quantization loss (commitment, codebook, entropy, etc.)</span>
+<span class="sd">                  Shape varies by quantizer</span>
+<span class="sd">            indices: Integer indices into the codebook.</span>
+<span class="sd">                    Shape varies by quantizer (typically ``batch, *spatial``)</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            The loss should be added to the reconstruction loss during training.</span>
+<span class="sd">            For implicit codebook methods like FSQ, this may be a dummy zero tensor.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="BaseQuantizer.indices_to_codes">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.BaseQuantizer.indices_to_codes">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">indices_to_codes</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert discrete indices back to continuous codes.</span>
+
+<span class="sd">        Used during inference to decode from stored indices without</span>
+<span class="sd">        re-running the encoder.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            indices: Quantized indices from forward() or stored tokens</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Continuous codes suitable for decoder input</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="BaseQuantizer.get_codebook_size">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.BaseQuantizer.get_codebook_size">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_codebook_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the total number of codes in the vocabulary.</span>
+
+<span class="sd">        For learned codebooks (VQ), this is the number of embedding vectors.</span>
+<span class="sd">        For implicit codebooks (FSQ), this is the product of quantization levels.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Total number of discrete codes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclass must implement get_codebook_size()&quot;</span><span class="p">)</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BaseTokenizer">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">BaseTokenizer</span><span class="p">(</span><span class="n">ABC</span><span class="p">,</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for all tokenizers with HuggingFace Hub integration.</span>
+
+<span class="sd">    Tokenizers transform input images/volumes into latent representations</span>
+<span class="sd">    (continuous or discrete) and back. This class provides:</span>
+
+<span class="sd">    1. **Abstract encode/decode interface** - Subclasses implement specifics</span>
+<span class="sd">    2. **HuggingFace Hub integration** - save_pretrained, from_pretrained, push_to_hub</span>
+<span class="sd">    3. **Batch processing utilities** - For large datasets</span>
+<span class="sd">    4. **Sliding window inference** - For volumes larger than GPU memory</span>
+
+<span class="sd">    Architecture Overview</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    A tokenizer consists of:</span>
+<span class="sd">    - **Encoder**: Compresses input to low-dimensional latent</span>
+<span class="sd">    - **Quantizer** (discrete only): Maps continuous latent to discrete codes</span>
+<span class="sd">    - **Decoder**: Reconstructs input from latent</span>
+
+<span class="sd">    ```</span>
+<span class="sd">    Input -&gt; Encoder -&gt; [Quantizer] -&gt; Latent -&gt; Decoder -&gt; Reconstruction</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    HuggingFace Hub Integration</span>
+<span class="sd">    ---------------------------</span>
+<span class="sd">    All tokenizers can be saved and loaded from the HuggingFace Hub:</span>
+
+<span class="sd">    &gt;&gt;&gt; model.save_pretrained(&quot;./my-tokenizer&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; model = ContinuousTokenizer.from_pretrained(&quot;./my-tokenizer&quot;)</span>
+<span class="sd">    &gt;&gt;&gt; model.push_to_hub(&quot;username/my-tokenizer&quot;)</span>
+
+<span class="sd">    Thread Safety</span>
+<span class="sd">    -------------</span>
+<span class="sd">    Models should be used in single-threaded contexts or with appropriate</span>
+<span class="sd">    synchronization. The eval()/train() mode switching is NOT thread-safe.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim: Spatial dimensionality (2 for images, 3 for volumes)</span>
+<span class="sd">        name: Human-readable model name</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">config_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;config.json&quot;</span>
+    <span class="n">weights_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;pytorch_model.bin&quot;</span>
+
+<div class="viewcode-block" id="BaseTokenizer.__init__">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;BaseTokenizer&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dim must be 2 or 3, got </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">name</span> <span class="o">=</span> <span class="n">name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+    <span class="c1"># ==================== Abstract Methods ====================</span>
+
+<div class="viewcode-block" id="BaseTokenizer.encode">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.encode">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="nd">@jaxtyped_compile_safe</span><span class="p">(</span><span class="n">beartype</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode input to latent representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input image/volume tensor</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple containing latent representation and additional outputs</span>
+<span class="sd">            (varies by subclass - e.g., KL divergence for VAE)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="BaseTokenizer.decode">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.decode">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="nd">@jaxtyped_compile_safe</span><span class="p">(</span><span class="n">beartype</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode latent representation to output.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            z: Latent tensor (continuous codes or quantized codes)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Reconstructed output with same spatial shape as original input</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="BaseTokenizer.forward">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.forward">[docs]</a>
+    <span class="nd">@abstractmethod</span>
+    <span class="nd">@jaxtyped_compile_safe</span><span class="p">(</span><span class="n">beartype</span><span class="p">)</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Full forward pass: encode -&gt; [quantize] -&gt; decode.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input tensor</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary containing at minimum:</span>
+<span class="sd">            - &#39;reconstructions&#39;: Reconstructed output</span>
+<span class="sd">            - Additional keys vary by subclass (posteriors, quant_loss, etc.)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">pass</span></div>
+
+
+    <span class="c1"># ==================== Context Managers ====================</span>
+
+<div class="viewcode-block" id="BaseTokenizer.inference_mode">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.inference_mode">[docs]</a>
+    <span class="nd">@contextmanager</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">inference_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">BaseTokenizer</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Context manager for optimized inference.</span>
+
+<span class="sd">        Configures the model for maximum inference performance:</span>
+<span class="sd">        - Sets model to eval mode</span>
+<span class="sd">        - Disables gradient computation</span>
+<span class="sd">        - Uses torch.inference_mode for additional optimizations</span>
+
+<span class="sd">        The model is restored to its previous state upon exit.</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; with model.inference_mode():</span>
+<span class="sd">            ...     latents = model.tokenize(volume)</span>
+<span class="sd">            ...     recon = model.detokenize(latents)</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            self: The model instance for method chaining</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">was_training</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+            <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">():</span>
+                <span class="k">yield</span> <span class="bp">self</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">was_training</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">train</span><span class="p">()</span></div>
+
+
+    <span class="c1"># ==================== Utility Methods ====================</span>
+
+<div class="viewcode-block" id="BaseTokenizer.num_parameters">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.num_parameters">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">num_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get total number of learnable parameters.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Sum of numel() for all parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">sum</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="BaseTokenizer.tokenize">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.tokenize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">tokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode input to latent space (convenience method).</span>
+
+<span class="sd">        Subclasses should override with appropriate return type.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input tensor</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Latent representation (continuous or discrete indices)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses must implement tokenize()&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseTokenizer.detokenize">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.detokenize">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">detokenize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode from latent space (convenience method).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            z: Latent tensor</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Reconstructed output</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">z</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ==================== Performance Optimization ====================</span>
+
+<div class="viewcode-block" id="BaseTokenizer.compile">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.compile">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">compile</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;reduce-overhead&quot;</span><span class="p">,</span> <span class="n">fullgraph</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BaseTokenizer&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compile model with torch.compile() for faster inference.</span>
+
+<span class="sd">        Uses PyTorch 2.0+ compilation to optimize the model graph.</span>
+<span class="sd">        The compiled model maintains the same interface but runs faster,</span>
+<span class="sd">        especially for repeated inference calls.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            mode: Compilation mode. Options:</span>
+<span class="sd">                - &quot;reduce-overhead&quot;: Best for small batches (default)</span>
+<span class="sd">                - &quot;max-autotune&quot;: Best throughput, longer warmup</span>
+<span class="sd">                - &quot;default&quot;: Balanced compilation</span>
+<span class="sd">            fullgraph: If True, require full graph compilation (stricter)</span>
+<span class="sd">            **kwargs: Additional arguments passed to torch.compile()</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Compiled model (self, for method chaining)</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; model = ContinuousTokenizer.from_pretrained(&quot;path/to/model&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; model = model.compile(mode=&quot;reduce-overhead&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; # First call triggers compilation (slower)</span>
+<span class="sd">            &gt;&gt;&gt; latents = model.tokenize(batch)</span>
+<span class="sd">            &gt;&gt;&gt; # Subsequent calls are faster</span>
+<span class="sd">            &gt;&gt;&gt; latents = model.tokenize(batch2)</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            - Compilation happens on first forward pass</span>
+<span class="sd">            - Different input shapes may trigger recompilation</span>
+<span class="sd">            - Use dynamic=False (default) for fixed input sizes</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">torch</span><span class="p">,</span> <span class="s2">&quot;compile&quot;</span><span class="p">):</span>
+            <span class="kn">import</span><span class="w"> </span><span class="nn">warnings</span>
+
+            <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
+                <span class="s2">&quot;torch.compile() requires PyTorch 2.0+. Returning uncompiled model.&quot;</span><span class="p">,</span>
+                <span class="n">stacklevel</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">return</span> <span class="bp">self</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span> <span class="n">dynamic</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">fullgraph</span><span class="o">=</span><span class="n">fullgraph</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span></div>
+
+
+    <span class="c1"># ==================== HuggingFace Hub Integration ====================</span>
+
+<div class="viewcode-block" id="BaseTokenizer.save_pretrained">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.save_pretrained">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_pretrained</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">save_directory</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">push_to_hub</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save model weights and configuration to directory.</span>
+
+<span class="sd">        Creates a directory structure compatible with from_pretrained():</span>
+<span class="sd">        ```</span>
+<span class="sd">        save_directory/</span>
+<span class="sd">        ├── config.json      # Model configuration</span>
+<span class="sd">        └── pytorch_model.bin # Model weights</span>
+<span class="sd">        ```</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            save_directory: Path to save model</span>
+<span class="sd">            push_to_hub: If True, also upload to HuggingFace Hub</span>
+<span class="sd">            **kwargs: Additional arguments for push_to_hub</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; model.save_pretrained(&quot;./my-tokenizer&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; # Later...</span>
+<span class="sd">            &gt;&gt;&gt; model = ContinuousTokenizer.from_pretrained(&quot;./my-tokenizer&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">save_directory</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_directory</span><span class="p">)</span>
+        <span class="n">save_directory</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Save config</span>
+        <span class="n">config_path</span> <span class="o">=</span> <span class="n">save_directory</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_name</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+        <span class="c1"># Save model weights</span>
+        <span class="n">weights_path</span> <span class="o">=</span> <span class="n">save_directory</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_name</span>
+        <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span> <span class="n">weights_path</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Model saved to </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">save_directory</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">push_to_hub</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">push_to_hub</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">save_directory</span><span class="p">),</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseTokenizer.from_pretrained">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.from_pretrained">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_pretrained</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span> <span class="n">model_name_or_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">map_location</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseTokenizer</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load model from local directory or HuggingFace Hub.</span>
+
+<span class="sd">        Automatically detects whether path is local or a Hub repository.</span>
+<span class="sd">        For Hub repos, downloads config and weights to cache.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            model_name_or_path: Local path or HuggingFace Hub repo ID</span>
+<span class="sd">            map_location: Device to load weights to (default: auto-detect)</span>
+<span class="sd">            **kwargs: Override config parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Loaded model instance</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # From local path</span>
+<span class="sd">            &gt;&gt;&gt; model = ContinuousTokenizer.from_pretrained(&quot;./my-tokenizer&quot;)</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; # From HuggingFace Hub</span>
+<span class="sd">            &gt;&gt;&gt; model = ContinuousTokenizer.from_pretrained(&quot;username/my-tokenizer&quot;)</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; # Override config</span>
+<span class="sd">            &gt;&gt;&gt; model = ContinuousTokenizer.from_pretrained(</span>
+<span class="sd">            ...     &quot;./my-tokenizer&quot;,</span>
+<span class="sd">            ...     dropout=0.1  # Override saved dropout value</span>
+<span class="sd">            ... )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">model_name_or_path</span><span class="p">)</span>
+
+        <span class="c1"># Check if local path exists</span>
+        <span class="k">if</span> <span class="n">model_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="n">config_path</span> <span class="o">=</span> <span class="n">model_path</span> <span class="o">/</span> <span class="bp">cls</span><span class="o">.</span><span class="n">config_name</span>
+            <span class="n">weights_path</span> <span class="o">=</span> <span class="n">model_path</span> <span class="o">/</span> <span class="bp">cls</span><span class="o">.</span><span class="n">weights_name</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Try HuggingFace Hub</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">hf_hub_download</span>
+
+                <span class="n">config_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+                    <span class="n">hf_hub_download</span><span class="p">(</span>
+                        <span class="n">repo_id</span><span class="o">=</span><span class="n">model_name_or_path</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">config_name</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">weights_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span>
+                    <span class="n">hf_hub_download</span><span class="p">(</span>
+                        <span class="n">repo_id</span><span class="o">=</span><span class="n">model_name_or_path</span><span class="p">,</span> <span class="n">filename</span><span class="o">=</span><span class="bp">cls</span><span class="o">.</span><span class="n">weights_name</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                    <span class="s2">&quot;huggingface_hub is required to load from HuggingFace Hub. &quot;</span>
+                    <span class="s2">&quot;Install it with: pip install huggingface_hub&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+            <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;Could not find model at </span><span class="si">{</span><span class="n">model_name_or_path</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Ensure it exists locally or on HuggingFace Hub. Error: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+
+        <span class="c1"># Load config</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">config_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">config</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
+
+        <span class="c1"># Merge with kwargs (kwargs take precedence)</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span>
+
+        <span class="c1"># Create model instance</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">config</span><span class="p">)</span>
+
+        <span class="c1"># Determine device</span>
+        <span class="k">if</span> <span class="n">map_location</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">map_location</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+
+        <span class="c1"># Load weights</span>
+        <span class="n">state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+            <span class="n">weights_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="n">map_location</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Model loaded from </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">model_name_or_path</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">model</span></div>
+
+
+<div class="viewcode-block" id="BaseTokenizer.push_to_hub">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.push_to_hub">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">push_to_hub</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">repo_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">save_directory</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">commit_message</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;Upload model&quot;</span><span class="p">,</span>
+        <span class="n">private</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Upload model to HuggingFace Hub.</span>
+
+<span class="sd">        Creates or updates a repository on the Hub with model weights</span>
+<span class="sd">        and configuration.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            repo_id: Repository ID (e.g., &quot;username/model-name&quot;)</span>
+<span class="sd">            save_directory: Local directory to save before upload (auto-created if None)</span>
+<span class="sd">            commit_message: Commit message for the upload</span>
+<span class="sd">            private: Whether to create a private repository</span>
+<span class="sd">            **kwargs: Additional arguments for HfApi.upload_folder</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; model.push_to_hub(&quot;username/my-vae-tokenizer&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; # Creates https://huggingface.co/username/my-vae-tokenizer</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="kn">from</span><span class="w"> </span><span class="nn">huggingface_hub</span><span class="w"> </span><span class="kn">import</span> <span class="n">HfApi</span>
+        <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
+                <span class="s2">&quot;huggingface_hub is required for Hub upload. &quot;</span>
+                <span class="s2">&quot;Install it with: pip install huggingface_hub&quot;</span>
+            <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
+
+        <span class="c1"># Save to temp directory if not provided</span>
+        <span class="n">save_path</span><span class="p">:</span> <span class="n">Path</span>
+        <span class="k">if</span> <span class="n">save_directory</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">save_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;./</span><span class="si">{</span><span class="n">repo_id</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39;/&#39;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">save_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_directory</span><span class="p">)</span>
+
+        <span class="c1"># Save if not already saved</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">save_path</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">config_name</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">save_pretrained</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
+
+        <span class="c1"># Upload</span>
+        <span class="n">api</span> <span class="o">=</span> <span class="n">HfApi</span><span class="p">()</span>
+        <span class="n">api</span><span class="o">.</span><span class="n">create_repo</span><span class="p">(</span><span class="n">repo_id</span><span class="o">=</span><span class="n">repo_id</span><span class="p">,</span> <span class="n">private</span><span class="o">=</span><span class="n">private</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">api</span><span class="o">.</span><span class="n">upload_folder</span><span class="p">(</span>
+            <span class="n">folder_path</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">save_path</span><span class="p">),</span>
+            <span class="n">repo_id</span><span class="o">=</span><span class="n">repo_id</span><span class="p">,</span>
+            <span class="n">commit_message</span><span class="o">=</span><span class="n">commit_message</span><span class="p">,</span>
+            <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+        <span class="p">)</span>
+
+        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;Model uploaded to https://huggingface.co/</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">repo_id</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ==================== Pretrained Weight Loading ====================</span>
+
+<div class="viewcode-block" id="BaseTokenizer.load_encoder_decoder_weights">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.load_encoder_decoder_weights">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_encoder_decoder_weights</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">pretrained_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load encoder/decoder weights from a pretrained checkpoint.</span>
+
+<span class="sd">        This method enables transfer learning by loading encoder and decoder</span>
+<span class="sd">        weights from any compatible tokenizer (VAE, VQ-VAE, FSQ, etc.) while</span>
+<span class="sd">        leaving quantizer-specific layers randomly initialized.</span>
+
+<span class="sd">        Use Cases</span>
+<span class="sd">        ---------</span>
+<span class="sd">        1. **Initialize discrete tokenizer from VAE**: Load MAISI VAE encoder/decoder,</span>
+<span class="sd">           then train only the quantizer layers (VQ, FSQ, etc.)</span>
+<span class="sd">        2. **Fine-tune on new domain**: Start from pretrained weights, fine-tune all</span>
+<span class="sd">        3. **Encoder-only transfer**: Use pretrained encoder for downstream tasks</span>
+
+<span class="sd">        How It Works</span>
+<span class="sd">        ------------</span>
+<span class="sd">        The method identifies encoder/decoder weights by key prefixes and loads</span>
+<span class="sd">        only those that match. Quantizer-specific layers (quant_conv, post_quant_conv,</span>
+<span class="sd">        quantizer) may or may not be loaded depending on architecture compatibility.</span>
+
+<span class="sd">        Weight Matching Strategy:</span>
+<span class="sd">        - `encoder.*` keys: Always attempted</span>
+<span class="sd">        - `decoder.*` keys: Always attempted</span>
+<span class="sd">        - `quant_conv.*` keys: Loaded if shapes match</span>
+<span class="sd">        - `post_quant_conv.*` keys: Loaded if shapes match</span>
+<span class="sd">        - `quantizer.*` keys: Skipped (architecture-specific)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pretrained_path: Path to pretrained weights file (.pt, .bin) or</span>
+<span class="sd">                           directory containing &#39;pytorch_model.bin&#39;</span>
+<span class="sd">            strict: If True, raise error on shape mismatches. If False (default),</span>
+<span class="sd">                   skip mismatched weights and log warnings.</span>
+<span class="sd">            verbose: If True, print summary of loaded/skipped weights</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple of (loaded_keys, skipped_keys) for inspection</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Initialize FSQ tokenizer from MAISI VAE weights</span>
+<span class="sd">            &gt;&gt;&gt; model = DiscreteTokenizer(</span>
+<span class="sd">            ...     dim=3,</span>
+<span class="sd">            ...     quantizer=&#39;FSQ&#39;,</span>
+<span class="sd">            ...     levels=[8, 5, 5, 5],</span>
+<span class="sd">            ...     # ... other args matching MAISI architecture</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; loaded, skipped = model.load_encoder_decoder_weights(</span>
+<span class="sd">            ...     &#39;weights/maisi_converted.pt&#39;,</span>
+<span class="sd">            ...     verbose=True</span>
+<span class="sd">            ... )</span>
+<span class="sd">            &gt;&gt;&gt; print(f&quot;Loaded {len(loaded)} keys, skipped {len(skipped)}&quot;)</span>
+<span class="sd">            &gt;&gt;&gt;</span>
+<span class="sd">            &gt;&gt;&gt; # Now train with frozen encoder if desired</span>
+<span class="sd">            &gt;&gt;&gt; for param in model.encoder.parameters():</span>
+<span class="sd">            ...     param.requires_grad = False</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            For best results, ensure the pretrained model has the same:</span>
+<span class="sd">            - `channels`, `channels_mult`, `num_res_blocks`</span>
+<span class="sd">            - `spatial_compression`</span>
+
+<span class="sd">            The following can differ:</span>
+<span class="sd">            - `z_channels`, `latent_channels`, `embedding_dim`</span>
+<span class="sd">            - Quantizer type and configuration</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">pretrained_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">pretrained_path</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">pretrained_path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="n">weights_file</span> <span class="o">=</span> <span class="n">pretrained_path</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">weights_name</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">weights_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="n">weights_file</span> <span class="o">=</span> <span class="n">pretrained_path</span> <span class="o">/</span> <span class="s2">&quot;pytorch_model.bin&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">weights_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;No weights file found in </span><span class="si">{</span><span class="n">pretrained_path</span><span class="si">}</span><span class="s2">. &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;Expected &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">weights_name</span><span class="si">}</span><span class="s2">&#39; or &#39;pytorch_model.bin&#39;&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">weights_file</span> <span class="o">=</span> <span class="n">pretrained_path</span>
+
+        <span class="n">pretrained_state</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
+            <span class="n">weights_file</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+
+        <span class="k">if</span> <span class="s2">&quot;state_dict&quot;</span> <span class="ow">in</span> <span class="n">pretrained_state</span><span class="p">:</span>
+            <span class="n">pretrained_state</span> <span class="o">=</span> <span class="n">pretrained_state</span><span class="p">[</span><span class="s2">&quot;state_dict&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">pretrained_state</span><span class="p">:</span>
+            <span class="n">pretrained_state</span> <span class="o">=</span> <span class="n">pretrained_state</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s2">&quot;unet_state_dict&quot;</span> <span class="ow">in</span> <span class="n">pretrained_state</span><span class="p">:</span>
+            <span class="n">pretrained_state</span> <span class="o">=</span> <span class="n">pretrained_state</span><span class="p">[</span><span class="s2">&quot;unet_state_dict&quot;</span><span class="p">]</span>
+
+        <span class="n">model_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">state_dict</span><span class="p">()</span>
+
+        <span class="n">loaded_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">skipped_keys</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">shape_mismatches</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">transfer_prefixes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;encoder.&quot;</span><span class="p">,</span> <span class="s2">&quot;decoder.&quot;</span><span class="p">)</span>
+        <span class="n">optional_prefixes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;quant_conv.&quot;</span><span class="p">,</span> <span class="s2">&quot;post_quant_conv.&quot;</span><span class="p">)</span>
+        <span class="n">skip_prefixes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;quantizer.&quot;</span><span class="p">,</span> <span class="s2">&quot;distribution.&quot;</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">pretrained_tensor</span> <span class="ow">in</span> <span class="n">pretrained_state</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">skip_prefixes</span><span class="p">):</span>
+                <span class="n">skipped_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="k">if</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">model_state</span><span class="p">:</span>
+                <span class="n">skipped_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">debug</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: not in model&quot;</span><span class="p">)</span>
+                <span class="k">continue</span>
+
+            <span class="n">model_tensor</span> <span class="o">=</span> <span class="n">model_state</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+
+            <span class="k">if</span> <span class="n">pretrained_tensor</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="n">model_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">:</span>
+                <span class="n">shape_mismatches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">pretrained_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">),</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">model_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+                <span class="p">)</span>
+
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">optional_prefixes</span><span class="p">):</span>
+                    <span class="n">skipped_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: shape mismatch &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pretrained_tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">model_tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">continue</span>
+
+                <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">prefix</span><span class="p">)</span> <span class="k">for</span> <span class="n">prefix</span> <span class="ow">in</span> <span class="n">transfer_prefixes</span><span class="p">):</span>
+                    <span class="k">if</span> <span class="n">strict</span><span class="p">:</span>
+                        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;Shape mismatch for </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;pretrained </span><span class="si">{</span><span class="n">pretrained_tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> vs &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;model </span><span class="si">{</span><span class="n">model_tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">. &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;Ensure encoder/decoder architecture matches.&quot;</span>
+                        <span class="p">)</span>
+                    <span class="n">skipped_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+                        <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                            <span class="sa">f</span><span class="s2">&quot;Skipping </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: shape mismatch &quot;</span>
+                            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">pretrained_tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">model_tensor</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="p">)</span>
+                    <span class="k">continue</span>
+
+            <span class="n">model_state</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">pretrained_tensor</span>
+            <span class="n">loaded_keys</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">model_state</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">verbose</span><span class="p">:</span>
+            <span class="n">encoder_loaded</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">loaded_keys</span> <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;encoder.&quot;</span><span class="p">))</span>
+            <span class="n">decoder_loaded</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="mi">1</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">loaded_keys</span> <span class="k">if</span> <span class="n">k</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;decoder.&quot;</span><span class="p">))</span>
+            <span class="n">other_loaded</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">loaded_keys</span><span class="p">)</span> <span class="o">-</span> <span class="n">encoder_loaded</span> <span class="o">-</span> <span class="n">decoder_loaded</span>
+
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Loaded pretrained weights from </span><span class="si">{</span><span class="n">weights_file</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;  Encoder: </span><span class="si">{</span><span class="n">encoder_loaded</span><span class="si">}</span><span class="s2"> keys, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Decoder: </span><span class="si">{</span><span class="n">decoder_loaded</span><span class="si">}</span><span class="s2"> keys, &quot;</span>
+                <span class="sa">f</span><span class="s2">&quot;Other: </span><span class="si">{</span><span class="n">other_loaded</span><span class="si">}</span><span class="s2"> keys&quot;</span>
+            <span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  Skipped: </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">skipped_keys</span><span class="p">)</span><span class="si">}</span><span class="s2"> keys&quot;</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">shape_mismatches</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">shape_mismatches</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="s2">&quot;  Shape mismatches:&quot;</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">pre_shape</span><span class="p">,</span> <span class="n">model_shape</span> <span class="ow">in</span> <span class="n">shape_mismatches</span><span class="p">:</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;    </span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">pre_shape</span><span class="si">}</span><span class="s2"> vs </span><span class="si">{</span><span class="n">model_shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">loaded_keys</span><span class="p">,</span> <span class="n">skipped_keys</span></div>
+
+
+<div class="viewcode-block" id="BaseTokenizer.from_pretrained_encoder_decoder">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.from_pretrained_encoder_decoder">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">from_pretrained_encoder_decoder</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">,</span>
+        <span class="n">pretrained_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+        <span class="n">strict</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;BaseTokenizer&quot;</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create model and load encoder/decoder weights from pretrained checkpoint.</span>
+
+<span class="sd">        Factory method that creates a new model instance and loads encoder/decoder</span>
+<span class="sd">        weights in one step. Useful for initializing new architectures from</span>
+<span class="sd">        pretrained backbones.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            pretrained_path: Path to pretrained weights</span>
+<span class="sd">            strict: If True, raise on shape mismatches</span>
+<span class="sd">            verbose: If True, print loading summary</span>
+<span class="sd">            **kwargs: Model configuration (passed to __init__)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            New model instance with loaded encoder/decoder weights</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; # Create FSQ model initialized from VAE weights</span>
+<span class="sd">            &gt;&gt;&gt; model = DiscreteTokenizer.from_pretrained_encoder_decoder(</span>
+<span class="sd">            ...     &#39;weights/maisi_converted.pt&#39;,</span>
+<span class="sd">            ...     dim=3,</span>
+<span class="sd">            ...     quantizer=&#39;FSQ&#39;,</span>
+<span class="sd">            ...     levels=[8, 5, 5, 5],</span>
+<span class="sd">            ...     z_channels=256,</span>
+<span class="sd">            ...     channels=64,</span>
+<span class="sd">            ...     channels_mult=(1, 2, 4),</span>
+<span class="sd">            ... )</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">model</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">(</span><span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="n">model</span><span class="o">.</span><span class="n">load_encoder_decoder_weights</span><span class="p">(</span>
+            <span class="n">pretrained_path</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="n">strict</span><span class="p">,</span> <span class="n">verbose</span><span class="o">=</span><span class="n">verbose</span>
+        <span class="p">)</span>
+        <span class="k">return</span> <span class="n">model</span></div>
+
+
+    <span class="c1"># ==================== Batch Processing ====================</span>
+
+<div class="viewcode-block" id="BaseTokenizer.encode_batch">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.encode_batch">[docs]</a>
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">encode_batch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode large batch with automatic mini-batching.</span>
+
+<span class="sd">        Processes input in chunks to avoid OOM for large datasets.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Full input tensor of shape ``(N, C, *spatial)``</span>
+<span class="sd">            batch_size: Mini-batch size for processing</span>
+<span class="sd">            show_progress: Whether to show tqdm progress bar</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Concatenated latents for all inputs</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; dataset = torch.randn(1000, 1, 64, 64, 64)</span>
+<span class="sd">            &gt;&gt;&gt; latents = model.encode_batch(dataset, batch_size=4)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+        <span class="n">num_samples</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">all_latents</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">indices</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">show_progress</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+                <span class="n">indices</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Encoding&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">latents</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+            <span class="n">all_latents</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">latents</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">all_latents</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseTokenizer.decode_batch">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.decode_batch">[docs]</a>
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">decode_batch</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8</span><span class="p">,</span> <span class="n">show_progress</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode large batch with automatic mini-batching.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            z: Full latent tensor</span>
+<span class="sd">            batch_size: Mini-batch size for processing</span>
+<span class="sd">            show_progress: Whether to show tqdm progress bar</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Concatenated reconstructions for all inputs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+        <span class="n">num_samples</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">all_outputs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="n">indices</span><span class="p">:</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">show_progress</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="kn">from</span><span class="w"> </span><span class="nn">tqdm</span><span class="w"> </span><span class="kn">import</span> <span class="n">tqdm</span>
+
+                <span class="n">indices</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">),</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Decoding&quot;</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ImportError</span><span class="p">:</span>
+                <span class="n">indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">indices</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">:</span>
+            <span class="n">batch</span> <span class="o">=</span> <span class="n">z</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">batch_size</span><span class="p">]</span>
+            <span class="n">outputs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detokenize</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span>
+            <span class="n">all_outputs</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">outputs</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">all_outputs</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ==================== Sliding Window Inference ====================</span>
+
+<div class="viewcode-block" id="BaseTokenizer.reconstruct">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.reconstruct">[docs]</a>
+    <span class="nd">@torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">()</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reconstruct</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
+        <span class="n">roi_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">overlap</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
+        <span class="n">sw_batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Full encode-decode reconstruction with optional sliding window.</span>
+
+<span class="sd">        For large 3D volumes that exceed GPU memory, this method implements</span>
+<span class="sd">        sliding window inference with Gaussian importance weighting to</span>
+<span class="sd">        seamlessly blend overlapping patches.</span>
+
+<span class="sd">        The Algorithm</span>
+<span class="sd">        -------------</span>
+<span class="sd">        1. Pad input to multiple of stride + window size</span>
+<span class="sd">        2. Extract overlapping windows with specified stride</span>
+<span class="sd">        3. Process windows in batches through tokenize -&gt; detokenize</span>
+<span class="sd">        4. Weight each window&#39;s contribution by Gaussian importance</span>
+<span class="sd">        5. Normalize by accumulated importance and crop to original size</span>
+
+<span class="sd">        Gaussian Weighting</span>
+<span class="sd">        ------------------</span>
+<span class="sd">        Uses a Gaussian importance map (2D or 3D based on input) that gives</span>
+<span class="sd">        higher weight to the center of each window, reducing boundary artifacts</span>
+<span class="sd">        when blending.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input tensor of shape (B, C, H, W, D) for 3D or (B, C, H, W) for 2D</span>
+<span class="sd">            roi_size: Size of sliding window. If None, processes entire volume.</span>
+<span class="sd">                     Can be int (isotropic) or tuple (anisotropic).</span>
+<span class="sd">            overlap: Fraction of overlap between windows (0.0 to 0.9).</span>
+<span class="sd">                    Higher overlap = smoother blending but more compute.</span>
+<span class="sd">            sw_batch_size: Number of windows to process in parallel per batch.</span>
+<span class="sd">                          Higher values use more GPU memory but are faster.</span>
+<span class="sd">                          Default is 1 (sequential processing).</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Reconstructed tensor with same shape as input</span>
+
+<span class="sd">        Example:</span>
+<span class="sd">            &gt;&gt;&gt; volume = torch.randn(1, 1, 256, 256, 256)  # 256³ volume</span>
+<span class="sd">            &gt;&gt;&gt; # Process in 128³ windows with 50% overlap, 4 windows at a time</span>
+<span class="sd">            &gt;&gt;&gt; recon = model.reconstruct(volume, roi_size=128, overlap=0.5, sw_batch_size=4)</span>
+
+<span class="sd">        Note:</span>
+<span class="sd">            - For volumes that fit in memory, omit roi_size for faster processing</span>
+<span class="sd">            - Overlap of 0.5 is a good default; higher values reduce artifacts</span>
+<span class="sd">              but increase computation proportionally</span>
+<span class="sd">            - sw_batch_size &gt; 1 can significantly speed up inference on GPUs</span>
+<span class="sd">              with sufficient memory</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
+
+        <span class="c1"># Simple case: process entire volume at once</span>
+        <span class="k">if</span> <span class="n">roi_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">detokenize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;reconstruct() expected torch.Tensor, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">is_floating_point</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;reconstruct() expected floating point tensor, got </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="n">dim</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;dim&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>
+                <span class="n">dim</span> <span class="o">=</span> <span class="mi">2</span>
+            <span class="k">elif</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
+                <span class="n">dim</span> <span class="o">=</span> <span class="mi">3</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;reconstruct() expected input with 4D (B, C, H, W) or &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;5D (B, C, H, W, D) shape, got </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">D.&quot;</span>
+                <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">expected_ndim</span> <span class="o">=</span> <span class="n">dim</span> <span class="o">+</span> <span class="mi">2</span>
+            <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="n">expected_ndim</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;reconstruct() expected </span><span class="si">{</span><span class="n">expected_ndim</span><span class="si">}</span><span class="s2">D input for dim=</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">D with shape </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="mf">0.0</span> <span class="o">&lt;=</span> <span class="n">overlap</span> <span class="o">&lt;</span> <span class="mf">1.0</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;overlap must be in [0.0, 1.0), got </span><span class="si">{</span><span class="n">overlap</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi_size</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">roi_size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;roi_size must be &gt; 0, got </span><span class="si">{</span><span class="n">roi_size</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="n">roi_size</span> <span class="o">=</span> <span class="p">(</span><span class="n">roi_size</span><span class="p">,)</span> <span class="o">*</span> <span class="n">dim</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi_size</span><span class="p">,</span> <span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="nb">list</span><span class="p">)):</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
+                    <span class="s2">&quot;roi_size must be an int or a tuple/list of ints, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">roi_size</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="n">roi_size</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">roi_size</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">roi_size</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dim</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;roi_size must have length </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2"> for dim=</span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">, &quot;</span>
+                    <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">roi_size</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="nb">any</span><span class="p">((</span><span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="ow">or</span> <span class="n">size</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">roi_size</span><span class="p">):</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="sa">f</span><span class="s2">&quot;roi_size must contain positive ints, got </span><span class="si">{</span><span class="n">roi_size</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="p">)</span>
+
+        <span class="n">device</span> <span class="o">=</span> <span class="nb">next</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">())</span><span class="o">.</span><span class="n">device</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">gaussian_1d</span><span class="p">(</span><span class="n">length</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="n">length</span><span class="p">)</span>
+            <span class="n">g</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">coords</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mf">0.5</span><span class="p">)</span>
+            <span class="k">return</span> <span class="n">g</span> <span class="o">/</span> <span class="n">g</span><span class="o">.</span><span class="n">max</span><span class="p">()</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">calc_padding</span><span class="p">(</span><span class="n">dim_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">win</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">dim_size</span> <span class="o">&lt;</span> <span class="n">win</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">win</span> <span class="o">-</span> <span class="n">dim_size</span>
+            <span class="n">n_windows</span> <span class="o">=</span> <span class="p">(</span><span class="n">dim_size</span> <span class="o">-</span> <span class="n">win</span> <span class="o">+</span> <span class="n">stride</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">//</span> <span class="n">stride</span>
+            <span class="n">padded_size</span> <span class="o">=</span> <span class="n">n_windows</span> <span class="o">*</span> <span class="n">stride</span> <span class="o">+</span> <span class="n">win</span>
+            <span class="k">return</span> <span class="nb">max</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">padded_size</span> <span class="o">-</span> <span class="n">dim_size</span><span class="p">)</span>
+
+        <span class="c1"># Sliding window inference (dim-generic over 2D / 3D spatial axes).</span>
+        <span class="n">batch</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">orig_spatial</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="n">win</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">roi_size</span><span class="p">)</span>
+
+        <span class="c1"># Compute stride from overlap for each spatial axis.</span>
+        <span class="n">strides</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">w</span> <span class="o">*</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="n">overlap</span><span class="p">))</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">win</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">s</span> <span class="o">&lt;</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">s</span> <span class="ow">in</span> <span class="n">strides</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="s2">&quot;overlap is too high for roi_size; computed stride must be &gt;= 1.&quot;</span>
+            <span class="p">)</span>
+
+        <span class="c1"># Calculate padding for each spatial axis.</span>
+        <span class="n">pads</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
+            <span class="n">calc_padding</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">size</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">orig_spatial</span><span class="p">,</span> <span class="n">strides</span><span class="p">,</span> <span class="n">win</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Pad input. nn.functional.pad expects pad sizes in reverse spatial order,</span>
+        <span class="c1"># i.e. (last_dim_low, last_dim_high, ..., first_dim_low, first_dim_high).</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pads</span><span class="p">):</span>
+            <span class="n">pad_arg</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="n">pads</span><span class="p">):</span>
+                <span class="n">pad_arg</span><span class="o">.</span><span class="n">extend</span><span class="p">((</span><span class="mi">0</span><span class="p">,</span> <span class="n">p</span><span class="p">))</span>
+            <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">pad_arg</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+
+        <span class="n">spatial</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+
+        <span class="c1"># Gaussian importance map as the outer product of 1D windows. Each 1D</span>
+        <span class="c1"># window is reshaped to occupy its own spatial axis so the product</span>
+        <span class="c1"># broadcasts to the full (win[0], ..., win[dim - 1]) shape.</span>
+        <span class="n">importance</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="n">win</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">dim</span><span class="p">):</span>
+            <span class="n">shape</span> <span class="o">=</span> <span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">*</span> <span class="n">dim</span>
+            <span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span> <span class="o">=</span> <span class="n">win</span><span class="p">[</span><span class="n">axis</span><span class="p">]</span>
+            <span class="n">importance</span> <span class="o">=</span> <span class="n">importance</span> <span class="o">*</span> <span class="n">gaussian_1d</span><span class="p">(</span><span class="n">win</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+        <span class="n">importance</span> <span class="o">=</span> <span class="n">importance</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="c1"># Broadcast over leading batch and channel dimensions.</span>
+        <span class="n">weight</span> <span class="o">=</span> <span class="n">importance</span><span class="p">[(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="o">+</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),)</span> <span class="o">*</span> <span class="n">dim</span><span class="p">]</span>
+
+        <span class="c1"># Enumerate window start positions. Iteration order matches nested loops</span>
+        <span class="c1"># with the first spatial axis varying slowest.</span>
+        <span class="n">position_ranges</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span> <span class="o">-</span> <span class="n">w</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">stride</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">size</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">stride</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">spatial</span><span class="p">,</span> <span class="n">win</span><span class="p">,</span> <span class="n">strides</span><span class="p">)</span>
+        <span class="p">]</span>
+        <span class="n">positions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">itertools</span><span class="o">.</span><span class="n">product</span><span class="p">(</span><span class="o">*</span><span class="n">position_ranges</span><span class="p">))</span>
+
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">positions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">,</span> <span class="p">(</span>
+            <span class="s2">&quot;Sliding window produced no output - check roi_size and stride&quot;</span>
+        <span class="p">)</span>
+
+        <span class="k">def</span><span class="w"> </span><span class="nf">window_slices</span><span class="p">(</span><span class="n">start</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">slice</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+            <span class="n">spatial_slices</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="n">s</span><span class="p">,</span> <span class="n">s</span> <span class="o">+</span> <span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">s</span><span class="p">,</span> <span class="n">w</span> <span class="ow">in</span> <span class="nb">zip</span><span class="p">(</span><span class="n">start</span><span class="p">,</span> <span class="n">win</span><span class="p">))</span>
+            <span class="k">return</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span> <span class="o">+</span> <span class="n">spatial_slices</span>
+
+        <span class="n">first_slices</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="k">for</span> <span class="n">w</span> <span class="ow">in</span> <span class="n">win</span><span class="p">)</span>
+        <span class="n">first_window</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">first_slices</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">first_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detokenize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">first_window</span><span class="p">))</span>
+        <span class="n">out_channels</span> <span class="o">=</span> <span class="n">first_out</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="o">*</span><span class="n">spatial</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+        <span class="n">importance_map</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="o">*</span><span class="n">spatial</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="n">device</span><span class="p">)</span>
+
+        <span class="n">first_dst</span> <span class="o">=</span> <span class="n">window_slices</span><span class="p">(</span><span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">output</span><span class="p">[</span><span class="n">first_dst</span><span class="p">]</span> <span class="o">+=</span> <span class="n">first_out</span> <span class="o">*</span> <span class="n">weight</span>
+        <span class="n">importance_map</span><span class="p">[</span><span class="n">first_dst</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weight</span>
+
+        <span class="n">remaining_positions</span> <span class="o">=</span> <span class="n">positions</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">for</span> <span class="n">batch_start</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">remaining_positions</span><span class="p">),</span> <span class="n">sw_batch_size</span><span class="p">):</span>
+            <span class="n">batch_positions</span> <span class="o">=</span> <span class="n">remaining_positions</span><span class="p">[</span>
+                <span class="n">batch_start</span> <span class="p">:</span> <span class="n">batch_start</span> <span class="o">+</span> <span class="n">sw_batch_size</span>
+            <span class="p">]</span>
+
+            <span class="n">windows</span> <span class="o">=</span> <span class="p">[</span><span class="n">x</span><span class="p">[</span><span class="n">window_slices</span><span class="p">(</span><span class="n">start</span><span class="p">)]</span> <span class="k">for</span> <span class="n">start</span> <span class="ow">in</span> <span class="n">batch_positions</span><span class="p">]</span>
+            <span class="n">batch_windows</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">(</span><span class="n">windows</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">device</span><span class="p">)</span>
+
+            <span class="n">batch_out</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">detokenize</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tokenize</span><span class="p">(</span><span class="n">batch_windows</span><span class="p">))</span>
+
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">start</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">batch_positions</span><span class="p">):</span>
+                <span class="n">window_out</span> <span class="o">=</span> <span class="n">batch_out</span><span class="p">[</span><span class="n">i</span> <span class="o">*</span> <span class="n">batch</span> <span class="p">:</span> <span class="p">(</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="n">batch</span><span class="p">]</span>
+                <span class="n">dst</span> <span class="o">=</span> <span class="n">window_slices</span><span class="p">(</span><span class="n">start</span><span class="p">)</span>
+                <span class="n">output</span><span class="p">[</span><span class="n">dst</span><span class="p">]</span> <span class="o">+=</span> <span class="n">window_out</span> <span class="o">*</span> <span class="n">weight</span>
+                <span class="n">importance_map</span><span class="p">[</span><span class="n">dst</span><span class="p">]</span> <span class="o">+=</span> <span class="n">weight</span>
+
+        <span class="n">output</span> <span class="o">=</span> <span class="n">output</span> <span class="o">/</span> <span class="n">importance_map</span>
+
+        <span class="c1"># Crop to original size.</span>
+        <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">p</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">pads</span><span class="p">):</span>
+            <span class="n">crop</span> <span class="o">=</span> <span class="p">(</span><span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">),</span> <span class="nb">slice</span><span class="p">(</span><span class="kc">None</span><span class="p">))</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span>
+                <span class="nb">slice</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span> <span class="k">for</span> <span class="n">size</span> <span class="ow">in</span> <span class="n">orig_spatial</span>
+            <span class="p">)</span>
+            <span class="n">output</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="n">crop</span><span class="p">]</span>
+
+        <span class="k">return</span> <span class="n">output</span></div>
+
+
+<div class="viewcode-block" id="BaseTokenizer.get_latent_shape">
+<a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.BaseTokenizer.get_latent_shape">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_latent_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Calculate latent shape for given input shape.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            input_shape: Input tensor shape ``(B, C, *spatial)``</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Expected latent tensor shape</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            NotImplementedError: Must be implemented by subclass</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Subclasses must implement get_latent_shape()&quot;</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Liam Chalcroft.
+      <span class="lastupdated">Last updated on Aug 07, 2026.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

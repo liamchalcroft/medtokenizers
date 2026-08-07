@@ -1,0 +1,220 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>medtokenizers &mdash; MedTokenizers 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=ab4584ce" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Getting Started" href="getting_started.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="#" class="icon icon-home">
+            MedTokenizers
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/tokenizers.html">Choosing a Tokenizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/training.html">Training Tokenizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/evaluation.html">Evaluating Tokenizers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/tokenizers.html">Tokenizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/quantizers.html">Quantizers &amp; Building Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/evaluation.html">Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/training.html">Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/io.html">I/O &amp; Preprocessing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="#">MedTokenizers</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="#" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">medtokenizers</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/liamchalcroft/medtokenizers/blob/main/docs/index.rst" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <section id="medtokenizers">
+<h1>medtokenizers<a class="headerlink" href="#medtokenizers" title="Link to this heading"></a></h1>
+<p>Tokenization pipelines for volumetric medical imaging – continuous and
+discrete tokenizers (VAE/AE, VQ/FSQ/LFQ/ResidualFSQ, TiTok, RAE, MAISI) with
+supporting quantization modules, training, and evaluation infrastructure.</p>
+<section id="ecosystem">
+<h2>Ecosystem<a class="headerlink" href="#ecosystem" title="Link to this heading"></a></h2>
+<p><code class="docutils literal notranslate"><span class="pre">medtokenizers</span></code> is one of three packages that together form a toolkit for
+generative modeling of medical images:</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/liamchalcroft/med-rs">medrs</a> – fast medical-image I/O (NIfTI/DICOM) and preprocessing primitives.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">medtokenizers</span></code> – continuous and discrete tokenizers that compress 2D/3D scans into latents or token grids <em>(this package)</em>.</p></li>
+<li><p><a class="reference external" href="https://github.com/liamchalcroft/medlatents">medlatents</a> – generative models (autoregressive, MaskGIT, diffusion, flow matching, Bayesian flow) that learn over those tokens.</p></li>
+</ul>
+<p>Typical pipeline:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">images</span> <span class="o">-&gt;</span> <span class="n">medrs</span> <span class="p">(</span><span class="n">load</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">medtokenizers</span> <span class="p">(</span><span class="n">tokenize</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">medlatents</span> <span class="p">(</span><span class="n">generate</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">medtokenizers</span> <span class="p">(</span><span class="n">detokenize</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">images</span>
+</pre></div>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#installation">Installation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#reconstruct-a-volume-maisi">Reconstruct a volume (MAISI)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#discrete-tokens-titok">Discrete tokens (TiTok)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="getting_started.html#evaluation">Evaluation</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/tokenizers.html">Choosing a Tokenizer</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="guides/tokenizers.html#continuous-vs-discrete">Continuous vs. discrete</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/tokenizers.html#specialized-tokenizers">Specialized tokenizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="guides/tokenizers.html#rule-of-thumb">Rule of thumb</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="guides/training.html">Training Tokenizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/evaluation.html">Evaluating Tokenizers</a></li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/tokenizers.html">Tokenizers</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/tokenizers.html#medtokenizers.BaseTokenizer"><code class="docutils literal notranslate"><span class="pre">BaseTokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tokenizers.html#medtokenizers.ContinuousTokenizer"><code class="docutils literal notranslate"><span class="pre">ContinuousTokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tokenizers.html#medtokenizers.DiscreteTokenizer"><code class="docutils literal notranslate"><span class="pre">DiscreteTokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tokenizers.html#medtokenizers.MAISITokenizer"><code class="docutils literal notranslate"><span class="pre">MAISITokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tokenizers.html#medtokenizers.TiTokTokenizer"><code class="docutils literal notranslate"><span class="pre">TiTokTokenizer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/tokenizers.html#medtokenizers.RAETokenizer"><code class="docutils literal notranslate"><span class="pre">RAETokenizer</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/quantizers.html">Quantizers &amp; Building Blocks</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/quantizers.html#quantizers">Quantizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/quantizers.html#encoder-decoder">Encoder / Decoder</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/evaluation.html">Evaluation</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluation.html#medtokenizers.TokenizerEvaluator"><code class="docutils literal notranslate"><span class="pre">TokenizerEvaluator</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/evaluation.html#metrics">Metrics</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/training.html">Training</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/training.html#medtokenizers.training.Trainer"><code class="docutils literal notranslate"><span class="pre">Trainer</span></code></a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/training.html#callbacks">Callbacks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/training.html#configuration">Configuration</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="api/io.html">I/O &amp; Preprocessing</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="api/io.html#loading-tokenizers">Loading tokenizers</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/io.html#saving-loading-tokens-latents">Saving &amp; loading tokens / latents</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/io.html#preprocessing">Preprocessing</a></li>
+</ul>
+</li>
+</ul>
+</div>
+<div class="toctree-wrapper compound">
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+</div>
+</section>
+<section id="indices-and-tables">
+<h2>Indices and tables<a class="headerlink" href="#indices-and-tables" title="Link to this heading"></a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="genindex.html"><span class="std std-ref">Index</span></a></p></li>
+<li><p><a class="reference internal" href="py-modindex.html"><span class="std std-ref">Module Index</span></a></p></li>
+<li><p><a class="reference internal" href="search.html"><span class="std std-ref">Search Page</span></a></p></li>
+</ul>
+</section>
+</section>
+
+
+           </div>
+          </div>
+          <footer><div class="rst-footer-buttons" role="navigation" aria-label="Footer">
+        <a href="getting_started.html" class="btn btn-neutral float-right" title="Getting Started" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Liam Chalcroft.
+      <span class="lastupdated">Last updated on Aug 07, 2026.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

@@ -1,0 +1,3123 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="./">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Index &mdash; MedTokenizers 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=ab4584ce" />
+
+  
+      <script src="_static/jquery.js?v=5d32c60e"></script>
+      <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script src="_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="#" />
+    <link rel="search" title="Search" href="search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="index.html" class="icon icon-home">
+            MedTokenizers
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="guides/tokenizers.html">Choosing a Tokenizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/training.html">Training Tokenizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guides/evaluation.html">Evaluating Tokenizers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="api/tokenizers.html">Tokenizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/quantizers.html">Quantizers &amp; Building Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/evaluation.html">Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/training.html">Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="api/io.html">I/O &amp; Preprocessing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="contributing.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">MedTokenizers</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="index.html" class="icon icon-home" aria-label="Home"></a></li>
+      <li class="breadcrumb-item active">Index</li>
+      <li class="wy-breadcrumbs-aside">
+              <a href="https://github.com/liamchalcroft/medtokenizers/blob/main/docs/genindex" class="fa fa-github"> Edit on GitHub</a>
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+
+<h1 id="index">Index</h1>
+
+<div class="genindex-jumpbox">
+ <a href="#_"><strong>_</strong></a>
+ | <a href="#A"><strong>A</strong></a>
+ | <a href="#B"><strong>B</strong></a>
+ | <a href="#C"><strong>C</strong></a>
+ | <a href="#D"><strong>D</strong></a>
+ | <a href="#E"><strong>E</strong></a>
+ | <a href="#F"><strong>F</strong></a>
+ | <a href="#G"><strong>G</strong></a>
+ | <a href="#H"><strong>H</strong></a>
+ | <a href="#I"><strong>I</strong></a>
+ | <a href="#L"><strong>L</strong></a>
+ | <a href="#M"><strong>M</strong></a>
+ | <a href="#N"><strong>N</strong></a>
+ | <a href="#O"><strong>O</strong></a>
+ | <a href="#P"><strong>P</strong></a>
+ | <a href="#Q"><strong>Q</strong></a>
+ | <a href="#R"><strong>R</strong></a>
+ | <a href="#S"><strong>S</strong></a>
+ | <a href="#T"><strong>T</strong></a>
+ | <a href="#U"><strong>U</strong></a>
+ | <a href="#V"><strong>V</strong></a>
+ | <a href="#W"><strong>W</strong></a>
+ | <a href="#X"><strong>X</strong></a>
+ | <a href="#Z"><strong>Z</strong></a>
+ 
+</div>
+<h2 id="_">_</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.__init__">__init__() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.__init__">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.__init__">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.__init__">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.__init__">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.__init__">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.__init__">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.__init__">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.__init__">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.__init__">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Normalize.__init__">(medtokenizers.Normalize method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.__init__">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.__init__">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.__init__">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.__init__">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.__init__">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/evaluation.html#medtokenizers.TokenizerEvaluator.__init__">(medtokenizers.TokenizerEvaluator method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Checkpoint.__init__">(medtokenizers.training.Checkpoint method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.EarlyStopping.__init__">(medtokenizers.training.EarlyStopping method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Logger.__init__">(medtokenizers.training.Logger method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LossConfig.__init__">(medtokenizers.training.LossConfig method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LRScheduler.__init__">(medtokenizers.training.LRScheduler method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Trainer.__init__">(medtokenizers.training.Trainer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.__init__">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="A">A</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.add_module">add_module() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.add_module">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.add_module">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.add_module">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.add_module">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.add_module">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.add_module">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.add_module">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.add_module">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.add_module">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.add_module">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.add_module">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.add_module">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.add_module">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.add_module">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.add_module">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.apply">apply() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.apply">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.apply">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.apply">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.apply">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.apply">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.apply">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.apply">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.apply">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.apply">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.apply">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.apply">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.apply">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.apply">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.apply">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.apply">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock">AttnBlock (class in medtokenizers)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="B">B</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer">BaseQuantizer (class in medtokenizers)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer">BaseTokenizer (class in medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.bfloat16">bfloat16() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.bfloat16">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.bfloat16">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.bfloat16">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.bfloat16">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.bfloat16">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.bfloat16">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.bfloat16">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.bfloat16">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.bfloat16">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.bfloat16">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.bfloat16">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.bfloat16">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.bfloat16">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.bfloat16">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.bfloat16">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.bound">bound() (medtokenizers.FSQuantizer method)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.buffers">buffers() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.buffers">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.buffers">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.buffers">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.buffers">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.buffers">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.buffers">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.buffers">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.buffers">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.buffers">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.buffers">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.buffers">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.buffers">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.buffers">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.buffers">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.buffers">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="C">C</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.call_super_init">call_super_init (medtokenizers.AttnBlock attribute)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.call_super_init">(medtokenizers.BaseQuantizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.call_super_init">(medtokenizers.BaseTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.call_super_init">(medtokenizers.ContinuousTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.call_super_init">(medtokenizers.Decoder attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.call_super_init">(medtokenizers.DiscreteTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.call_super_init">(medtokenizers.Encoder attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.call_super_init">(medtokenizers.FSQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.call_super_init">(medtokenizers.LFQuantizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.call_super_init">(medtokenizers.MAISITokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.call_super_init">(medtokenizers.RAETokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.call_super_init">(medtokenizers.ResidualFSQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.call_super_init">(medtokenizers.SpatialCompressor attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.call_super_init">(medtokenizers.SpatialDecompressor attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.call_super_init">(medtokenizers.TiTokTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.call_super_init">(medtokenizers.VectorQuantizer attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training.html#medtokenizers.training.Callback">Callback (class in medtokenizers.training)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.Checkpoint">Checkpoint (class in medtokenizers.training)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.children">children() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.children">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.children">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.children">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.children">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.children">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.children">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.children">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.children">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.children">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.children">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.children">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.children">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.children">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.children">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.children">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/evaluation.html#medtokenizers.clear_metric_caches">clear_metric_caches() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.codes_to_indices">codes_to_indices() (medtokenizers.FSQuantizer method)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.compile">compile() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.compile">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.compile">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.compile">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.compile">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.compile">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.compile">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.compile">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.compile">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.compile">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.compile">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.compile">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.compile">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.compile">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.compile">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.compile">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/evaluation.html#medtokenizers.compute_codebook_usage">compute_codebook_usage() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/evaluation.html#medtokenizers.compute_lpips">compute_lpips() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/evaluation.html#medtokenizers.compute_mae">compute_mae() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/evaluation.html#medtokenizers.compute_mse">compute_mse() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/evaluation.html#medtokenizers.compute_perplexity">compute_perplexity() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/evaluation.html#medtokenizers.compute_psnr">compute_psnr() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/evaluation.html#medtokenizers.compute_ssim">compute_ssim() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.compute_stage_weights">compute_stage_weights() (medtokenizers.training.LossConfig method)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.config">config (medtokenizers.BaseTokenizer attribute)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.config">(medtokenizers.ContinuousTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.config">(medtokenizers.DiscreteTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.config">(medtokenizers.MAISITokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.config">(medtokenizers.RAETokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.config">(medtokenizers.TiTokTokenizer attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.config_name">config_name (medtokenizers.BaseTokenizer attribute)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.config_name">(medtokenizers.ContinuousTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.config_name">(medtokenizers.DiscreteTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.config_name">(medtokenizers.MAISITokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.config_name">(medtokenizers.RAETokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.config_name">(medtokenizers.TiTokTokenizer attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer">ContinuousTokenizer (class in medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.cpu">cpu() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.cpu">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.cpu">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.cpu">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.cpu">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.cpu">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.cpu">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.cpu">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.cpu">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.cpu">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.cpu">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.cpu">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.cpu">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.cpu">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.cpu">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.cpu">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.cuda">cuda() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.cuda">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.cuda">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.cuda">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.cuda">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.cuda">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.cuda">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.cuda">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.cuda">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.cuda">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.cuda">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.cuda">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.cuda">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.cuda">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.cuda">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.cuda">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="D">D</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.decode">decode() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.decode">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.decode">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.decode">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.decode">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.decode">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.decode_batch">decode_batch() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.decode_batch">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.decode_batch">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.decode_batch">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.decode_batch">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.decode_batch">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.Decoder">Decoder (class in medtokenizers)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.DEFAULT_CONFIG">DEFAULT_CONFIG (medtokenizers.MAISITokenizer attribute)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.detokenize">detokenize() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.detokenize">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.detokenize">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.detokenize">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.detokenize">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.detokenize">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer">DiscreteTokenizer (class in medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.double">double() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.double">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.double">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.double">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.double">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.double">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.double">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.double">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.double">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.double">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.double">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.double">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.double">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.double">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.double">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.double">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.dtype">dtype (medtokenizers.FSQuantizer attribute)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.dtype">(medtokenizers.LFQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.dtype">(medtokenizers.ResidualFSQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.dtype">(medtokenizers.VectorQuantizer attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.dump_patches">dump_patches (medtokenizers.AttnBlock attribute)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.dump_patches">(medtokenizers.BaseQuantizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.dump_patches">(medtokenizers.BaseTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.dump_patches">(medtokenizers.ContinuousTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.dump_patches">(medtokenizers.Decoder attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.dump_patches">(medtokenizers.DiscreteTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.dump_patches">(medtokenizers.Encoder attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.dump_patches">(medtokenizers.FSQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.dump_patches">(medtokenizers.LFQuantizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.dump_patches">(medtokenizers.MAISITokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.dump_patches">(medtokenizers.RAETokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.dump_patches">(medtokenizers.ResidualFSQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.dump_patches">(medtokenizers.SpatialCompressor attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.dump_patches">(medtokenizers.SpatialDecompressor attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.dump_patches">(medtokenizers.TiTokTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.dump_patches">(medtokenizers.VectorQuantizer attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="E">E</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training.html#medtokenizers.training.EarlyStopping">EarlyStopping (class in medtokenizers.training)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.encode">encode() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.encode">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.encode">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.encode">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.encode">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.encode">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.encode_batch">encode_batch() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.encode_batch">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.encode_batch">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.encode_batch">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.encode_batch">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.encode_batch">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.Encoder">Encoder (class in medtokenizers)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.Trainer.end_training">end_training() (medtokenizers.training.Trainer method)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.eval">eval() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.eval">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.eval">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.eval">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.eval">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.eval">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.eval">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.eval">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.eval">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.eval">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.eval">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.eval">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.eval">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.eval">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.eval">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.eval">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/evaluation.html#medtokenizers.TokenizerEvaluator.evaluate">evaluate() (medtokenizers.TokenizerEvaluator method)</a>
+</li>
+      <li><a href="api/evaluation.html#medtokenizers.TokenizerEvaluator.evaluate_batch">evaluate_batch() (medtokenizers.TokenizerEvaluator method)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.extra_repr">extra_repr() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.extra_repr">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.extra_repr">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.extra_repr">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.extra_repr">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.extra_repr">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.extra_repr">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.extra_repr">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.extra_repr">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.extra_repr">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.extra_repr">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.extra_repr">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.extra_repr">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.extra_repr">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.extra_repr">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.extra_repr">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="F">F</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training.html#medtokenizers.training.Trainer.fit">fit() (medtokenizers.training.Trainer method)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.float">float() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.float">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.float">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.float">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.float">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.float">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.float">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.float">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.float">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.float">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.float">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.float">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.float">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.float">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.float">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.float">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.forward">forward() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.forward">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.forward">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.forward">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.forward">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.forward">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.forward">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.forward">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.forward">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.forward">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.forward">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.forward">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.forward">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.forward">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.forward">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.forward">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.from_pretrained">from_pretrained() (medtokenizers.BaseTokenizer class method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.from_pretrained">(medtokenizers.ContinuousTokenizer class method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.from_pretrained">(medtokenizers.DiscreteTokenizer class method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.from_pretrained">(medtokenizers.MAISITokenizer class method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.from_pretrained">(medtokenizers.RAETokenizer class method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.from_pretrained">(medtokenizers.TiTokTokenizer class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.from_pretrained_encoder_decoder">from_pretrained_encoder_decoder() (medtokenizers.BaseTokenizer class method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.from_pretrained_encoder_decoder">(medtokenizers.ContinuousTokenizer class method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.from_pretrained_encoder_decoder">(medtokenizers.DiscreteTokenizer class method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.from_pretrained_encoder_decoder">(medtokenizers.MAISITokenizer class method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.from_pretrained_encoder_decoder">(medtokenizers.RAETokenizer class method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.from_pretrained_encoder_decoder">(medtokenizers.TiTokTokenizer class method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.FSQuantizer">FSQuantizer (class in medtokenizers)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="G">G</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.get_buffer">get_buffer() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.get_buffer">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.get_buffer">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.get_buffer">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.get_buffer">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.get_buffer">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.get_buffer">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.get_buffer">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.get_buffer">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.get_buffer">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.get_buffer">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.get_buffer">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.get_buffer">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.get_buffer">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.get_buffer">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.get_buffer">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.get_codebook_entry">get_codebook_entry() (medtokenizers.VectorQuantizer method)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.get_codebook_size">get_codebook_size() (medtokenizers.BaseQuantizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.get_codebook_size">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.get_codebook_size">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.get_codebook_size">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.get_codebook_size">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.get_codebook_size">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.get_codebook_usage">get_codebook_usage() (medtokenizers.VectorQuantizer method)</a>
+</li>
+      <li><a href="api/io.html#medtokenizers.get_config">get_config() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.get_extra_state">get_extra_state() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.get_extra_state">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.get_extra_state">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.get_extra_state">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.get_extra_state">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.get_extra_state">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.get_extra_state">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.get_extra_state">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.get_extra_state">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.get_extra_state">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.get_extra_state">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.get_extra_state">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.get_extra_state">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.get_extra_state">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.get_extra_state">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.get_extra_state">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.get_latent_shape">get_latent_shape() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.get_latent_shape">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.get_latent_shape">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.get_latent_shape">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.get_latent_shape">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.get_latent_shape">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.get_parameter">get_parameter() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.get_parameter">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.get_parameter">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.get_parameter">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.get_parameter">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.get_parameter">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.get_parameter">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.get_parameter">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.get_parameter">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.get_parameter">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.get_parameter">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.get_parameter">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.get_parameter">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.get_parameter">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.get_parameter">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.get_parameter">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.get_submodule">get_submodule() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.get_submodule">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.get_submodule">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.get_submodule">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.get_submodule">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.get_submodule">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.get_submodule">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.get_submodule">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.get_submodule">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.get_submodule">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.get_submodule">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.get_submodule">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.get_submodule">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.get_submodule">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.get_submodule">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.get_submodule">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.get_training_config">get_training_config() (medtokenizers.MAISITokenizer static method)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.gram_weight">gram_weight (medtokenizers.training.LossConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="H">H</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.half">half() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.half">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.half">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.half">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.half">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.half">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.half">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.half">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.half">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.half">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.half">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.half">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.half">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.half">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.half">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.half">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="I">I</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.implicit_codebook">implicit_codebook (medtokenizers.FSQuantizer property)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.indices_to_codes">indices_to_codes() (medtokenizers.BaseQuantizer method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.indices_to_codes">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.indices_to_codes">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.indices_to_codes">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.indices_to_codes">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.indices_to_codes">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.inference_mode">inference_mode() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.inference_mode">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.inference_mode">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.inference_mode">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.inference_mode">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.inference_mode">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training.html#medtokenizers.training.Trainer.init_trackers">init_trackers() (medtokenizers.training.Trainer method)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.ipu">ipu() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.ipu">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.ipu">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.ipu">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.ipu">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.ipu">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.ipu">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.ipu">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.ipu">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.ipu">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.ipu">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.ipu">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.ipu">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.ipu">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.ipu">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.ipu">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="L">L</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.l1_weight">l1_weight (medtokenizers.training.LossConfig attribute)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.laplacian_start_epoch">laplacian_start_epoch (medtokenizers.training.LossConfig attribute)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.laplacian_weight">laplacian_weight (medtokenizers.training.LossConfig attribute)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.LFQuantizer">LFQuantizer (class in medtokenizers)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.Trainer.load_checkpoint">load_checkpoint() (medtokenizers.training.Trainer method)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.load_encoder_decoder_weights">load_encoder_decoder_weights() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.load_encoder_decoder_weights">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.load_encoder_decoder_weights">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.load_encoder_decoder_weights">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.load_encoder_decoder_weights">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.load_encoder_decoder_weights">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/io.html#medtokenizers.load_indices">load_indices() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/io.html#medtokenizers.load_latents">load_latents() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/evaluation.html#medtokenizers.TokenizerEvaluator.load_results">load_results() (medtokenizers.TokenizerEvaluator static method)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.load_state_dict">load_state_dict() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.load_state_dict">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.load_state_dict">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.load_state_dict">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.load_state_dict">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.load_state_dict">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.load_state_dict">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.load_state_dict">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.load_state_dict">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.load_state_dict">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.load_state_dict">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.load_state_dict">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.load_state_dict">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.load_state_dict">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.load_state_dict">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.load_state_dict">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/io.html#medtokenizers.load_tokenizer">load_tokenizer() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.Logger">Logger (class in medtokenizers.training)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig">LossConfig (class in medtokenizers.training)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LRScheduler">LRScheduler (class in medtokenizers.training)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="M">M</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer">MAISITokenizer (class in medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.modules">modules() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.modules">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.modules">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.modules">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.modules">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.modules">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.modules">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.modules">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.modules">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.modules">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.modules">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.modules">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.modules">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.modules">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.modules">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.modules">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.mtia">mtia() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.mtia">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.mtia">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.mtia">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.mtia">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.mtia">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.mtia">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.mtia">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.mtia">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.mtia">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.mtia">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.mtia">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.mtia">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.mtia">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.mtia">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.mtia">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="N">N</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.named_buffers">named_buffers() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.named_buffers">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.named_buffers">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.named_buffers">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.named_buffers">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.named_buffers">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.named_buffers">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.named_buffers">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.named_buffers">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.named_buffers">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.named_buffers">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.named_buffers">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.named_buffers">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.named_buffers">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.named_buffers">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.named_buffers">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.named_children">named_children() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.named_children">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.named_children">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.named_children">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.named_children">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.named_children">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.named_children">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.named_children">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.named_children">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.named_children">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.named_children">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.named_children">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.named_children">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.named_children">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.named_children">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.named_children">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.named_modules">named_modules() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.named_modules">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.named_modules">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.named_modules">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.named_modules">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.named_modules">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.named_modules">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.named_modules">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.named_modules">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.named_modules">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.named_modules">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.named_modules">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.named_modules">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.named_modules">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.named_modules">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.named_modules">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.named_parameters">named_parameters() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.named_parameters">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.named_parameters">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.named_parameters">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.named_parameters">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.named_parameters">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.named_parameters">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.named_parameters">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.named_parameters">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.named_parameters">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.named_parameters">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.named_parameters">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.named_parameters">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.named_parameters">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.named_parameters">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.named_parameters">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.Normalize">Normalize (class in medtokenizers)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.num_parameters">num_parameters() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.num_parameters">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.num_parameters">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.num_parameters">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.num_parameters">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.num_parameters">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="O">O</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training.html#medtokenizers.training.Callback.on_batch_begin">on_batch_begin() (medtokenizers.training.Callback method)</a>
+
+      <ul>
+        <li><a href="api/training.html#medtokenizers.training.Checkpoint.on_batch_begin">(medtokenizers.training.Checkpoint method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.EarlyStopping.on_batch_begin">(medtokenizers.training.EarlyStopping method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Logger.on_batch_begin">(medtokenizers.training.Logger method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LRScheduler.on_batch_begin">(medtokenizers.training.LRScheduler method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training.html#medtokenizers.training.Callback.on_batch_end">on_batch_end() (medtokenizers.training.Callback method)</a>
+
+      <ul>
+        <li><a href="api/training.html#medtokenizers.training.Checkpoint.on_batch_end">(medtokenizers.training.Checkpoint method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.EarlyStopping.on_batch_end">(medtokenizers.training.EarlyStopping method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Logger.on_batch_end">(medtokenizers.training.Logger method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LRScheduler.on_batch_end">(medtokenizers.training.LRScheduler method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training.html#medtokenizers.training.Callback.on_epoch_begin">on_epoch_begin() (medtokenizers.training.Callback method)</a>
+
+      <ul>
+        <li><a href="api/training.html#medtokenizers.training.Checkpoint.on_epoch_begin">(medtokenizers.training.Checkpoint method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.EarlyStopping.on_epoch_begin">(medtokenizers.training.EarlyStopping method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Logger.on_epoch_begin">(medtokenizers.training.Logger method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LRScheduler.on_epoch_begin">(medtokenizers.training.LRScheduler method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training.html#medtokenizers.training.Callback.on_epoch_end">on_epoch_end() (medtokenizers.training.Callback method)</a>
+
+      <ul>
+        <li><a href="api/training.html#medtokenizers.training.Checkpoint.on_epoch_end">(medtokenizers.training.Checkpoint method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.EarlyStopping.on_epoch_end">(medtokenizers.training.EarlyStopping method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Logger.on_epoch_end">(medtokenizers.training.Logger method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LRScheduler.on_epoch_end">(medtokenizers.training.LRScheduler method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training.html#medtokenizers.training.Callback.on_train_begin">on_train_begin() (medtokenizers.training.Callback method)</a>
+
+      <ul>
+        <li><a href="api/training.html#medtokenizers.training.Checkpoint.on_train_begin">(medtokenizers.training.Checkpoint method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.EarlyStopping.on_train_begin">(medtokenizers.training.EarlyStopping method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Logger.on_train_begin">(medtokenizers.training.Logger method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LRScheduler.on_train_begin">(medtokenizers.training.LRScheduler method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training.html#medtokenizers.training.Callback.on_train_end">on_train_end() (medtokenizers.training.Callback method)</a>
+
+      <ul>
+        <li><a href="api/training.html#medtokenizers.training.Checkpoint.on_train_end">(medtokenizers.training.Checkpoint method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.EarlyStopping.on_train_end">(medtokenizers.training.EarlyStopping method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Logger.on_train_end">(medtokenizers.training.Logger method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LRScheduler.on_train_end">(medtokenizers.training.LRScheduler method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training.html#medtokenizers.training.Callback.on_validation_begin">on_validation_begin() (medtokenizers.training.Callback method)</a>
+
+      <ul>
+        <li><a href="api/training.html#medtokenizers.training.Checkpoint.on_validation_begin">(medtokenizers.training.Checkpoint method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.EarlyStopping.on_validation_begin">(medtokenizers.training.EarlyStopping method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Logger.on_validation_begin">(medtokenizers.training.Logger method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LRScheduler.on_validation_begin">(medtokenizers.training.LRScheduler method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training.html#medtokenizers.training.Callback.on_validation_end">on_validation_end() (medtokenizers.training.Callback method)</a>
+
+      <ul>
+        <li><a href="api/training.html#medtokenizers.training.Checkpoint.on_validation_end">(medtokenizers.training.Checkpoint method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.EarlyStopping.on_validation_end">(medtokenizers.training.EarlyStopping method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.Logger.on_validation_end">(medtokenizers.training.Logger method)</a>
+</li>
+        <li><a href="api/training.html#medtokenizers.training.LRScheduler.on_validation_end">(medtokenizers.training.LRScheduler method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="P">P</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/io.html#medtokenizers.pad_divisible">pad_divisible() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.parameters">parameters() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.parameters">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.parameters">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.parameters">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.parameters">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.parameters">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.parameters">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.parameters">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.parameters">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.parameters">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.parameters">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.parameters">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.parameters">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.parameters">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.parameters">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.parameters">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/io.html#medtokenizers.percentile_normalize">percentile_normalize() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/io.html#medtokenizers.postprocess_from_maisi">postprocess_from_maisi() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/io.html#medtokenizers.preprocess_for_maisi">preprocess_for_maisi() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/evaluation.html#medtokenizers.TokenizerEvaluator.print_results">print_results() (medtokenizers.TokenizerEvaluator method)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.push_to_hub">push_to_hub() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.push_to_hub">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.push_to_hub">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.push_to_hub">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.push_to_hub">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.push_to_hub">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Q">Q</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.quant_weight">quant_weight (medtokenizers.training.LossConfig attribute)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.quantize">quantize() (medtokenizers.FSQuantizer method)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="R">R</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer">RAETokenizer (class in medtokenizers)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.reconstruct">reconstruct() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.reconstruct">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.reconstruct">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.reconstruct">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.reconstruct">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.reconstruct">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_backward_hook">register_backward_hook() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_backward_hook">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_backward_hook">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_backward_hook">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_backward_hook">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_backward_hook">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_backward_hook">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_backward_hook">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_backward_hook">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_backward_hook">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_backward_hook">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_backward_hook">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_backward_hook">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_backward_hook">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_backward_hook">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_backward_hook">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_buffer">register_buffer() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_buffer">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_buffer">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_buffer">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_buffer">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_buffer">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_buffer">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_buffer">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_buffer">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_buffer">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_buffer">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_buffer">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_buffer">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_buffer">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_buffer">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_buffer">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_forward_hook">register_forward_hook() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_forward_hook">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_forward_hook">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_forward_hook">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_forward_hook">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_forward_hook">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_forward_hook">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_forward_hook">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_forward_hook">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_forward_hook">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_forward_hook">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_forward_hook">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_forward_hook">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_forward_hook">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_forward_hook">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_forward_hook">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_forward_pre_hook">register_forward_pre_hook() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_forward_pre_hook">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_forward_pre_hook">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_forward_pre_hook">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_forward_pre_hook">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_forward_pre_hook">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_forward_pre_hook">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_forward_pre_hook">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_forward_pre_hook">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_forward_pre_hook">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_forward_pre_hook">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_forward_pre_hook">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_forward_pre_hook">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_forward_pre_hook">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_forward_pre_hook">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_forward_pre_hook">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_full_backward_hook">register_full_backward_hook() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_full_backward_hook">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_full_backward_hook">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_full_backward_hook">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_full_backward_hook">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_full_backward_hook">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_full_backward_hook">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_full_backward_hook">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_full_backward_hook">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_full_backward_hook">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_full_backward_hook">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_full_backward_hook">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_full_backward_hook">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_full_backward_hook">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_full_backward_hook">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_full_backward_hook">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_full_backward_pre_hook">register_full_backward_pre_hook() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_full_backward_pre_hook">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_full_backward_pre_hook">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_full_backward_pre_hook">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_full_backward_pre_hook">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_full_backward_pre_hook">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_full_backward_pre_hook">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_full_backward_pre_hook">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_full_backward_pre_hook">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_full_backward_pre_hook">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_full_backward_pre_hook">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_full_backward_pre_hook">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_full_backward_pre_hook">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_full_backward_pre_hook">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_full_backward_pre_hook">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_full_backward_pre_hook">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_load_state_dict_post_hook">register_load_state_dict_post_hook() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_load_state_dict_post_hook">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_load_state_dict_post_hook">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_load_state_dict_post_hook">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_load_state_dict_post_hook">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_load_state_dict_post_hook">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_load_state_dict_post_hook">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_load_state_dict_post_hook">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_load_state_dict_post_hook">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_load_state_dict_post_hook">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_load_state_dict_post_hook">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_load_state_dict_post_hook">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_load_state_dict_post_hook">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_load_state_dict_post_hook">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_load_state_dict_post_hook">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_load_state_dict_post_hook">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_load_state_dict_pre_hook">register_load_state_dict_pre_hook() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_load_state_dict_pre_hook">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_load_state_dict_pre_hook">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_load_state_dict_pre_hook">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_load_state_dict_pre_hook">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_load_state_dict_pre_hook">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_load_state_dict_pre_hook">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_load_state_dict_pre_hook">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_load_state_dict_pre_hook">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_load_state_dict_pre_hook">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_load_state_dict_pre_hook">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_load_state_dict_pre_hook">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_load_state_dict_pre_hook">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_load_state_dict_pre_hook">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_load_state_dict_pre_hook">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_load_state_dict_pre_hook">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_module">register_module() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_module">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_module">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_module">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_module">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_module">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_module">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_module">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_module">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_module">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_module">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_module">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_module">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_module">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_module">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_module">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_parameter">register_parameter() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_parameter">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_parameter">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_parameter">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_parameter">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_parameter">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_parameter">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_parameter">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_parameter">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_parameter">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_parameter">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_parameter">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_parameter">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_parameter">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_parameter">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_parameter">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_state_dict_post_hook">register_state_dict_post_hook() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_state_dict_post_hook">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_state_dict_post_hook">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_state_dict_post_hook">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_state_dict_post_hook">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_state_dict_post_hook">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_state_dict_post_hook">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_state_dict_post_hook">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_state_dict_post_hook">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_state_dict_post_hook">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_state_dict_post_hook">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_state_dict_post_hook">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_state_dict_post_hook">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_state_dict_post_hook">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_state_dict_post_hook">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_state_dict_post_hook">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.register_state_dict_pre_hook">register_state_dict_pre_hook() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.register_state_dict_pre_hook">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.register_state_dict_pre_hook">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.register_state_dict_pre_hook">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.register_state_dict_pre_hook">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.register_state_dict_pre_hook">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.register_state_dict_pre_hook">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.register_state_dict_pre_hook">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.register_state_dict_pre_hook">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.register_state_dict_pre_hook">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.register_state_dict_pre_hook">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.register_state_dict_pre_hook">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.register_state_dict_pre_hook">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.register_state_dict_pre_hook">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.register_state_dict_pre_hook">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.register_state_dict_pre_hook">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.requires_grad_">requires_grad_() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.requires_grad_">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.requires_grad_">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.requires_grad_">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.requires_grad_">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.requires_grad_">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.requires_grad_">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.requires_grad_">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.requires_grad_">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.requires_grad_">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.requires_grad_">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.requires_grad_">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.requires_grad_">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.requires_grad_">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.requires_grad_">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.requires_grad_">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/io.html#medtokenizers.resample_to_spacing">resample_to_spacing() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer">ResidualFSQuantizer (class in medtokenizers)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="S">S</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training.html#medtokenizers.training.Trainer.save_checkpoint">save_checkpoint() (medtokenizers.training.Trainer method)</a>
+</li>
+      <li><a href="api/io.html#medtokenizers.save_indices">save_indices() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/io.html#medtokenizers.save_latents">save_latents() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.save_pretrained">save_pretrained() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.save_pretrained">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.save_pretrained">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.save_pretrained">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.save_pretrained">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.save_pretrained">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/evaluation.html#medtokenizers.TokenizerEvaluator.save_results">save_results() (medtokenizers.TokenizerEvaluator static method)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.scale">scale (medtokenizers.AttnBlock attribute)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.set_extra_state">set_extra_state() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.set_extra_state">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.set_extra_state">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.set_extra_state">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.set_extra_state">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.set_extra_state">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.set_extra_state">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.set_extra_state">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.set_extra_state">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.set_extra_state">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.set_extra_state">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.set_extra_state">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.set_extra_state">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.set_extra_state">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.set_extra_state">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.set_extra_state">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.set_submodule">set_submodule() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.set_submodule">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.set_submodule">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.set_submodule">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.set_submodule">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.set_submodule">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.set_submodule">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.set_submodule">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.set_submodule">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.set_submodule">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.set_submodule">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.set_submodule">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.set_submodule">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.set_submodule">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.set_submodule">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.set_submodule">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.share_memory">share_memory() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.share_memory">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.share_memory">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.share_memory">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.share_memory">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.share_memory">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.share_memory">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.share_memory">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.share_memory">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.share_memory">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.share_memory">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.share_memory">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.share_memory">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.share_memory">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.share_memory">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.share_memory">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor">SpatialCompressor (class in medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor">SpatialDecompressor (class in medtokenizers)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.stage1_epochs">stage1_epochs (medtokenizers.training.LossConfig attribute)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.stage1_gram_weight">stage1_gram_weight (medtokenizers.training.LossConfig attribute)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.stage1_vgg_weight">stage1_vgg_weight (medtokenizers.training.LossConfig attribute)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.stage2_gram_weight">stage2_gram_weight (medtokenizers.training.LossConfig attribute)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.stage2_vgg_weight">stage2_vgg_weight (medtokenizers.training.LossConfig attribute)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.stage2_warmup_epochs">stage2_warmup_epochs (medtokenizers.training.LossConfig attribute)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.state_dict">state_dict() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.state_dict">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.state_dict">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.state_dict">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.state_dict">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.state_dict">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.state_dict">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.state_dict">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.state_dict">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.state_dict">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.state_dict">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.state_dict">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.state_dict">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.state_dict">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.state_dict">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.state_dict">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="T">T</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.T_destination">T_destination (medtokenizers.AttnBlock attribute)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.T_destination">(medtokenizers.BaseQuantizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.T_destination">(medtokenizers.BaseTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.T_destination">(medtokenizers.ContinuousTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.T_destination">(medtokenizers.Decoder attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.T_destination">(medtokenizers.DiscreteTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.T_destination">(medtokenizers.Encoder attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.T_destination">(medtokenizers.FSQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.T_destination">(medtokenizers.LFQuantizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.T_destination">(medtokenizers.MAISITokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.T_destination">(medtokenizers.RAETokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.T_destination">(medtokenizers.ResidualFSQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.T_destination">(medtokenizers.SpatialCompressor attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.T_destination">(medtokenizers.SpatialDecompressor attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.T_destination">(medtokenizers.TiTokTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.T_destination">(medtokenizers.VectorQuantizer attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer">TiTokTokenizer (class in medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.to">to() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.to">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.to">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.to">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.to">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.to">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.to">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.to">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.to">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.to">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.to">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.to">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.to">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.to">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.to">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.to">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.to_empty">to_empty() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.to_empty">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.to_empty">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.to_empty">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.to_empty">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.to_empty">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.to_empty">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.to_empty">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.to_empty">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.to_empty">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.to_empty">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.to_empty">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.to_empty">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.to_empty">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.to_empty">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.to_empty">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.tokenize">tokenize() (medtokenizers.BaseTokenizer method)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.tokenize">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.tokenize">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.tokenize">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.tokenize">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.tokenize">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/evaluation.html#medtokenizers.TokenizerEvaluator">TokenizerEvaluator (class in medtokenizers)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.train">train() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.train">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.train">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.train">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.train">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.train">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.train">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.train">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.train">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.train">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.train">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.train">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.train">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.train">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.train">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.train">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+      <li><a href="api/training.html#medtokenizers.training.Trainer.train_step">train_step() (medtokenizers.training.Trainer method)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.Trainer">Trainer (class in medtokenizers.training)</a>
+</li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.training">training (medtokenizers.AttnBlock attribute)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.training">(medtokenizers.BaseQuantizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.training">(medtokenizers.BaseTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.training">(medtokenizers.ContinuousTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.training">(medtokenizers.Decoder attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.training">(medtokenizers.DiscreteTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.training">(medtokenizers.Encoder attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.training">(medtokenizers.FSQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.training">(medtokenizers.LFQuantizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.training">(medtokenizers.MAISITokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.training">(medtokenizers.RAETokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.training">(medtokenizers.ResidualFSQuantizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.training">(medtokenizers.SpatialCompressor attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.training">(medtokenizers.SpatialDecompressor attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.training">(medtokenizers.TiTokTokenizer attribute)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.training">(medtokenizers.VectorQuantizer attribute)</a>
+</li>
+      </ul></li>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.type">type() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.type">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.type">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.type">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.type">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.type">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.type">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.type">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.type">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.type">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.type">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.type">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.type">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.type">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.type">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.type">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="U">U</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/io.html#medtokenizers.unpad">unpad() (in module medtokenizers)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.uses_gram">uses_gram (medtokenizers.training.LossConfig property)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.uses_laplacian">uses_laplacian (medtokenizers.training.LossConfig property)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.uses_vgg">uses_vgg (medtokenizers.training.LossConfig property)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="V">V</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/training.html#medtokenizers.training.Trainer.validate">validate() (medtokenizers.training.Trainer method)</a>
+</li>
+  </ul></td>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer">VectorQuantizer (class in medtokenizers)</a>
+</li>
+      <li><a href="api/training.html#medtokenizers.training.LossConfig.vgg_weight">vgg_weight (medtokenizers.training.LossConfig attribute)</a>
+</li>
+  </ul></td>
+</tr></table>
+
+<h2 id="W">W</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.weights_name">weights_name (medtokenizers.BaseTokenizer attribute)</a>
+
+      <ul>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.weights_name">(medtokenizers.ContinuousTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.weights_name">(medtokenizers.DiscreteTokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.weights_name">(medtokenizers.MAISITokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.weights_name">(medtokenizers.RAETokenizer attribute)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.weights_name">(medtokenizers.TiTokTokenizer attribute)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="X">X</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.xpu">xpu() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.xpu">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.xpu">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.xpu">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.xpu">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.xpu">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.xpu">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.xpu">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.xpu">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.xpu">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.xpu">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.xpu">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.xpu">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.xpu">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.xpu">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.xpu">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+<h2 id="Z">Z</h2>
+<table style="width: 100%" class="indextable genindextable"><tr>
+  <td style="width: 33%; vertical-align: top;"><ul>
+      <li><a href="api/quantizers.html#medtokenizers.AttnBlock.zero_grad">zero_grad() (medtokenizers.AttnBlock method)</a>
+
+      <ul>
+        <li><a href="api/quantizers.html#medtokenizers.BaseQuantizer.zero_grad">(medtokenizers.BaseQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.BaseTokenizer.zero_grad">(medtokenizers.BaseTokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.ContinuousTokenizer.zero_grad">(medtokenizers.ContinuousTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Decoder.zero_grad">(medtokenizers.Decoder method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.DiscreteTokenizer.zero_grad">(medtokenizers.DiscreteTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.Encoder.zero_grad">(medtokenizers.Encoder method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.FSQuantizer.zero_grad">(medtokenizers.FSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.LFQuantizer.zero_grad">(medtokenizers.LFQuantizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.MAISITokenizer.zero_grad">(medtokenizers.MAISITokenizer method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.RAETokenizer.zero_grad">(medtokenizers.RAETokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.ResidualFSQuantizer.zero_grad">(medtokenizers.ResidualFSQuantizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialCompressor.zero_grad">(medtokenizers.SpatialCompressor method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.SpatialDecompressor.zero_grad">(medtokenizers.SpatialDecompressor method)</a>
+</li>
+        <li><a href="api/tokenizers.html#medtokenizers.TiTokTokenizer.zero_grad">(medtokenizers.TiTokTokenizer method)</a>
+</li>
+        <li><a href="api/quantizers.html#medtokenizers.VectorQuantizer.zero_grad">(medtokenizers.VectorQuantizer method)</a>
+</li>
+      </ul></li>
+  </ul></td>
+</tr></table>
+
+
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Liam Chalcroft.
+      <span class="lastupdated">Last updated on Aug 07, 2026.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>

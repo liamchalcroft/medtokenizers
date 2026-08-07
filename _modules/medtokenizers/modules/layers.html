@@ -1,0 +1,1271 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" data-content_root="../../../">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>medtokenizers.modules.layers &mdash; MedTokenizers 0.1.0 documentation</title>
+      <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
+      <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
+
+  
+      <script src="../../../_static/jquery.js?v=5d32c60e"></script>
+      <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
+      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+      <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+      <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
+
+const initStyles = () => {
+    const defaultStyle = document.createElement('style');
+    defaultStyle.textContent = "pre.mermaid {\n    /* Same as .mermaid-container > pre */\n    display: block;\n    width: 100%;\n}\n\npre.mermaid > svg {\n    /* Same as .mermaid-container > pre > svg */\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}";
+    document.head.appendChild(defaultStyle);
+
+    const fullscreenStyle = document.createElement('style');
+    fullscreenStyle.textContent = ".mermaid-container {\n    position: relative;\n    display: flex;\n    flex-direction: row;\n    width: 100%;\n}\n\n.mermaid-container > pre {\n    display: block;\n    width: 100%;\n}\n\n.mermaid-container > pre > svg {\n    height: 500px;\n    width: 100%;\n    max-width: 100% !important;\n}\n\n.mermaid-fullscreen-btn {\n    position: absolute;\n    width: 28px;\n    height: 28px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.3);\n    border-radius: 4px;\n    cursor: pointer;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    transition: all 0.2s;\n    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);\n    font-size: 14px;\n    line-height: 1;\n    padding: 0;\n    color: #333;\n}\n\n.mermaid-fullscreen-btn:hover {\n    opacity: 100% !important;\n    background: rgba(255, 255, 255, 1);\n    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.3);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-btn.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.3);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-btn.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal {\n    display: none;\n    position: fixed !important;\n    top: 0 !important;\n    left: 0 !important;\n    width: 95vw;\n    height: 100vh;\n    background: rgba(255, 255, 255, 0.98);\n    z-index: 9999;\n    padding: 20px;\n    overflow: auto;\n}\n\n.mermaid-fullscreen-modal.dark-theme {\n    background: rgba(0, 0, 0, 0.98);\n}\n\n.mermaid-fullscreen-modal.active {\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen {\n    position: relative;\n    width: 95vw;\n    height: 90vh;\n    max-width: 95vw;\n    max-height: 90vh;\n    background: white;\n    border-radius: 8px;\n    padding: 20px;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.3);\n    overflow: auto;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen.dark-theme {\n    background: #1a1a1a;\n    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.8);\n}\n\n.mermaid-container-fullscreen pre.mermaid {\n    width: 100%;\n    height: 100%;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n}\n\n.mermaid-container-fullscreen .mermaid svg {\n    height: 100% !important;\n    width: 100% !important;\n    cursor: grab;\n}\n\n.mermaid-fullscreen-close {\n    position: fixed !important;\n    top: 20px !important;\n    right: 20px !important;\n    width: 40px;\n    height: 40px;\n    background: rgba(255, 255, 255, 0.95);\n    border: 1px solid rgba(0, 0, 0, 0.2);\n    border-radius: 50%;\n    cursor: pointer;\n    z-index: 10000;\n    display: flex;\n    align-items: center;\n    justify-content: center;\n    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);\n    transition: all 0.2s;\n    font-size: 24px;\n    line-height: 1;\n    color: #333;\n}\n\n.mermaid-fullscreen-close:hover {\n    background: white;\n    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);\n    transform: scale(1.1);\n}\n\n.mermaid-fullscreen-close.dark-theme {\n    background: rgba(50, 50, 50, 0.95);\n    border: 1px solid rgba(255, 255, 255, 0.2);\n    color: #e0e0e0;\n}\n\n.mermaid-fullscreen-close.dark-theme:hover {\n    background: rgba(60, 60, 60, 1);\n    box-shadow: 0 6px 16px rgba(255, 255, 255, 0.2);\n}\n\n.mermaid-fullscreen-modal .mermaid-fullscreen-btn {\n    display: none !important;\n}";
+    document.head.appendChild(fullscreenStyle);
+}
+
+// Detect if page has dark background
+const isDarkTheme = () => {
+    // We use a set of heuristics:
+    // 1. Check for common dark mode classes or attributes
+    // 2. Check computed background color brightness
+    if (document.documentElement.classList.contains('dark') ||
+        document.documentElement.getAttribute('data-theme') === 'dark' ||
+        document.body.classList.contains('dark') ||
+        document.body.getAttribute('data-theme') === 'dark') {
+        // console.log("Dark theme detected via class/attribute");
+        return true;
+    }
+    if (document.documentElement.classList.contains('light') ||
+        document.documentElement.getAttribute('data-theme') === 'light' ||
+        document.body.classList.contains('light') ||
+        document.body.getAttribute('data-theme') === 'light') {
+        // console.log("Light theme detected via class/attribute");
+        return false;
+    }
+    if (window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches) {
+        // console.log("Dark theme detected via prefers-color-scheme");
+        return true;
+    }
+    const bgColor = window.getComputedStyle(document.body).backgroundColor;
+    const match = bgColor.match(/rgb\((\d+),\s*(\d+),\s*(\d+)/);
+    if (match) {
+        const r = parseInt(match[1]);
+        const g = parseInt(match[2]);
+        const b = parseInt(match[3]);
+        const brightness = (r * 299 + g * 587 + b * 114) / 1000;
+        // console.log("Background color brightness:", brightness);
+        return brightness < 128;
+    }
+    // console.log("No dark or light theme detected, defaulting to light theme");
+    return false;
+};
+
+let darkTheme = isDarkTheme();
+let modal = null;
+let modalContent = null;
+let previousScrollOffset = [window.scrollX, window.scrollY];
+let _lazyObserver = null;
+let _renderQueue = Promise.resolve();
+let closeModal = () => {};
+
+document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && modal?.classList.contains('active')) {
+        closeModal();
+    }
+});
+
+// Apply d3 zoom to each SVG. Idempotent: an SVG already wrapped is skipped,
+// so this is safe to call both for the initial batch and for diagrams that
+// render lazily once they become visible.
+const addZoomToSvgs = (svgs) => {
+    svgs.each(function() {
+        if (this.getAttribute('data-zoom-applied') === 'true') return;
+        var svg = d3.select(this);
+        svg.html("<g class='wrapper'>" + svg.html() + "</g>");
+        var inner = svg.select("g");
+        var zoom = d3.zoom().on("zoom", function(event) {
+            inner.attr("transform", event.transform);
+        });
+        svg.call(zoom);
+        this.setAttribute('data-zoom-applied', 'true');
+    });
+};
+
+const runMermaid = async (rerun) => {
+    console.log("Running mermaid diagrams, rerun =", rerun);
+    // clear all existing mermaid charts
+    let all_mermaids = document.querySelectorAll(".mermaid");
+
+    if (rerun) {
+        // Disconnect any previous lazy rendering observer
+        if (_lazyObserver) {
+            _lazyObserver.disconnect();
+            _lazyObserver = null;
+        }
+
+        all_mermaids.forEach((el) => {
+            el.removeAttribute('data-mermaid-deferred');
+            el.removeAttribute('data-mermaid-render-failed');
+            if(!el.hasAttribute("data-original-code")) {
+                // store original code
+                // console.log(`Storing original code for first run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+            if(el.getAttribute("data-processed") === "true") {
+                // remove and restore original
+                el.removeAttribute("data-processed");
+                // console.log(`Restoring original code for re-run: `, el.getAttribute('data-original-code'));
+                el.innerHTML = el.getAttribute('data-original-code');
+            } else {
+                // store original code
+                // console.log(`Storing original code for re-run: `, el.innerHTML);
+                el.setAttribute('data-original-code', el.innerHTML);
+            }
+        });
+
+        // Separate visible and hidden elements. Mermaid's layout engine measures
+        // text dimensions via the DOM, which fails for elements hidden by a parent
+        // (e.g., Reveal.js non-active slides, sphinx-design unopened tabs),
+        // producing broken SVGs. Render visible elements now, defer hidden ones.
+        const visible = [];
+        const hidden = [];
+        all_mermaids.forEach((el) => {
+            // offsetParent is null for display:none ancestors.
+            // getClientRects().length > 0 catches position:fixed elements
+            // (which also have null offsetParent but are still visible).
+            if (el.offsetParent !== null || el.getClientRects().length > 0) {
+                visible.push(el);
+            } else {
+                hidden.push(el);
+                el.setAttribute('data-mermaid-deferred', 'true');
+            }
+        });
+
+        if (visible.length > 0) {
+            try {
+                await mermaid.run({ nodes: visible });
+            } catch (e) {
+                console.error("Mermaid rendering failed:", e);
+            }
+        }
+
+        // Lazily render hidden elements when they become visible.
+        // Uses a promise chain (_renderQueue) to serialize rendering,
+        // since IntersectionObserver may report multiple entries at once
+        // and mermaid.run() is not safe to call concurrently.
+        if (hidden.length > 0) {
+            if (typeof IntersectionObserver === 'undefined') {
+                console.warn("IntersectionObserver not available; hidden mermaid diagrams will not render.");
+            } else {
+                _renderQueue = Promise.resolve();
+                _lazyObserver = new IntersectionObserver((entries) => {
+                    for (const entry of entries) {
+                        if (entry.isIntersecting && entry.target.getAttribute("data-processed") !== "true") {
+                            _lazyObserver.unobserve(entry.target);
+                            const el = entry.target;
+                            _renderQueue = _renderQueue.then(async () => {
+                                try {
+                                    await mermaid.run({ nodes: [el] });
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    // Apply zoom to the now-rendered diagram, matching
+                                    // the decoration visible diagrams receive.
+                                    if (false) {
+                                        addZoomToSvgs(d3.selectAll("").select(function() {
+                                            return this.querySelector("svg");
+                                        }));
+                                    }
+                                } catch (e) {
+                                    console.error("Mermaid deferred rendering failed:", e);
+                                    el.removeAttribute('data-mermaid-deferred');
+                                    el.setAttribute('data-mermaid-render-failed', 'true');
+                                }
+                            });
+                        }
+                    }
+                });
+                hidden.forEach((el) => _lazyObserver.observe(el));
+            }
+        }
+    }
+
+    all_mermaids = document.querySelectorAll(".mermaid");
+    // Exclude deferred (hidden) and render-failed elements from completion checks
+    const mermaids_active = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])");
+    const mermaids_processed = document.querySelectorAll(".mermaid:not([data-mermaid-deferred]):not([data-mermaid-render-failed])[data-processed='true']");
+
+    if (false) {
+        const mermaids_to_add_zoom = 0 === -1 ? mermaids_active.length : 0;
+        if(mermaids_to_add_zoom > 0) {
+            var svgs = d3.selectAll("").select(function() {
+                return this.querySelector("svg");
+            });
+            // Wait until every active (visible) diagram has rendered. Deferred
+            // diagrams are excluded, so a fixed d3_node_count that counts a
+            // hidden diagram no longer loops forever waiting for its SVG.
+            if(mermaids_active.length !== mermaids_processed.length) {
+                setTimeout(() => runMermaid(false), 200);
+                return;
+            }
+            addZoomToSvgs(svgs);
+        }
+    } else if(mermaids_active.length !== mermaids_processed.length) {
+        // Wait for mermaid to process all diagrams
+        setTimeout(() => runMermaid(false), 200);
+        return;
+    }
+
+    // Stop here if not adding fullscreen capability
+    if (!true) return;
+
+    if (modal !== null ) {
+        // Destroy existing modal
+        modal.remove();
+        modal = null;
+        modalContent = null;
+    }
+
+    modal = document.createElement('div');
+    modal.className = 'mermaid-fullscreen-modal' + (darkTheme ? ' dark-theme' : '');
+    modal.setAttribute('role', 'dialog');
+    modal.setAttribute('aria-modal', 'true');
+    modal.setAttribute('aria-label', 'Fullscreen diagram viewer');
+    modal.innerHTML = `
+        <button class="mermaid-fullscreen-close${darkTheme ? ' dark-theme' : ''}" aria-label="Close fullscreen">✕</button>
+        <div class="mermaid-container-fullscreen${darkTheme ? ' dark-theme' : ''}"></div>
+    `;
+    document.body.appendChild(modal);
+
+    modalContent = modal.querySelector('.mermaid-container-fullscreen');
+    const closeBtn = modal.querySelector('.mermaid-fullscreen-close');
+
+    closeModal = () => {
+        modal.classList.remove('active');
+        modalContent.innerHTML = '';
+        document.body.style.overflow = ''
+        window.scrollTo({left: previousScrollOffset[0], top: previousScrollOffset[1], behavior: 'instant'});
+    };
+
+    closeBtn.addEventListener('click', closeModal);
+    modal.addEventListener('click', (e) => {
+        if (e.target === modal) closeModal();
+    });
+    document.querySelectorAll('.mermaid').forEach((mermaidDiv) => {
+        if (mermaidDiv.parentNode.classList.contains('mermaid-container') ||
+            mermaidDiv.closest('.mermaid-fullscreen-modal')) {
+            // Already processed, adjust button class if needed
+            const existingBtn = mermaidDiv.parentNode.querySelector('.mermaid-fullscreen-btn');
+            if (existingBtn) {
+                existingBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+            }
+            return;
+        }
+
+        const container = document.createElement('div');
+        container.className = 'mermaid-container';
+        mermaidDiv.parentNode.insertBefore(container, mermaidDiv);
+        container.appendChild(mermaidDiv);
+
+        const fullscreenBtn = document.createElement('button');
+        fullscreenBtn.className = 'mermaid-fullscreen-btn' + (darkTheme ? ' dark-theme' : '');
+        fullscreenBtn.setAttribute('aria-label', 'View diagram in fullscreen');
+        fullscreenBtn.textContent = "\u26f6";
+        fullscreenBtn.style.opacity = "50%";
+
+        // Calculate dynamic position based on diagram's margin and padding
+        const diagramStyle = window.getComputedStyle(mermaidDiv);
+        const marginTop = parseFloat(diagramStyle.marginTop) || 0;
+        const marginRight = parseFloat(diagramStyle.marginRight) || 0;
+        const paddingTop = parseFloat(diagramStyle.paddingTop) || 0;
+        const paddingRight = parseFloat(diagramStyle.paddingRight) || 0;
+        fullscreenBtn.style.top = `${marginTop + paddingTop + 4}px`;
+        fullscreenBtn.style.right = `${marginRight + paddingRight + 4}px`;
+
+        fullscreenBtn.addEventListener('click', () => {
+            previousScrollOffset = [window.scrollX, window.scrollY];
+            const clone = mermaidDiv.cloneNode(true);
+            modalContent.innerHTML = '';
+            modalContent.appendChild(clone);
+
+            const svg = clone.querySelector('svg');
+            if (svg) {
+                svg.removeAttribute('width');
+                svg.removeAttribute('height');
+                svg.style.width = '100%';
+                svg.style.height = 'auto';
+                svg.style.maxWidth = '100%';
+                svg.style.display = 'block';
+
+                if (false) {
+                    setTimeout(() => {
+                        const g = svg.querySelector('g');
+                        if (g) {
+                            var svgD3 = d3.select(svg);
+                            svgD3.html("<g class='wrapper'>" + svgD3.html() + "</g>");
+                            var inner = svgD3.select("g");
+                            var zoom = d3.zoom().on("zoom", function(event) {
+                                inner.attr("transform", event.transform);
+                            });
+                            svgD3.call(zoom);
+                        }
+                    }, 100);
+                }
+            }
+
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        });
+        container.appendChild(fullscreenBtn);
+    });
+};
+
+
+
+const load = async () => {
+    initStyles();
+
+
+    await runMermaid(true);
+
+    const reRunIfThemeChanges = async () => {
+        const newDarkTheme = isDarkTheme();
+        if (newDarkTheme !== darkTheme) {
+            darkTheme = newDarkTheme;
+            console.log("Theme change detected, re-running mermaid with", darkTheme ? "dark" : "default", "theme");
+            await mermaid.initialize(
+                {...{"startOnLoad": false},
+                ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+                }
+            );
+            await runMermaid(true);
+        }
+    };
+
+    // Update theme classes when theme changes
+    const themeObserver = new MutationObserver(reRunIfThemeChanges);
+    themeObserver.observe(document.documentElement, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+    themeObserver.observe(document.body, {
+        attributes: true,
+        attributeFilter: ['class', 'style', 'data-theme']
+    });
+};
+
+
+
+
+
+console.log("Initializing mermaid with", darkTheme ? "dark" : "default", "theme");
+mermaid.initialize(
+    {...{"startOnLoad": false},
+    ...{ darkMode: darkTheme, theme: darkTheme ? "dark" : "default" },
+    }
+);
+
+window.addEventListener("load", load);
+window.runMermaid = runMermaid;</script>
+    <script src="../../../_static/js/theme.js"></script>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" /> 
+</head>
+
+<body class="wy-body-for-nav"> 
+  <div class="wy-grid-for-nav">
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search"  style="background: #2980B9" >
+
+          
+          
+          <a href="../../../index.html" class="icon icon-home">
+            MedTokenizers
+          </a>
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" aria-label="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+        </div><div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="Navigation menu">
+              <p class="caption" role="heading"><span class="caption-text">Getting Started</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../getting_started.html">Getting Started</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Guides</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/tokenizers.html">Choosing a Tokenizer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/training.html">Training Tokenizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../guides/evaluation.html">Evaluating Tokenizers</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">API Reference</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/tokenizers.html">Tokenizers</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/quantizers.html">Quantizers &amp; Building Blocks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/evaluation.html">Evaluation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/training.html">Training</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../../api/io.html">I/O &amp; Preprocessing</a></li>
+</ul>
+<p class="caption" role="heading"><span class="caption-text">Project Info</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../../contributing.html">Contributing</a></li>
+</ul>
+
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap"><nav class="wy-nav-top" aria-label="Mobile navigation menu"  style="background: #2980B9" >
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../../index.html">MedTokenizers</a>
+      </nav>
+
+      <div class="wy-nav-content">
+        <div class="rst-content style-external-links">
+          <div role="navigation" aria-label="Page navigation">
+  <ul class="wy-breadcrumbs">
+      <li><a href="../../../index.html" class="icon icon-home" aria-label="Home"></a></li>
+          <li class="breadcrumb-item"><a href="../../index.html">Module code</a></li>
+      <li class="breadcrumb-item active">medtokenizers.modules.layers</li>
+      <li class="wy-breadcrumbs-aside">
+      </li>
+  </ul>
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+             
+  <h1>Source code for medtokenizers.modules.layers</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright 2026 Liam Chalcroft</span>
+<span class="c1"># SPDX-License-Identifier: MIT</span>
+<span class="c1">#</span>
+<span class="c1"># This file contains code derived from CompVis latent-diffusion / Stable Diffusion</span>
+<span class="c1"># (https://github.com/CompVis/latent-diffusion), originally licensed under the MIT License.</span>
+<span class="c1"># The Encoder/Decoder/ResnetBlock/AttnBlock/Upsample/Downsample structure and the</span>
+<span class="c1"># nonlinearity/Normalize helpers follow that implementation (here generalized to 2D/3D).</span>
+<span class="c1"># See THIRD_PARTY_NOTICES.md for details.</span>
+<span class="sd">&quot;&quot;&quot;Neural network layers for encoder-decoder architectures.</span>
+
+<span class="sd">This module provides the building blocks for VAE/VQ-VAE encoder and decoder</span>
+<span class="sd">networks, with full support for both 2D and 3D volumetric data. The design</span>
+<span class="sd">prioritizes memory efficiency and throughput for large medical imaging volumes.</span>
+
+<span class="sd">Architecture Philosophy</span>
+<span class="sd">-----------------------</span>
+<span class="sd">The encoder-decoder follows a U-Net-like progressive resolution structure:</span>
+<span class="sd">- Encoder: progressively downsamples while increasing channel depth</span>
+<span class="sd">- Decoder: progressively upsamples while decreasing channel depth</span>
+<span class="sd">- Skip connections are NOT used (unlike U-Net) to enable latent manipulation</span>
+
+<span class="sd">Memory Optimization</span>
+<span class="sd">-------------------</span>
+<span class="sd">For 3D medical images, memory is often the bottleneck. This module implements:</span>
+<span class="sd">1. **Channels-last memory format**: Improves cache locality for convolutions</span>
+<span class="sd">2. **Gradient checkpointing**: Trades compute for VRAM during training</span>
+<span class="sd">3. **Efficient upsampling**: Uses F.interpolate instead of repeat_interleave</span>
+
+<span class="sd">Performance Tips</span>
+<span class="sd">----------------</span>
+<span class="sd">- For 3D volumes, always use `torch.channels_last_3d` memory format</span>
+<span class="sd">- Enable checkpointing for volumes &gt; 128³ during training</span>
+<span class="sd">- Use `torch.backends.cudnn.benchmark = True` for consistent input sizes</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nn</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">torch.nn.functional</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">F</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">torch.utils.checkpoint</span><span class="w"> </span><span class="kn">import</span> <span class="n">checkpoint</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">.patch</span><span class="w"> </span><span class="kn">import</span> <span class="n">SpatialCompressor</span><span class="p">,</span> <span class="n">SpatialDecompressor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">Normalize</span><span class="p">,</span> <span class="n">nonlinearity</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">jaxtyping</span><span class="w"> </span><span class="kn">import</span> <span class="n">Float</span>
+
+<span class="c1"># Type alias for spatial dimensions</span>
+<span class="n">SpatialDim</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">]</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_conv</span><span class="p">(</span>
+    <span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">,</span>
+    <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">out_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">kernel_size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+    <span class="n">stride</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+    <span class="n">padding</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
+    <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for 2D/3D convolutions with optimal memory format.</span>
+
+<span class="sd">    Creates Conv2d or Conv3d based on spatial dimensionality. For 3D,</span>
+<span class="sd">    initializes weights in channels_last_3d format for improved cuDNN</span>
+<span class="sd">    kernel selection and cache efficiency on NVIDIA GPUs.</span>
+
+<span class="sd">    The channels-last format stores tensors as NHWDC instead of NCHWD,</span>
+<span class="sd">    which aligns better with cuDNN&#39;s internal representations and can</span>
+<span class="sd">    provide 20-40% throughput improvements for 3D convolutions.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
+<span class="sd">        in_channels: Number of input channels</span>
+<span class="sd">        out_channels: Number of output channels</span>
+<span class="sd">        kernel_size: Convolution kernel size</span>
+<span class="sd">        stride: Convolution stride (default: 1)</span>
+<span class="sd">        padding: Convolution padding (default: 0)</span>
+<span class="sd">        **kwargs: Additional arguments passed to Conv2d/Conv3d</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Conv2d or Conv3d module with optimal memory layout</span>
+
+<span class="sd">    Example:</span>
+<span class="sd">        &gt;&gt;&gt; conv = get_conv(3, 64, 128, kernel_size=3, padding=1)</span>
+<span class="sd">        &gt;&gt;&gt; x = torch.randn(1, 64, 32, 32, 32)</span>
+<span class="sd">        &gt;&gt;&gt; x = x.to(memory_format=torch.channels_last_3d)</span>
+<span class="sd">        &gt;&gt;&gt; y = conv(x)  # Stays in channels_last_3d format</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span>
+            <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="c1"># Convert to channels_last for optimal cuDNN performance on CUDA</span>
+        <span class="k">return</span> <span class="n">conv</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">memory_format</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">channels_last</span><span class="p">)</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv3d</span><span class="p">(</span>
+            <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
+        <span class="p">)</span>
+        <span class="c1"># Convert to channels_last_3d for optimal cuDNN performance</span>
+        <span class="k">return</span> <span class="n">conv</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">memory_format</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">channels_last_3d</span><span class="p">)</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">get_padding</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get asymmetric padding for strided convolutions.</span>
+
+<span class="sd">    When using stride=2 with kernel_size=3, we need asymmetric padding</span>
+<span class="sd">    to ensure output size is exactly input_size // 2. This pads only</span>
+<span class="sd">    the &quot;end&quot; of each spatial dimension.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Padding tuple for F.pad (reversed order: last dim first)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1"># F.pad format: (left, right, top, bottom[, front, back])</span>
+    <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># H and W padding</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># D, H, W padding</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Upsample</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Learnable upsampling via nearest-neighbor interpolation + convolution.</span>
+
+<span class="sd">    Upsamples spatial dimensions by 2x using nearest-neighbor interpolation,</span>
+<span class="sd">    then applies a 3x3 convolution to learn smooth upsampling patterns.</span>
+<span class="sd">    This is preferred over transposed convolution to avoid checkerboard</span>
+<span class="sd">    artifacts.</span>
+
+<span class="sd">    Why not TransposedConv?</span>
+<span class="sd">    -----------------------</span>
+<span class="sd">    Transposed convolutions with stride=2 create overlapping output regions</span>
+<span class="sd">    that can cause checkerboard artifacts. Nearest-neighbor + conv avoids</span>
+<span class="sd">    this by ensuring uniform spatial coverage.</span>
+
+<span class="sd">    Implementation Note</span>
+<span class="sd">    -------------------</span>
+<span class="sd">    Uses F.interpolate instead of repeat_interleave for efficiency.</span>
+<span class="sd">    F.interpolate dispatches to optimized CUDA kernels and avoids</span>
+<span class="sd">    creating intermediate tensors.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
+<span class="sd">        in_channels: Number of input/output channels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_scale_factor</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial_upsampled&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Upsample input by 2x in all spatial dimensions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input tensor of shape (B, C, H, W) or (B, C, H, W, D)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Upsampled tensor with spatial dims doubled</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># F.interpolate is faster than repeat_interleave and uses less memory</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale_factor</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Downsample</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Strided convolution for 2x spatial downsampling.</span>
+
+<span class="sd">    Downsamples by factor of 2 using stride-2 convolution with asymmetric</span>
+<span class="sd">    padding. This learns spatial aggregation patterns rather than using</span>
+<span class="sd">    fixed pooling operations.</span>
+
+<span class="sd">    Why Strided Conv Over Pooling?</span>
+<span class="sd">    ------------------------------</span>
+<span class="sd">    1. Learnable: Can adapt to data-specific downsampling patterns</span>
+<span class="sd">    2. More expressive: Not limited to max/avg operations</span>
+<span class="sd">    3. Consistent with encoder design: Uses same conv blocks throughout</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
+<span class="sd">        in_channels: Number of input/output channels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="c1"># stride=2, no padding (we pad asymmetrically in forward)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span> <span class="o">=</span> <span class="n">get_padding</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial_downsampled&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downsample input by 2x in all spatial dimensions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input tensor of shape (B, C, H, W) or (B, C, H, W, D)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Downsampled tensor with spatial dims halved</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Asymmetric padding for exact 2x downsampling</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ResnetBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pre-activation residual block with GroupNorm.</span>
+
+<span class="sd">    Implements the &quot;full pre-activation&quot; residual block design where</span>
+<span class="sd">    normalization and activation precede each convolution. This provides</span>
+<span class="sd">    better gradient flow and is standard in modern autoencoder architectures.</span>
+
+<span class="sd">    Block Structure</span>
+<span class="sd">    ---------------</span>
+<span class="sd">    ```</span>
+<span class="sd">    x ─────────────────────────────┐</span>
+<span class="sd">    │                              │</span>
+<span class="sd">    ├─&gt; GroupNorm -&gt; Swish -&gt; Conv ├──&gt; (+)</span>
+<span class="sd">    │                              │</span>
+<span class="sd">    └─&gt; GroupNorm -&gt; Swish -&gt; Conv ┘</span>
+<span class="sd">           └── Dropout ──┘</span>
+<span class="sd">    ```</span>
+
+<span class="sd">    If in_channels != out_channels, a 1x1 conv is applied to the shortcut.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
+<span class="sd">        in_channels: Number of input channels</span>
+<span class="sd">        out_channels: Number of output channels (default: same as input)</span>
+<span class="sd">        dropout: Dropout probability (default: 0.0)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="o">*</span><span class="p">,</span>
+        <span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">,</span>
+        <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">out_channels</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="n">out_channels</span> <span class="o">=</span> <span class="n">in_channels</span> <span class="k">if</span> <span class="n">out_channels</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">out_channels</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">in_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">out_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span> <span class="k">if</span> <span class="n">dropout</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Shortcut projection if channel count changes</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nin_shortcut</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">in_channels</span> <span class="o">!=</span> <span class="n">out_channels</span>
+            <span class="k">else</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels_out *spatial&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply residual block transformation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input tensor</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Residual output: shortcut(x) + conv2(conv1(x))</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">nonlinearity</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm2</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="n">nonlinearity</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv2</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">nin_shortcut</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">h</span>
+
+
+<div class="viewcode-block" id="AttnBlock">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.AttnBlock">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">AttnBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Self-attention block with efficient scaled dot-product attention.</span>
+
+<span class="sd">    Applies multi-head self-attention over spatial dimensions to capture</span>
+<span class="sd">    long-range dependencies. Uses PyTorch&#39;s optimized scaled_dot_product_attention</span>
+<span class="sd">    which automatically selects the best kernel (Flash Attention when available).</span>
+
+<span class="sd">    When to Use Attention</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    Attention is computationally expensive (O(n²) in spatial size), so it&#39;s</span>
+<span class="sd">    typically only used at lower resolutions (e.g., 32x32 or 16x16) where</span>
+<span class="sd">    the spatial dimension is small enough to be tractable.</span>
+
+<span class="sd">    Memory Considerations</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    For 3D volumes, attention at full resolution is usually infeasible.</span>
+<span class="sd">    Consider using attention only at the bottleneck resolution or using</span>
+<span class="sd">    more efficient variants like linear attention.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
+<span class="sd">        in_channels: Number of input/output channels</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="AttnBlock.__init__">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.AttnBlock.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">in_channels</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">q</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">k</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">v</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proj_out</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+
+        <span class="c1"># Precompute scale for attention (as plain float to avoid torch.compile graph breaks)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="n">in_channels</span> <span class="o">**</span> <span class="p">(</span><span class="o">-</span><span class="mf">0.5</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="AttnBlock.forward">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.AttnBlock.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply self-attention over spatial dimensions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input tensor</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Attention output with residual connection: x + attn(x)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">h_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+        <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">(</span><span class="n">h_</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">(</span><span class="n">h_</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">h_</span><span class="p">)</span>
+
+        <span class="c1"># Flatten spatial dimensions for attention</span>
+        <span class="c1"># SDPA requires 4D: (B, num_heads, seq_len, head_dim)</span>
+        <span class="c1"># We use 1 head with head_dim = channels</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">spatial_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span>
+            <span class="c1"># Reshape to (B, 1, N, C) for attention where N = H*W</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">shape</span>
+            <span class="n">spatial_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span>
+            <span class="c1"># Reshape to (B, 1, N, C) for attention where N = H*W*D</span>
+            <span class="n">q</span> <span class="o">=</span> <span class="n">q</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+            <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Use PyTorch&#39;s SDPA - let it choose the best backend automatically</span>
+        <span class="n">h_</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">scaled_dot_product_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
+
+        <span class="c1"># Reshape back to spatial: (B, 1, N, C) -&gt; (B, C, *spatial)</span>
+        <span class="n">h_</span> <span class="o">=</span> <span class="n">h_</span><span class="o">.</span><span class="n">squeeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="o">*</span><span class="n">spatial_shape</span><span class="p">)</span>
+        <span class="n">h_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">proj_out</span><span class="p">(</span><span class="n">h_</span><span class="p">)</span>
+
+        <span class="k">return</span> <span class="n">x</span> <span class="o">+</span> <span class="n">h_</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Encoder">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Encoder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Encoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Progressive encoder for VAE/VQ-VAE architectures.</span>
+
+<span class="sd">    The encoder progressively downsamples the input while increasing</span>
+<span class="sd">    channel depth, producing a low-resolution, high-channel latent</span>
+<span class="sd">    representation suitable for quantization or sampling.</span>
+
+<span class="sd">    Architecture Overview</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    ::</span>
+
+<span class="sd">        Input (H, W, D) -&gt; conv_in -&gt; [ResBlock x N] -&gt; Downsample -&gt;</span>
+<span class="sd">                                      [ResBlock x N] -&gt; Downsample -&gt;</span>
+<span class="sd">                                      ...</span>
+<span class="sd">                                      [ResBlock x N] -&gt; (optional mid) -&gt;</span>
+<span class="sd">                                      norm -&gt; Swish -&gt; conv_out -&gt; Latent</span>
+
+<span class="sd">    Each resolution level contains:</span>
+<span class="sd">    - N residual blocks (increasing channel depth)</span>
+<span class="sd">    - Optional attention blocks (at specified resolutions)</span>
+<span class="sd">    - Downsampling (except at the last level)</span>
+
+<span class="sd">    Memory Optimization</span>
+<span class="sd">    -------------------</span>
+<span class="sd">    For large 3D volumes, enable gradient checkpointing to trade compute</span>
+<span class="sd">    for memory. This recomputes intermediate activations during backward</span>
+<span class="sd">    pass instead of storing them.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
+<span class="sd">        in_channels: Number of input channels</span>
+<span class="sd">        channels: Base channel count (multiplied by channels_mult)</span>
+<span class="sd">        channels_mult: Channel multiplier for each resolution level</span>
+<span class="sd">        num_res_blocks: Number of residual blocks per resolution</span>
+<span class="sd">        attn_resolutions: Resolutions at which to apply attention</span>
+<span class="sd">        dropout: Dropout probability</span>
+<span class="sd">        resolution: Input resolution (for attention calculations)</span>
+<span class="sd">        z_channels: Output latent channels</span>
+<span class="sd">        spatial_compression: Total spatial compression factor</span>
+<span class="sd">        use_checkpointing: Enable gradient checkpointing (default: False)</span>
+<span class="sd">        **kwargs: Additional config (use_encoder_mid, patch_size, etc.)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Encoder.__init__">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Encoder.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">,</span>
+        <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">channels_mult</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">num_res_blocks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">attn_resolutions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">z_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">spatial_compression</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">use_checkpointing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">channels_mult</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_res_blocks</span> <span class="o">=</span> <span class="n">num_res_blocks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_checkpointing</span> <span class="o">=</span> <span class="n">use_checkpointing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+
+        <span class="c1"># NVIDIA MAISI encoder doesn&#39;t use mid blocks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_encoder_mid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_encoder_mid&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># NVIDIA MAISI doesn&#39;t use nonlinearity between norm_out and conv_out</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_output_nonlinearity</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_output_nonlinearity&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Optional spatial compression (wavelets, patching)</span>
+        <span class="n">patch_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch_size&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">patch_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compressor</span> <span class="o">=</span> <span class="n">SpatialCompressor</span><span class="p">(</span>
+                <span class="n">patch_size</span><span class="p">,</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch_method&quot;</span><span class="p">,</span> <span class="s2">&quot;haar&quot;</span><span class="p">),</span>
+                <span class="n">dim</span><span class="p">,</span>
+                <span class="n">resolution</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resolution&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="n">voronoi_jitter</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;voronoi_jitter&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compressor</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
+        <span class="n">in_channels</span> <span class="o">=</span> <span class="n">in_channels</span> <span class="o">*</span> <span class="p">(</span><span class="n">patch_size</span><span class="o">**</span><span class="n">dim</span><span class="p">)</span>
+
+        <span class="c1"># Calculate number of downsample operations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_downsamples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">spatial_compression</span><span class="p">))</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">patch_size</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Input convolution</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv_in</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">,</span> <span class="n">channels</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Build downsampling blocks</span>
+        <span class="n">curr_res</span> <span class="o">=</span> <span class="n">resolution</span> <span class="o">//</span> <span class="n">patch_size</span>
+        <span class="n">in_ch_mult</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span><span class="p">,)</span> <span class="o">+</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">channels_mult</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">down</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+
+        <span class="k">for</span> <span class="n">i_level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span><span class="p">):</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+            <span class="n">attn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+            <span class="n">block_in</span> <span class="o">=</span> <span class="n">channels</span> <span class="o">*</span> <span class="n">in_ch_mult</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span>
+            <span class="n">block_out</span> <span class="o">=</span> <span class="n">channels</span> <span class="o">*</span> <span class="n">channels_mult</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span>
+
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_res_blocks</span><span class="p">):</span>
+                <span class="n">block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">ResnetBlock</span><span class="p">(</span>
+                        <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span>
+                        <span class="n">in_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span>
+                        <span class="n">out_channels</span><span class="o">=</span><span class="n">block_out</span><span class="p">,</span>
+                        <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">block_in</span> <span class="o">=</span> <span class="n">block_out</span>
+                <span class="k">if</span> <span class="n">curr_res</span> <span class="ow">in</span> <span class="n">attn_resolutions</span><span class="p">:</span>
+                    <span class="n">attn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AttnBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">))</span>
+
+            <span class="n">down</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+            <span class="n">down</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">block</span>
+            <span class="n">down</span><span class="o">.</span><span class="n">attn</span> <span class="o">=</span> <span class="n">attn</span>
+            <span class="k">if</span> <span class="n">i_level</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_downsamples</span><span class="p">:</span>
+                <span class="n">down</span><span class="o">.</span><span class="n">downsample</span> <span class="o">=</span> <span class="n">Downsample</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">)</span>
+                <span class="n">curr_res</span> <span class="o">=</span> <span class="n">curr_res</span> <span class="o">//</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">down</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">down</span><span class="p">)</span>
+
+        <span class="c1"># Middle blocks (optional - NVIDIA MAISI doesn&#39;t use them)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_encoder_mid</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_1</span> <span class="o">=</span> <span class="n">ResnetBlock</span><span class="p">(</span>
+                <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">attn_1</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">AttnBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">&quot;mid&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span>
+                <span class="k">else</span> <span class="kc">None</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_2</span> <span class="o">=</span> <span class="n">ResnetBlock</span><span class="p">(</span>
+                <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="c1"># Output layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm_out</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">block_in</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv_out</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">,</span> <span class="n">z_channels</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply module with optional gradient checkpointing.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_checkpointing</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">checkpoint</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">use_reentrant</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Encoder.forward">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Encoder.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch z_channels *spatial_compressed&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode input to latent representation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: Input tensor of shape (B, C, H, W) or (B, C, H, W, D)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Latent tensor with reduced spatial dimensions</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Note: channels_last conversion removed - it confuses torch.compile</span>
+        <span class="c1"># Use model.to(memory_format=torch.channels_last_3d) at model level instead</span>
+
+        <span class="c1"># Optional spatial compression</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">compressor</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># Initial convolution</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_in</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+        <span class="c1"># Progressive downsampling</span>
+        <span class="k">for</span> <span class="n">i_level</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">i_block</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_res_blocks</span><span class="p">):</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">down</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span><span class="o">.</span><span class="n">block</span><span class="p">[</span><span class="n">i_block</span><span class="p">],</span> <span class="n">h</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">down</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span><span class="o">.</span><span class="n">attn</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i_block</span><span class="p">:</span>
+                    <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">down</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span><span class="o">.</span><span class="n">attn</span><span class="p">[</span><span class="n">i_block</span><span class="p">](</span><span class="n">h</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">i_level</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_downsamples</span><span class="p">:</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">down</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span><span class="o">.</span><span class="n">downsample</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="c1"># Middle blocks</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_1</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">attn_1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">attn_1</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_2</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+
+        <span class="c1"># Output</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_out</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_output_nonlinearity</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">nonlinearity</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_out</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="c1"># NOTE: We intentionally do NOT call h.contiguous() here.</span>
+        <span class="c1"># The tensor remains in channels_last_3d format, which is optimal for:</span>
+        <span class="c1"># 1. The downstream quant_conv (1x1 conv, format-agnostic)</span>
+        <span class="c1"># 2. The decoder (also uses channels_last_3d internally)</span>
+        <span class="c1"># Only the final model output should be converted to contiguous if needed.</span>
+
+        <span class="k">return</span> <span class="n">h</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="Decoder">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Decoder">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Progressive decoder for VAE/VQ-VAE architectures.</span>
+
+<span class="sd">    The decoder progressively upsamples the latent representation while</span>
+<span class="sd">    decreasing channel depth, reconstructing the original input dimensions.</span>
+<span class="sd">    Mirrors the encoder structure in reverse.</span>
+
+<span class="sd">    Architecture Overview</span>
+<span class="sd">    ---------------------</span>
+<span class="sd">    ::</span>
+
+<span class="sd">        Latent -&gt; conv_in -&gt; [mid blocks] -&gt;</span>
+<span class="sd">                  [ResBlock x N] -&gt; Upsample -&gt;</span>
+<span class="sd">                  [ResBlock x N] -&gt; Upsample -&gt;</span>
+<span class="sd">                  ...</span>
+<span class="sd">                  [ResBlock x N] -&gt; norm -&gt; Swish -&gt; conv_out -&gt; Output</span>
+
+<span class="sd">    NVIDIA MAISI Compatibility</span>
+<span class="sd">    --------------------------</span>
+<span class="sd">    The MAISI decoder has non-uniform block counts per stage ([2, 2, 0]).</span>
+<span class="sd">    This is controlled by the `decoder_blocks_per_stage` argument.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
+<span class="sd">        out_channels: Number of output channels</span>
+<span class="sd">        channels: Base channel count</span>
+<span class="sd">        channels_mult: Channel multiplier for each resolution level</span>
+<span class="sd">        num_res_blocks: Default number of residual blocks per resolution</span>
+<span class="sd">        attn_resolutions: Resolutions at which to apply attention</span>
+<span class="sd">        dropout: Dropout probability</span>
+<span class="sd">        resolution: Output resolution</span>
+<span class="sd">        z_channels: Input latent channels</span>
+<span class="sd">        spatial_compression: Total spatial compression factor</span>
+<span class="sd">        use_checkpointing: Enable gradient checkpointing (default: False)</span>
+<span class="sd">        **kwargs: Additional config (decoder_blocks_per_stage, patch_size, etc.)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="Decoder.__init__">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Decoder.__init__">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">,</span>
+        <span class="n">out_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">channels_mult</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">num_res_blocks</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">attn_resolutions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span>
+        <span class="n">dropout</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">resolution</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">z_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">spatial_compression</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
+        <span class="n">use_checkpointing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">channels_mult</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_res_blocks</span> <span class="o">=</span> <span class="n">num_res_blocks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_checkpointing</span> <span class="o">=</span> <span class="n">use_checkpointing</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
+
+        <span class="c1"># NVIDIA MAISI has different blocks per stage: [2, 2, 0]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoder_blocks_per_stage</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;decoder_blocks_per_stage&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+        <span class="c1"># NVIDIA MAISI doesn&#39;t use nonlinearity between norm_out and conv_out</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_output_nonlinearity</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_output_nonlinearity&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># Optional spatial decompression</span>
+        <span class="n">patch_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch_size&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">patch_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">decompressor</span> <span class="o">=</span> <span class="n">SpatialDecompressor</span><span class="p">(</span>
+                <span class="n">patch_size</span><span class="p">,</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch_method&quot;</span><span class="p">,</span> <span class="s2">&quot;haar&quot;</span><span class="p">),</span>
+                <span class="n">dim</span><span class="p">,</span>
+                <span class="n">resolution</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resolution&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="n">voronoi_jitter</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;voronoi_jitter&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                <span class="n">out_channels</span><span class="o">=</span><span class="n">out_channels</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">decompressor</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
+        <span class="n">out_ch</span> <span class="o">=</span> <span class="n">out_channels</span> <span class="o">*</span> <span class="p">(</span><span class="n">patch_size</span><span class="o">**</span><span class="n">dim</span><span class="p">)</span>
+
+        <span class="c1"># Calculate number of upsample operations</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">num_upsamples</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">spatial_compression</span><span class="p">))</span> <span class="o">-</span> <span class="nb">int</span><span class="p">(</span>
+            <span class="n">math</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">patch_size</span><span class="p">)</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Input convolution (from latent)</span>
+        <span class="n">block_in</span> <span class="o">=</span> <span class="n">channels</span> <span class="o">*</span> <span class="n">channels_mult</span><span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="n">curr_res</span> <span class="o">=</span> <span class="p">(</span><span class="n">resolution</span> <span class="o">//</span> <span class="n">patch_size</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span> <span class="o">**</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv_in</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">z_channels</span><span class="p">,</span> <span class="n">block_in</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+
+        <span class="c1"># Middle blocks (always present in decoder)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_1</span> <span class="o">=</span> <span class="n">ResnetBlock</span><span class="p">(</span>
+            <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">attn_1</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">AttnBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">&quot;mid&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span>
+            <span class="k">else</span> <span class="kc">None</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_2</span> <span class="o">=</span> <span class="n">ResnetBlock</span><span class="p">(</span>
+            <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">in_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span> <span class="n">out_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span> <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span>
+        <span class="p">)</span>
+
+        <span class="c1"># Build upsampling blocks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">up</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">i_level</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span><span class="p">)):</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+            <span class="n">attn</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">ModuleList</span><span class="p">()</span>
+            <span class="n">block_out</span> <span class="o">=</span> <span class="n">channels</span> <span class="o">*</span> <span class="n">channels_mult</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span>
+
+            <span class="c1"># Get blocks for this stage (MAISI uses different counts)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoder_blocks_per_stage</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">stage_blocks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decoder_blocks_per_stage</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">stage_blocks</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_res_blocks</span>
+
+            <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">stage_blocks</span><span class="p">):</span>
+                <span class="n">block</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
+                    <span class="n">ResnetBlock</span><span class="p">(</span>
+                        <span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span>
+                        <span class="n">in_channels</span><span class="o">=</span><span class="n">block_in</span><span class="p">,</span>
+                        <span class="n">out_channels</span><span class="o">=</span><span class="n">block_out</span><span class="p">,</span>
+                        <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">,</span>
+                    <span class="p">)</span>
+                <span class="p">)</span>
+                <span class="n">block_in</span> <span class="o">=</span> <span class="n">block_out</span>
+                <span class="k">if</span> <span class="n">curr_res</span> <span class="ow">in</span> <span class="n">attn_resolutions</span><span class="p">:</span>
+                    <span class="n">attn</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">AttnBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">))</span>
+
+            <span class="n">up</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
+            <span class="n">up</span><span class="o">.</span><span class="n">block</span> <span class="o">=</span> <span class="n">block</span>
+            <span class="n">up</span><span class="o">.</span><span class="n">attn</span> <span class="o">=</span> <span class="n">attn</span>
+            <span class="k">if</span> <span class="n">i_level</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_upsamples</span><span class="p">):</span>
+                <span class="n">up</span><span class="o">.</span><span class="n">upsample</span> <span class="o">=</span> <span class="n">Upsample</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">)</span>
+                <span class="n">curr_res</span> <span class="o">=</span> <span class="n">curr_res</span> <span class="o">*</span> <span class="mi">2</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">up</span><span class="p">)</span>
+
+        <span class="c1"># Output layers</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">norm_out</span> <span class="o">=</span> <span class="n">Normalize</span><span class="p">(</span><span class="n">block_in</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">conv_out</span> <span class="o">=</span> <span class="n">get_conv</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">,</span> <span class="n">out_ch</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply module with optional gradient checkpointing.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_checkpointing</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">checkpoint</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">use_reentrant</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Decoder.forward">
+<a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Decoder.forward">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch z_channels *spatial_compressed&quot;</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode latent representation to output.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            z: Latent tensor</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Reconstructed output tensor</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Note: channels_last conversion removed - it confuses torch.compile</span>
+        <span class="c1"># Use model.to(memory_format=torch.channels_last_3d) at model level instead</span>
+
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_in</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+        <span class="c1"># Middle blocks</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_1</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">attn_1</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">attn_1</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_2</span><span class="p">,</span> <span class="n">h</span><span class="p">)</span>
+
+        <span class="c1"># Progressive upsampling</span>
+        <span class="k">for</span> <span class="n">i_level</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span><span class="p">)):</span>
+            <span class="n">num_blocks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span><span class="o">.</span><span class="n">block</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">i_block</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">num_blocks</span><span class="p">):</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span><span class="o">.</span><span class="n">block</span><span class="p">[</span><span class="n">i_block</span><span class="p">],</span> <span class="n">h</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span><span class="o">.</span><span class="n">attn</span><span class="p">)</span> <span class="o">&gt;</span> <span class="n">i_block</span><span class="p">:</span>
+                    <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span><span class="o">.</span><span class="n">attn</span><span class="p">[</span><span class="n">i_block</span><span class="p">](</span><span class="n">h</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">i_level</span> <span class="o">&gt;=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">num_resolutions</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_upsamples</span><span class="p">):</span>
+                <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">up</span><span class="p">[</span><span class="n">i_level</span><span class="p">]</span><span class="o">.</span><span class="n">upsample</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="c1"># Output</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm_out</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_output_nonlinearity</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">nonlinearity</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv_out</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+
+        <span class="c1"># Apply decompression (if any) then convert to contiguous.</span>
+        <span class="c1"># We convert to contiguous here because this is the FINAL model output</span>
+        <span class="c1"># that users will receive. Unlike the Encoder output (which stays in</span>
+        <span class="c1"># channels_last_3d for the decoder), the Decoder output should be in</span>
+        <span class="c1"># standard contiguous format for user convenience and compatibility.</span>
+        <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decompressor</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span><span class="p">:</span>
+            <span class="n">h</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
+
+        <span class="k">return</span> <span class="n">h</span></div>
+</div>
+
+</pre></div>
+
+           </div>
+          </div>
+          <footer>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>&#169; Copyright 2026, Liam Chalcroft.
+      <span class="lastupdated">Last updated on Aug 07, 2026.
+      </span></p>
+  </div>
+
+  Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    provided by <a href="https://readthedocs.org">Read the Docs</a>.
+   
+
+</footer>
+        </div>
+      </div>
+    </section>
+  </div>
+  <script>
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script> 
+
+</body>
+</html>
