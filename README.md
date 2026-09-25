@@ -235,7 +235,7 @@ community standards.
   author  = {Chalcroft, Liam},
   title   = {{medtokenizers}: Continuous and discrete tokenizers for volumetric medical imaging},
   url     = {https://github.com/liamchalcroft/medtokenizers},
-  version = {0.1.1}
+  version = {0.1.2}
 }
 ```
 
