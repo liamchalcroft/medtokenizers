@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.networks.titok &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.networks.titok &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,7 +446,7 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.networks.titok</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;TiTok tokenizer: 1D latent tokens with ViT encoder/decoder.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""TiTok tokenizer: 1D latent tokens with ViT encoder/decoder."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -466,20 +468,20 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">_to_tuple</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="n">Iterable</span><span class="p">[</span><span class="nb">int</span><span class="p">],</span> <span class="n">dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be &gt; 0, got </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must be &gt; 0, got </span><span class="si">{</span><span class="n">value</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">value</span><span class="p">,)</span> <span class="o">*</span> <span class="n">dim</span>
     <span class="n">items</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">value</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">!=</span> <span class="n">dim</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must have length </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must have length </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">v</span> <span class="o">&lt;=</span> <span class="mi">0</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">items</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must contain positive ints, got </span><span class="si">{</span><span class="n">items</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2"> must contain positive ints, got </span><span class="si">{</span><span class="n">items</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">items</span>
 
 
 <div class="viewcode-block" id="TiTokTokenizer">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.TiTokTokenizer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TiTokTokenizer</span><span class="p">(</span><span class="n">BaseTokenizer</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Transformer-based 1D image tokenizer (TiTok).</span>
+<span class="w">    </span><span class="sd">"""Transformer-based 1D image tokenizer (TiTok).</span>
 
 <span class="sd">    Implements the TiTok idea (Yu et al., 2024) for 2D and 3D medical images:</span>
 <span class="sd">    instead of producing a spatial grid of codes, the image is compressed into a</span>
@@ -540,7 +542,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        - Discrete indices: ``(B, num_tokens)`` (integer dtype).</span>
 <span class="sd">        - Quantized latents: ``(B, num_tokens, embedding_dim)``.</span>
 <span class="sd">        - Reconstruction: ``(B, out_channels, *resolution)``.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="TiTokTokenizer.__init__">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.TiTokTokenizer.__init__">[docs]</a>
@@ -564,30 +566,30 @@ window.runMermaid = runMermaid;</script>
         <span class="n">ema_decay</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.99</span><span class="p">,</span>
         <span class="n">reset_unused_codes</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">dead_code_threshold</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">100</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;TiTokTokenizer&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"TiTokTokenizer"</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">dim</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dim must be 2 or 3, got </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dim must be 2 or 3, got </span><span class="si">{</span><span class="n">dim</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">num_tokens</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;num_tokens must be &gt; 0, got </span><span class="si">{</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"num_tokens must be &gt; 0, got </span><span class="si">{</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">num_embeddings</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;num_embeddings must be &gt; 0, got </span><span class="si">{</span><span class="n">num_embeddings</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"num_embeddings must be &gt; 0, got </span><span class="si">{</span><span class="n">num_embeddings</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">hidden_dim</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;hidden_dim must be &gt; 0, got </span><span class="si">{</span><span class="n">hidden_dim</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"hidden_dim must be &gt; 0, got </span><span class="si">{</span><span class="n">hidden_dim</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">embedding_dim</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">embedding_dim</span> <span class="o">=</span> <span class="n">hidden_dim</span>
         <span class="k">if</span> <span class="n">embedding_dim</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;embedding_dim must be &gt; 0, got </span><span class="si">{</span><span class="n">embedding_dim</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"embedding_dim must be &gt; 0, got </span><span class="si">{</span><span class="n">embedding_dim</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">hidden_dim</span> <span class="o">%</span> <span class="n">num_heads</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;hidden_dim must be divisible by num_heads &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;(got hidden_dim=</span><span class="si">{</span><span class="n">hidden_dim</span><span class="si">}</span><span class="s2">, num_heads=</span><span class="si">{</span><span class="n">num_heads</span><span class="si">}</span><span class="s2">).&quot;</span>
+                <span class="s2">"hidden_dim must be divisible by num_heads "</span>
+                <span class="sa">f</span><span class="s2">"(got hidden_dim=</span><span class="si">{</span><span class="n">hidden_dim</span><span class="si">}</span><span class="s2">, num_heads=</span><span class="si">{</span><span class="n">num_heads</span><span class="si">}</span><span class="s2">)."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">dropout</span> <span class="o">&lt;</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">dropout</span> <span class="o">&gt;=</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dropout must be in [0, 1), got </span><span class="si">{</span><span class="n">dropout</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dropout must be in [0, 1), got </span><span class="si">{</span><span class="n">dropout</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">beta</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;beta must be &gt;= 0, got </span><span class="si">{</span><span class="n">beta</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"beta must be &gt;= 0, got </span><span class="si">{</span><span class="n">beta</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">in_channels</span> <span class="o">=</span> <span class="n">in_channels</span>
@@ -596,8 +598,8 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_embeddings</span> <span class="o">=</span> <span class="n">num_embeddings</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span> <span class="o">=</span> <span class="n">embedding_dim</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">hidden_dim</span> <span class="o">=</span> <span class="n">hidden_dim</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="n">_to_tuple</span><span class="p">(</span><span class="n">patch_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="s2">&quot;patch_size&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span> <span class="o">=</span> <span class="n">_to_tuple</span><span class="p">(</span><span class="n">resolution</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="s2">&quot;resolution&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="n">_to_tuple</span><span class="p">(</span><span class="n">patch_size</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="s2">"patch_size"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span> <span class="o">=</span> <span class="n">_to_tuple</span><span class="p">(</span><span class="n">resolution</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="s2">"resolution"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">beta</span> <span class="o">=</span> <span class="n">beta</span>
 
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span>
@@ -608,8 +610,8 @@ window.runMermaid = runMermaid;</script>
             <span class="p">)</span>
         <span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;resolution must be divisible by patch_size. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Got resolution=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="si">}</span><span class="s2">, patch_size=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="s2">"resolution must be divisible by patch_size. "</span>
+                <span class="sa">f</span><span class="s2">"Got resolution=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="si">}</span><span class="s2">, patch_size=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">patch_grid</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span>
@@ -638,7 +640,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">nhead</span><span class="o">=</span><span class="n">num_heads</span><span class="p">,</span>
             <span class="n">dim_feedforward</span><span class="o">=</span><span class="n">hidden_dim</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
             <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">,</span>
-            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;gelu&quot;</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">"gelu"</span><span class="p">,</span>
             <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">TransformerEncoder</span><span class="p">(</span><span class="n">encoder_layer</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="n">num_layers</span><span class="p">)</span>
@@ -663,7 +665,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">nhead</span><span class="o">=</span><span class="n">num_heads</span><span class="p">,</span>
             <span class="n">dim_feedforward</span><span class="o">=</span><span class="n">hidden_dim</span> <span class="o">*</span> <span class="mi">4</span><span class="p">,</span>
             <span class="n">dropout</span><span class="o">=</span><span class="n">dropout</span><span class="p">,</span>
-            <span class="n">activation</span><span class="o">=</span><span class="s2">&quot;gelu&quot;</span><span class="p">,</span>
+            <span class="n">activation</span><span class="o">=</span><span class="s2">"gelu"</span><span class="p">,</span>
             <span class="n">batch_first</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">decoder</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">TransformerEncoder</span><span class="p">(</span><span class="n">decoder_layer</span><span class="p">,</span> <span class="n">num_layers</span><span class="o">=</span><span class="n">num_layers</span><span class="p">)</span>
@@ -671,42 +673,42 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">dropout</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Dropout</span><span class="p">(</span><span class="n">dropout</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;dim&quot;</span><span class="p">:</span> <span class="n">dim</span><span class="p">,</span>
-            <span class="s2">&quot;in_channels&quot;</span><span class="p">:</span> <span class="n">in_channels</span><span class="p">,</span>
-            <span class="s2">&quot;out_channels&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span><span class="p">,</span>
-            <span class="s2">&quot;num_tokens&quot;</span><span class="p">:</span> <span class="n">num_tokens</span><span class="p">,</span>
-            <span class="s2">&quot;num_embeddings&quot;</span><span class="p">:</span> <span class="n">num_embeddings</span><span class="p">,</span>
-            <span class="s2">&quot;embedding_dim&quot;</span><span class="p">:</span> <span class="n">embedding_dim</span><span class="p">,</span>
-            <span class="s2">&quot;hidden_dim&quot;</span><span class="p">:</span> <span class="n">hidden_dim</span><span class="p">,</span>
-            <span class="s2">&quot;num_heads&quot;</span><span class="p">:</span> <span class="n">num_heads</span><span class="p">,</span>
-            <span class="s2">&quot;num_layers&quot;</span><span class="p">:</span> <span class="n">num_layers</span><span class="p">,</span>
-            <span class="s2">&quot;patch_size&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">),</span>
-            <span class="s2">&quot;resolution&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">),</span>
-            <span class="s2">&quot;dropout&quot;</span><span class="p">:</span> <span class="n">dropout</span><span class="p">,</span>
-            <span class="s2">&quot;beta&quot;</span><span class="p">:</span> <span class="n">beta</span><span class="p">,</span>
-            <span class="s2">&quot;use_norm&quot;</span><span class="p">:</span> <span class="n">use_norm</span><span class="p">,</span>
-            <span class="s2">&quot;use_ema&quot;</span><span class="p">:</span> <span class="n">use_ema</span><span class="p">,</span>
-            <span class="s2">&quot;ema_decay&quot;</span><span class="p">:</span> <span class="n">ema_decay</span><span class="p">,</span>
-            <span class="s2">&quot;reset_unused_codes&quot;</span><span class="p">:</span> <span class="n">reset_unused_codes</span><span class="p">,</span>
-            <span class="s2">&quot;dead_code_threshold&quot;</span><span class="p">:</span> <span class="n">dead_code_threshold</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">"dim"</span><span class="p">:</span> <span class="n">dim</span><span class="p">,</span>
+            <span class="s2">"in_channels"</span><span class="p">:</span> <span class="n">in_channels</span><span class="p">,</span>
+            <span class="s2">"out_channels"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">out_channels</span><span class="p">,</span>
+            <span class="s2">"num_tokens"</span><span class="p">:</span> <span class="n">num_tokens</span><span class="p">,</span>
+            <span class="s2">"num_embeddings"</span><span class="p">:</span> <span class="n">num_embeddings</span><span class="p">,</span>
+            <span class="s2">"embedding_dim"</span><span class="p">:</span> <span class="n">embedding_dim</span><span class="p">,</span>
+            <span class="s2">"hidden_dim"</span><span class="p">:</span> <span class="n">hidden_dim</span><span class="p">,</span>
+            <span class="s2">"num_heads"</span><span class="p">:</span> <span class="n">num_heads</span><span class="p">,</span>
+            <span class="s2">"num_layers"</span><span class="p">:</span> <span class="n">num_layers</span><span class="p">,</span>
+            <span class="s2">"patch_size"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">),</span>
+            <span class="s2">"resolution"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">),</span>
+            <span class="s2">"dropout"</span><span class="p">:</span> <span class="n">dropout</span><span class="p">,</span>
+            <span class="s2">"beta"</span><span class="p">:</span> <span class="n">beta</span><span class="p">,</span>
+            <span class="s2">"use_norm"</span><span class="p">:</span> <span class="n">use_norm</span><span class="p">,</span>
+            <span class="s2">"use_ema"</span><span class="p">:</span> <span class="n">use_ema</span><span class="p">,</span>
+            <span class="s2">"ema_decay"</span><span class="p">:</span> <span class="n">ema_decay</span><span class="p">,</span>
+            <span class="s2">"reset_unused_codes"</span><span class="p">:</span> <span class="n">reset_unused_codes</span><span class="p">,</span>
+            <span class="s2">"dead_code_threshold"</span><span class="p">:</span> <span class="n">dead_code_threshold</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
         <span class="p">}</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_validate_resolution</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Raise if the input spatial size differs from ``self.resolution``.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Raise if the input spatial size differs from ``self.resolution``."""</span>
         <span class="k">if</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Input spatial size does not match configured resolution. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="s2">"Input spatial size does not match configured resolution. "</span>
+                <span class="sa">f</span><span class="s2">"Expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="si">}</span><span class="s2">, got </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_patchify</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch num_patches patch_dim&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Split the image into a flat sequence of flattened patches.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch num_patches patch_dim"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Split the image into a flat sequence of flattened patches."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
             <span class="n">p_h</span><span class="p">,</span> <span class="n">p_w</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span>
@@ -723,12 +725,12 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">patches</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">g_h</span> <span class="o">*</span> <span class="n">g_w</span> <span class="o">*</span> <span class="n">g_d</span><span class="p">,</span> <span class="n">c</span> <span class="o">*</span> <span class="n">p_h</span> <span class="o">*</span> <span class="n">p_w</span> <span class="o">*</span> <span class="n">p_d</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_unpatchify</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">patches</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch num_patches output_patch_dim&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reassemble decoded patch vectors back into an image (inverse of patchify).&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">patches</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch num_patches output_patch_dim"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Reassemble decoded patch vectors back into an image (inverse of patchify)."""</span>
         <span class="k">if</span> <span class="n">patches</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_patches</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_patches</span><span class="si">}</span><span class="s2"> patches, got </span><span class="si">{</span><span class="n">patches</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"Expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_patches</span><span class="si">}</span><span class="s2"> patches, got </span><span class="si">{</span><span class="n">patches</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">b</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">shape</span>
@@ -748,13 +750,13 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TiTokTokenizer.encode">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.TiTokTokenizer.encode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span>
-        <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch num_tokens&quot;</span><span class="p">],</span>
-        <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch num_tokens embedding_dim&quot;</span><span class="p">],</span>
+        <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch num_tokens"</span><span class="p">],</span>
+        <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch num_tokens embedding_dim"</span><span class="p">],</span>
         <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
     <span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode an image into discrete 1D latent tokens.</span>
+<span class="w">        </span><span class="sd">"""Encode an image into discrete 1D latent tokens.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x: Input image of shape ``(B, in_channels, *resolution)``.</span>
@@ -764,8 +766,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            shape ``(B, num_tokens)`` (integer dtype), ``quantized`` has shape</span>
 <span class="sd">            ``(B, num_tokens, embedding_dim)``, and ``quant_loss`` is the</span>
 <span class="sd">            quantizer commitment/codebook loss.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">validate_tensor_input</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_channels</span><span class="p">,</span> <span class="s2">&quot;encode&quot;</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="n">validate_tensor_input</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">in_channels</span><span class="p">,</span> <span class="s2">"encode"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_validate_resolution</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
         <span class="n">patches</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_patchify</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -790,38 +792,38 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TiTokTokenizer.indices_to_codes">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.TiTokTokenizer.indices_to_codes">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">indices_to_codes</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch num_tokens&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch num_tokens embedding_dim&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Look up quantized code vectors for a batch of token indices.</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch num_tokens"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch num_tokens embedding_dim"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Look up quantized code vectors for a batch of token indices.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            indices: Integer indices of shape ``(B, num_tokens)``.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Quantized code vectors of shape ``(B, num_tokens, embedding_dim)``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;indices_to_codes expects torch.Tensor, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"indices_to_codes expects torch.Tensor, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">indices</span><span class="o">.</span><span class="n">is_floating_point</span><span class="p">()</span> <span class="ow">or</span> <span class="n">indices</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;indices_to_codes expects integer indices tensor, got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"indices_to_codes expects integer indices tensor, got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">indices</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;indices_to_codes expects (B, num_tokens), got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"indices_to_codes expects (B, num_tokens), got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;indices_to_codes expects num_tokens=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"indices_to_codes expects num_tokens=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">, "</span>
+                <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="n">codes</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">quantizer</span><span class="o">.</span><span class="n">indices_to_codes</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">codes</span><span class="o">.</span><span class="n">shape</span> <span class="o">!=</span> <span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;indices_to_codes returned unexpected shape &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">codes</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> for num_tokens=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="s2">"indices_to_codes returned unexpected shape "</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">codes</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2"> for num_tokens=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">codes</span></div>
 
@@ -829,9 +831,9 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TiTokTokenizer.decode">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.TiTokTokenizer.decode">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">decode</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">quantized</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch num_tokens embedding_dim&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode quantized 1D latent tokens back into an image.</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">quantized</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch num_tokens embedding_dim"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Decode quantized 1D latent tokens back into an image.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            quantized: Quantized code vectors of shape</span>
@@ -839,28 +841,28 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Reconstructed image of shape ``(B, out_channels, *resolution)``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">quantized</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;decode expects torch.Tensor, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">quantized</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"decode expects torch.Tensor, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">quantized</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">quantized</span><span class="o">.</span><span class="n">is_floating_point</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;decode expects floating point tensor, got </span><span class="si">{</span><span class="n">quantized</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"decode expects floating point tensor, got </span><span class="si">{</span><span class="n">quantized</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">quantized</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;decode expects (B, num_tokens, embedding_dim), got </span><span class="si">{</span><span class="n">quantized</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"decode expects (B, num_tokens, embedding_dim), got </span><span class="si">{</span><span class="n">quantized</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">quantized</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;decode expects num_tokens=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">quantized</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"decode expects num_tokens=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">, "</span>
+                <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="n">quantized</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">quantized</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;decode expects embedding_dim=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">quantized</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"decode expects embedding_dim=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">embedding_dim</span><span class="si">}</span><span class="s2">, "</span>
+                <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="n">quantized</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="n">latent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">from_quant</span><span class="p">(</span><span class="n">quantized</span><span class="p">)</span>
@@ -880,9 +882,9 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TiTokTokenizer.forward">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.TiTokTokenizer.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">|</span> <span class="n">NetworkEval</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode then decode ``x``, returning training or eval outputs.</span>
+<span class="w">        </span><span class="sd">"""Encode then decode ``x``, returning training or eval outputs.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x: Input image of shape ``(B, in_channels, *resolution)``.</span>
@@ -891,16 +893,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            In training mode, a dict with ``reconstructions``, ``quant_loss``,</span>
 <span class="sd">            ``quant_info`` (indices) and ``latents`` (quantized). In eval mode, a</span>
 <span class="sd">            :class:`NetworkEval` named tuple.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">indices</span><span class="p">,</span> <span class="n">quantized</span><span class="p">,</span> <span class="n">quant_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">reconstructions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">quantized</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span>
-                <span class="s2">&quot;reconstructions&quot;</span><span class="p">:</span> <span class="n">reconstructions</span><span class="p">,</span>
-                <span class="s2">&quot;quant_loss&quot;</span><span class="p">:</span> <span class="n">quant_loss</span><span class="p">,</span>
-                <span class="s2">&quot;quant_info&quot;</span><span class="p">:</span> <span class="n">indices</span><span class="p">,</span>
-                <span class="s2">&quot;latents&quot;</span><span class="p">:</span> <span class="n">quantized</span><span class="p">,</span>
+                <span class="s2">"reconstructions"</span><span class="p">:</span> <span class="n">reconstructions</span><span class="p">,</span>
+                <span class="s2">"quant_loss"</span><span class="p">:</span> <span class="n">quant_loss</span><span class="p">,</span>
+                <span class="s2">"quant_info"</span><span class="p">:</span> <span class="n">indices</span><span class="p">,</span>
+                <span class="s2">"latents"</span><span class="p">:</span> <span class="n">quantized</span><span class="p">,</span>
             <span class="p">}</span>
 
         <span class="k">return</span> <span class="n">NetworkEval</span><span class="p">(</span>
@@ -913,18 +915,18 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TiTokTokenizer.tokenize">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.TiTokTokenizer.tokenize">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">tokenize</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch num_tokens&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode ``x`` to discrete token indices of shape ``(B, num_tokens)``.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch num_tokens"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Encode ``x`` to discrete token indices of shape ``(B, num_tokens)``."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="n">x</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span></div>
 
 
 <div class="viewcode-block" id="TiTokTokenizer.detokenize">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.TiTokTokenizer.detokenize">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">detokenize</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch num_tokens&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode discrete token indices back into an image.</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">Int</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch num_tokens"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Decode discrete token indices back into an image.</span>
 
 <span class="sd">        Inverse of :meth:`tokenize`. This is the canonical</span>
 <span class="sd">        index-to-reconstruction decoding path.</span>
@@ -934,22 +936,22 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Reconstructed image of shape ``(B, out_channels, *resolution)``.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">indices</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;detokenize expects (B, num_tokens), got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"detokenize expects (B, num_tokens), got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">if</span> <span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;detokenize expects num_tokens=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"detokenize expects num_tokens=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">num_tokens</span><span class="si">}</span><span class="s2">, "</span>
+                <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indices_to_codes</span><span class="p">(</span><span class="n">indices</span><span class="p">))</span></div>
 </div>
 
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;TiTokTokenizer&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"TiTokTokenizer"</span><span class="p">]</span>
 </pre></div>
 
            </div>
@@ -960,7 +962,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.evaluation.evaluator &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.evaluation.evaluator &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,7 +446,7 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.evaluation.evaluator</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Evaluator class for tokenizer evaluation.</span>
+<span></span><span class="sd">"""Evaluator class for tokenizer evaluation.</span>
 
 <span class="sd">Provides a high-level interface for evaluating trained tokenizers on test</span>
 <span class="sd">datasets, computing reconstruction metrics (PSNR, SSIM, LPIPS), compression</span>
@@ -456,16 +458,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">&gt;&gt;&gt; from medtokenizers.networks import ContinuousTokenizer</span>
 <span class="sd">&gt;&gt;&gt;</span>
 <span class="sd">&gt;&gt;&gt; # Load model and create evaluator</span>
-<span class="sd">&gt;&gt;&gt; model = ContinuousTokenizer.from_pretrained(&quot;./my-vae&quot;)</span>
-<span class="sd">&gt;&gt;&gt; evaluator = TokenizerEvaluator(model, device=&#39;cuda&#39;)</span>
+<span class="sd">&gt;&gt;&gt; model = ContinuousTokenizer.from_pretrained("./my-vae")</span>
+<span class="sd">&gt;&gt;&gt; evaluator = TokenizerEvaluator(model, device='cuda')</span>
 <span class="sd">&gt;&gt;&gt;</span>
 <span class="sd">&gt;&gt;&gt; # Evaluate on test data</span>
 <span class="sd">&gt;&gt;&gt; results = evaluator.evaluate(test_loader)</span>
 <span class="sd">&gt;&gt;&gt; evaluator.print_results(results)</span>
 <span class="sd">&gt;&gt;&gt;</span>
 <span class="sd">&gt;&gt;&gt; # Save for later analysis</span>
-<span class="sd">&gt;&gt;&gt; TokenizerEvaluator.save_results(results, &quot;./eval_results.json&quot;)</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">&gt;&gt;&gt; TokenizerEvaluator.save_results(results, "./eval_results.json")</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -497,7 +499,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TokenizerEvaluator">
 <a class="viewcode-back" href="../../../api/evaluation.html#medtokenizers.TokenizerEvaluator">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">TokenizerEvaluator</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Comprehensive evaluator for medical image tokenizers.</span>
+<span class="w">    </span><span class="sd">"""Comprehensive evaluator for medical image tokenizers.</span>
 
 <span class="sd">    This class provides a high-level interface for evaluating tokenizers on</span>
 <span class="sd">    test datasets with detailed metrics and reporting. It handles both</span>
@@ -519,7 +521,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Args:</span>
 <span class="sd">        model: Trained tokenizer model (ContinuousTokenizer or DiscreteTokenizer)</span>
-<span class="sd">        device: Device for evaluation (&#39;cuda&#39;, &#39;cpu&#39;, or specific GPU like &#39;cuda:0&#39;)</span>
+<span class="sd">        device: Device for evaluation ('cuda', 'cpu', or specific GPU like 'cuda:0')</span>
 <span class="sd">                Auto-detects if None.</span>
 <span class="sd">        data_range: Maximum pixel value in images (default: 1.0 for normalized data)</span>
 <span class="sd">        compute_lpips: Whether to compute LPIPS metric. Requires lpips package</span>
@@ -527,17 +529,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        use_amp: Whether to use automatic mixed precision for faster evaluation.</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; model = DiscreteTokenizer.from_pretrained(&quot;./my-vqvae&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; evaluator = TokenizerEvaluator(model, device=&#39;cuda&#39;, compute_lpips=True)</span>
+<span class="sd">        &gt;&gt;&gt; model = DiscreteTokenizer.from_pretrained("./my-vqvae")</span>
+<span class="sd">        &gt;&gt;&gt; evaluator = TokenizerEvaluator(model, device='cuda', compute_lpips=True)</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; # Full dataset evaluation</span>
 <span class="sd">        &gt;&gt;&gt; results = evaluator.evaluate(test_loader)</span>
-<span class="sd">        &gt;&gt;&gt; print(f&quot;PSNR: {results[&#39;avg_metrics&#39;].psnr:.2f} dB&quot;)</span>
-<span class="sd">        &gt;&gt;&gt; print(f&quot;SSIM: {results[&#39;avg_metrics&#39;].ssim:.4f}&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; print(f"PSNR: {results['avg_metrics'].psnr:.2f} dB")</span>
+<span class="sd">        &gt;&gt;&gt; print(f"SSIM: {results['avg_metrics'].ssim:.4f}")</span>
 <span class="sd">        &gt;&gt;&gt;</span>
 <span class="sd">        &gt;&gt;&gt; # Quick sanity check on subset</span>
 <span class="sd">        &gt;&gt;&gt; quick_results = evaluator.evaluate(test_loader, num_samples=100)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="TokenizerEvaluator.__init__">
 <a class="viewcode-back" href="../../../api/evaluation.html#medtokenizers.TokenizerEvaluator.__init__">[docs]</a>
@@ -550,7 +552,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">use_amp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">=</span> <span class="n">device</span> <span class="ow">or</span> <span class="p">(</span><span class="s2">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
 
@@ -568,22 +570,22 @@ window.runMermaid = runMermaid;</script>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_get_codebook_size</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract codebook size from discrete tokenizer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Extract codebook size from discrete tokenizer."""</span>
         <span class="n">quantizer</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">quantizer</span>
 
-        <span class="n">num_embeddings</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="s2">&quot;num_embeddings&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">num_embeddings</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="s2">"num_embeddings"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">num_embeddings</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">num_embeddings</span><span class="p">)</span>
 
-        <span class="n">codebook_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="s2">&quot;codebook_size&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">codebook_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="s2">"codebook_size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">codebook_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">codebook_size</span><span class="p">)</span>
 
-        <span class="n">get_codebook_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="s2">&quot;get_codebook_size&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">get_codebook_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="s2">"get_codebook_size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">callable</span><span class="p">(</span><span class="n">get_codebook_size</span><span class="p">):</span>
             <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">get_codebook_size</span><span class="p">())</span>
 
-        <span class="n">levels</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="s2">&quot;levels&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="n">levels</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">quantizer</span><span class="p">,</span> <span class="s2">"levels"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">levels</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">levels</span><span class="p">))</span>
 
@@ -591,7 +593,7 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@contextmanager</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">_evaluation_context</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Context manager for evaluation mode with optional AMP.</span>
+<span class="w">        </span><span class="sd">"""Context manager for evaluation mode with optional AMP.</span>
 
 <span class="sd">        Configures:</span>
 <span class="sd">        - Model in eval mode</span>
@@ -600,13 +602,13 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Yields:</span>
 <span class="sd">            None</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">was_training</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">training</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
             <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">inference_mode</span><span class="p">():</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_amp</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">!=</span> <span class="s2">&quot;cpu&quot;</span><span class="p">:</span>
-                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">device_type</span><span class="o">=</span><span class="s2">&quot;cuda&quot;</span><span class="p">):</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_amp</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">device</span> <span class="o">!=</span> <span class="s2">"cpu"</span><span class="p">:</span>
+                    <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">autocast</span><span class="p">(</span><span class="n">device_type</span><span class="o">=</span><span class="s2">"cuda"</span><span class="p">):</span>
                         <span class="k">yield</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="k">yield</span>
@@ -619,7 +621,7 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="nf">evaluate_batch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">images</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">mask</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate a single batch of images.</span>
+<span class="w">        </span><span class="sd">"""Evaluate a single batch of images.</span>
 
 <span class="sd">        Processes one batch through the tokenizer and computes all metrics.</span>
 <span class="sd">        Uses inference mode and optional AMP for efficiency.</span>
@@ -630,16 +632,16 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Dictionary containing:</span>
-<span class="sd">            - &#39;metrics&#39;: EvaluationMetrics object with all computed metrics</span>
-<span class="sd">            - &#39;compression_ratio&#39;: Input/latent size ratio</span>
-<span class="sd">            - &#39;reconstructions&#39;: Reconstructed images (on CPU)</span>
-<span class="sd">            - &#39;indices&#39;: Quantization indices (discrete only, on CPU)</span>
+<span class="sd">            - 'metrics': EvaluationMetrics object with all computed metrics</span>
+<span class="sd">            - 'compression_ratio': Input/latent size ratio</span>
+<span class="sd">            - 'reconstructions': Reconstructed images (on CPU)</span>
+<span class="sd">            - 'indices': Quantization indices (discrete only, on CPU)</span>
 
 <span class="sd">        Example:</span>
 <span class="sd">            &gt;&gt;&gt; batch = next(iter(test_loader))</span>
 <span class="sd">            &gt;&gt;&gt; results = evaluator.evaluate_batch(batch)</span>
-<span class="sd">            &gt;&gt;&gt; print(f&quot;Batch PSNR: {results[&#39;metrics&#39;].psnr:.2f}&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            &gt;&gt;&gt; print(f"Batch PSNR: {results['metrics'].psnr:.2f}")</span>
+<span class="sd">        """</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">_evaluation_context</span><span class="p">():</span>
             <span class="c1"># Transfer to device (non-blocking for async)</span>
             <span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">device</span><span class="p">,</span> <span class="n">non_blocking</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -684,10 +686,10 @@ window.runMermaid = runMermaid;</script>
         <span class="n">compression_ratio</span> <span class="o">=</span> <span class="n">compute_compression_ratio</span><span class="p">(</span><span class="n">input_shape</span><span class="p">,</span> <span class="n">latent_shape</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;metrics&quot;</span><span class="p">:</span> <span class="n">metrics</span><span class="p">,</span>
-            <span class="s2">&quot;compression_ratio&quot;</span><span class="p">:</span> <span class="n">compression_ratio</span><span class="p">,</span>
-            <span class="s2">&quot;reconstructions&quot;</span><span class="p">:</span> <span class="n">reconstructions_cpu</span><span class="p">,</span>
-            <span class="s2">&quot;indices&quot;</span><span class="p">:</span> <span class="n">indices_cpu</span><span class="p">,</span>
+            <span class="s2">"metrics"</span><span class="p">:</span> <span class="n">metrics</span><span class="p">,</span>
+            <span class="s2">"compression_ratio"</span><span class="p">:</span> <span class="n">compression_ratio</span><span class="p">,</span>
+            <span class="s2">"reconstructions"</span><span class="p">:</span> <span class="n">reconstructions_cpu</span><span class="p">,</span>
+            <span class="s2">"indices"</span><span class="p">:</span> <span class="n">indices_cpu</span><span class="p">,</span>
         <span class="p">}</span></div>
 
 
@@ -699,7 +701,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">save_reconstructions</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Evaluate model on a complete dataset.</span>
+<span class="w">        </span><span class="sd">"""Evaluate model on a complete dataset.</span>
 
 <span class="sd">        Iterates through the data loader, computing metrics for each batch</span>
 <span class="sd">        and aggregating into summary statistics.</span>
@@ -708,17 +710,17 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            data_loader: DataLoader yielding test batches. Can yield:</span>
 <span class="sd">                        - Tensor: images only</span>
 <span class="sd">                        - Tuple: (images, masks)</span>
-<span class="sd">                        - Dict: {&#39;image&#39;: images, &#39;mask&#39;: masks}</span>
+<span class="sd">                        - Dict: {'image': images, 'mask': masks}</span>
 <span class="sd">            num_samples: Maximum samples to evaluate (None = all)</span>
 <span class="sd">            save_reconstructions: Whether to keep first 10 reconstruction samples</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Dictionary containing:</span>
-<span class="sd">            - &#39;avg_metrics&#39;: Aggregated EvaluationMetrics</span>
-<span class="sd">            - &#39;num_samples&#39;: Total samples evaluated</span>
-<span class="sd">            - &#39;model_config&#39;: Model configuration dict</span>
-<span class="sd">            - &#39;is_discrete&#39;: Whether discrete tokenizer</span>
-<span class="sd">            - &#39;reconstruction_samples&#39;: List of sample dicts (if save_reconstructions)</span>
+<span class="sd">            - 'avg_metrics': Aggregated EvaluationMetrics</span>
+<span class="sd">            - 'num_samples': Total samples evaluated</span>
+<span class="sd">            - 'model_config': Model configuration dict</span>
+<span class="sd">            - 'is_discrete': Whether discrete tokenizer</span>
+<span class="sd">            - 'reconstruction_samples': List of sample dicts (if save_reconstructions)</span>
 
 <span class="sd">        Example:</span>
 <span class="sd">            &gt;&gt;&gt; # Full evaluation</span>
@@ -729,15 +731,15 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            &gt;&gt;&gt;</span>
 <span class="sd">            &gt;&gt;&gt; # With reconstruction samples</span>
 <span class="sd">            &gt;&gt;&gt; results = evaluator.evaluate(test_loader, save_reconstructions=True)</span>
-<span class="sd">            &gt;&gt;&gt; for i, sample in enumerate(results[&#39;reconstruction_samples&#39;]):</span>
-<span class="sd">            ...     visualize(sample[&#39;original&#39;], sample[&#39;reconstruction&#39;])</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            &gt;&gt;&gt; for i, sample in enumerate(results['reconstruction_samples']):</span>
+<span class="sd">            ...     visualize(sample['original'], sample['reconstruction'])</span>
+<span class="sd">        """</span>
         <span class="n">all_metrics</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">EvaluationMetrics</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">compression_ratios</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">reconstruction_samples</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="n">num_processed</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">data_loader</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">&quot;Evaluating&quot;</span><span class="p">)</span>
+        <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span><span class="n">data_loader</span><span class="p">,</span> <span class="n">desc</span><span class="o">=</span><span class="s2">"Evaluating"</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">batch</span> <span class="ow">in</span> <span class="n">pbar</span><span class="p">:</span>
             <span class="c1"># Handle different batch formats</span>
@@ -747,16 +749,16 @@ window.runMermaid = runMermaid;</script>
             <span class="n">batch_results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">evaluate_batch</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
 
             <span class="c1"># Collect metrics</span>
-            <span class="n">all_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch_results</span><span class="p">[</span><span class="s2">&quot;metrics&quot;</span><span class="p">])</span>
-            <span class="n">compression_ratios</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch_results</span><span class="p">[</span><span class="s2">&quot;compression_ratio&quot;</span><span class="p">])</span>
+            <span class="n">all_metrics</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch_results</span><span class="p">[</span><span class="s2">"metrics"</span><span class="p">])</span>
+            <span class="n">compression_ratios</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">batch_results</span><span class="p">[</span><span class="s2">"compression_ratio"</span><span class="p">])</span>
 
             <span class="c1"># Optionally save reconstruction samples</span>
             <span class="k">if</span> <span class="n">save_reconstructions</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">reconstruction_samples</span><span class="p">)</span> <span class="o">&lt;</span> <span class="mi">10</span><span class="p">:</span>
                 <span class="n">reconstruction_samples</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
                     <span class="p">{</span>
-                        <span class="s2">&quot;original&quot;</span><span class="p">:</span> <span class="n">images</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
-                        <span class="s2">&quot;reconstruction&quot;</span><span class="p">:</span> <span class="n">batch_results</span><span class="p">[</span><span class="s2">&quot;reconstructions&quot;</span><span class="p">],</span>
-                        <span class="s2">&quot;indices&quot;</span><span class="p">:</span> <span class="n">batch_results</span><span class="p">[</span><span class="s2">&quot;indices&quot;</span><span class="p">],</span>
+                        <span class="s2">"original"</span><span class="p">:</span> <span class="n">images</span><span class="o">.</span><span class="n">cpu</span><span class="p">(),</span>
+                        <span class="s2">"reconstruction"</span><span class="p">:</span> <span class="n">batch_results</span><span class="p">[</span><span class="s2">"reconstructions"</span><span class="p">],</span>
+                        <span class="s2">"indices"</span><span class="p">:</span> <span class="n">batch_results</span><span class="p">[</span><span class="s2">"indices"</span><span class="p">],</span>
                     <span class="p">}</span>
                 <span class="p">)</span>
 
@@ -764,8 +766,8 @@ window.runMermaid = runMermaid;</script>
             <span class="n">num_processed</span> <span class="o">+=</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
             <span class="n">pbar</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">(</span>
                 <span class="p">{</span>
-                    <span class="s2">&quot;PSNR&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">batch_results</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">psnr</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-                    <span class="s2">&quot;SSIM&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">batch_results</span><span class="p">[</span><span class="s1">&#39;metrics&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">ssim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="s2">"PSNR"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">batch_results</span><span class="p">[</span><span class="s1">'metrics'</span><span class="p">]</span><span class="o">.</span><span class="n">psnr</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+                    <span class="s2">"SSIM"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">batch_results</span><span class="p">[</span><span class="s1">'metrics'</span><span class="p">]</span><span class="o">.</span><span class="n">ssim</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
                 <span class="p">}</span>
             <span class="p">)</span>
 
@@ -778,14 +780,14 @@ window.runMermaid = runMermaid;</script>
         <span class="n">avg_metrics</span><span class="o">.</span><span class="n">compression_ratio</span> <span class="o">=</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">compression_ratios</span><span class="p">))</span>
 
         <span class="n">results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;avg_metrics&quot;</span><span class="p">:</span> <span class="n">avg_metrics</span><span class="p">,</span>
-            <span class="s2">&quot;num_samples&quot;</span><span class="p">:</span> <span class="n">num_processed</span><span class="p">,</span>
-            <span class="s2">&quot;model_config&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
-            <span class="s2">&quot;is_discrete&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_discrete</span><span class="p">,</span>
+            <span class="s2">"avg_metrics"</span><span class="p">:</span> <span class="n">avg_metrics</span><span class="p">,</span>
+            <span class="s2">"num_samples"</span><span class="p">:</span> <span class="n">num_processed</span><span class="p">,</span>
+            <span class="s2">"model_config"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">config</span><span class="p">,</span>
+            <span class="s2">"is_discrete"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_discrete</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="k">if</span> <span class="n">save_reconstructions</span><span class="p">:</span>
-            <span class="n">results</span><span class="p">[</span><span class="s2">&quot;reconstruction_samples&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">reconstruction_samples</span>
+            <span class="n">results</span><span class="p">[</span><span class="s2">"reconstruction_samples"</span><span class="p">]</span> <span class="o">=</span> <span class="n">reconstruction_samples</span>
 
         <span class="k">return</span> <span class="n">results</span></div>
 
@@ -793,22 +795,22 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="nf">_unpack_batch</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="nb">tuple</span> <span class="o">|</span> <span class="nb">dict</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract images and optional mask from batch.</span>
+<span class="w">        </span><span class="sd">"""Extract images and optional mask from batch.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            batch: Batch in various formats</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple of (images, mask or None)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">batch</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span> <span class="ow">or</span> <span class="n">batch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;images&quot;</span><span class="p">)</span>
+            <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"image"</span><span class="p">)</span> <span class="ow">or</span> <span class="n">batch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"images"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">images</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Dict batch must contain &#39;image&#39; or &#39;images&#39; key&quot;</span><span class="p">)</span>
-            <span class="n">mask</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mask&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Dict batch must contain 'image' or 'images' key"</span><span class="p">)</span>
+            <span class="n">mask</span> <span class="o">=</span> <span class="n">batch</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"mask"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span>
             <span class="n">mask</span> <span class="o">=</span> <span class="kc">None</span>
@@ -817,7 +819,7 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="nf">_aggregate_metrics</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">metrics_list</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">EvaluationMetrics</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluationMetrics</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Aggregate metrics from multiple batches.</span>
+<span class="w">        </span><span class="sd">"""Aggregate metrics from multiple batches.</span>
 
 <span class="sd">        Computes mean of each metric across all batches, handling</span>
 <span class="sd">        None values appropriately.</span>
@@ -827,7 +829,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Single EvaluationMetrics with aggregated values</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">metric_dict</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">for</span> <span class="n">metric_name</span> <span class="ow">in</span> <span class="n">metrics_list</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
@@ -849,7 +851,7 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_results</span><span class="p">(</span>
         <span class="n">results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">],</span> <span class="n">save_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span> <span class="n">save_samples</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save evaluation results to disk.</span>
+<span class="w">        </span><span class="sd">"""Save evaluation results to disk.</span>
 
 <span class="sd">        Saves metrics as JSON for easy parsing. Optionally saves</span>
 <span class="sd">        reconstruction samples as compressed numpy archive.</span>
@@ -861,46 +863,46 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Example:</span>
 <span class="sd">            &gt;&gt;&gt; results = evaluator.evaluate(test_loader)</span>
-<span class="sd">            &gt;&gt;&gt; TokenizerEvaluator.save_results(results, &quot;./results.json&quot;)</span>
+<span class="sd">            &gt;&gt;&gt; TokenizerEvaluator.save_results(results, "./results.json")</span>
 <span class="sd">            &gt;&gt;&gt; # Creates: ./results.json and optionally ./results.npz</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">save_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
         <span class="n">save_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># Prepare JSON-serializable results</span>
         <span class="n">json_results</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;avg_metrics&quot;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;avg_metrics&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
-            <span class="s2">&quot;num_samples&quot;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;num_samples&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;model_config&quot;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;model_config&quot;</span><span class="p">],</span>
-            <span class="s2">&quot;is_discrete&quot;</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;is_discrete&quot;</span><span class="p">],</span>
+            <span class="s2">"avg_metrics"</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">"avg_metrics"</span><span class="p">]</span><span class="o">.</span><span class="n">to_dict</span><span class="p">(),</span>
+            <span class="s2">"num_samples"</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">"num_samples"</span><span class="p">],</span>
+            <span class="s2">"model_config"</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">"model_config"</span><span class="p">],</span>
+            <span class="s2">"is_discrete"</span><span class="p">:</span> <span class="n">results</span><span class="p">[</span><span class="s2">"is_discrete"</span><span class="p">],</span>
         <span class="p">}</span>
 
         <span class="c1"># Save JSON</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">save_path</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">json_results</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Results saved to </span><span class="si">{</span><span class="n">save_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Results saved to </span><span class="si">{</span><span class="n">save_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="c1"># Save reconstruction samples if requested</span>
-        <span class="k">if</span> <span class="n">save_samples</span> <span class="ow">and</span> <span class="s2">&quot;reconstruction_samples&quot;</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
-            <span class="n">samples_path</span> <span class="o">=</span> <span class="n">save_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.npz&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">save_samples</span> <span class="ow">and</span> <span class="s2">"reconstruction_samples"</span> <span class="ow">in</span> <span class="n">results</span><span class="p">:</span>
+            <span class="n">samples_path</span> <span class="o">=</span> <span class="n">save_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".npz"</span><span class="p">)</span>
             <span class="n">samples_data</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
-            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;reconstruction_samples&quot;</span><span class="p">]):</span>
-                <span class="n">samples_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;original_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="s2">&quot;original&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-                <span class="n">samples_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;reconstruction_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="s2">&quot;reconstruction&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">sample</span><span class="p">[</span><span class="s2">&quot;indices&quot;</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">samples_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;indices_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="s2">&quot;indices&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">sample</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">"reconstruction_samples"</span><span class="p">]):</span>
+                <span class="n">samples_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">"original_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="s2">"original"</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+                <span class="n">samples_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">"reconstruction_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="s2">"reconstruction"</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">sample</span><span class="p">[</span><span class="s2">"indices"</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">samples_data</span><span class="p">[</span><span class="sa">f</span><span class="s2">"indices_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">"</span><span class="p">]</span> <span class="o">=</span> <span class="n">sample</span><span class="p">[</span><span class="s2">"indices"</span><span class="p">]</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 
             <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span><span class="n">samples_path</span><span class="p">,</span> <span class="o">**</span><span class="n">samples_data</span><span class="p">)</span>
-            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Reconstruction samples saved to </span><span class="si">{</span><span class="n">samples_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Reconstruction samples saved to </span><span class="si">{</span><span class="n">samples_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="TokenizerEvaluator.load_results">
 <a class="viewcode-back" href="../../../api/evaluation.html#medtokenizers.TokenizerEvaluator.load_results">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_results</span><span class="p">(</span><span class="n">load_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load evaluation results from disk.</span>
+<span class="w">        </span><span class="sd">"""Load evaluation results from disk.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            load_path: Path to results JSON file</span>
@@ -909,16 +911,16 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            Results dictionary with EvaluationMetrics object</span>
 
 <span class="sd">        Example:</span>
-<span class="sd">            &gt;&gt;&gt; results = TokenizerEvaluator.load_results(&quot;./results.json&quot;)</span>
-<span class="sd">            &gt;&gt;&gt; print(f&quot;Loaded results: PSNR={results[&#39;avg_metrics&#39;].psnr:.2f}&quot;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            &gt;&gt;&gt; results = TokenizerEvaluator.load_results("./results.json")</span>
+<span class="sd">            &gt;&gt;&gt; print(f"Loaded results: PSNR={results['avg_metrics'].psnr:.2f}")</span>
+<span class="sd">        """</span>
         <span class="n">load_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">load_path</span><span class="p">)</span>
 
         <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">load_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">json_results</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
         <span class="c1"># Convert metrics dict back to EvaluationMetrics object</span>
-        <span class="n">json_results</span><span class="p">[</span><span class="s2">&quot;avg_metrics&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">EvaluationMetrics</span><span class="p">(</span><span class="o">**</span><span class="n">json_results</span><span class="p">[</span><span class="s2">&quot;avg_metrics&quot;</span><span class="p">])</span>
+        <span class="n">json_results</span><span class="p">[</span><span class="s2">"avg_metrics"</span><span class="p">]</span> <span class="o">=</span> <span class="n">EvaluationMetrics</span><span class="p">(</span><span class="o">**</span><span class="n">json_results</span><span class="p">[</span><span class="s2">"avg_metrics"</span><span class="p">])</span>
 
         <span class="k">return</span> <span class="n">json_results</span></div>
 
@@ -926,7 +928,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="TokenizerEvaluator.print_results">
 <a class="viewcode-back" href="../../../api/evaluation.html#medtokenizers.TokenizerEvaluator.print_results">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">print_results</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pretty print evaluation results to console.</span>
+<span class="w">        </span><span class="sd">"""Pretty print evaluation results to console.</span>
 
 <span class="sd">        Displays a formatted summary of evaluation metrics and model info.</span>
 
@@ -937,23 +939,23 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            &gt;&gt;&gt; results = evaluator.evaluate(test_loader)</span>
 <span class="sd">            &gt;&gt;&gt; evaluator.print_results(results)</span>
 <span class="sd">            # Prints formatted table of metrics</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;EVALUATION RESULTS&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;model_config&#39;</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">&#39;name&#39;</span><span class="p">,</span><span class="w"> </span><span class="s1">&#39;Unknown&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="n">model_type</span> <span class="o">=</span> <span class="s2">&quot;Discrete&quot;</span> <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s2">&quot;is_discrete&quot;</span><span class="p">]</span> <span class="k">else</span> <span class="s2">&quot;Continuous&quot;</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Type: </span><span class="si">{</span><span class="n">model_type</span><span class="si">}</span><span class="s2"> Tokenizer&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Samples evaluated: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">&#39;num_samples&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
-        <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">&quot;avg_metrics&quot;</span><span class="p">])</span>
-        <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"EVALUATION RESULTS"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">'model_config'</span><span class="p">]</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s1">'name'</span><span class="p">,</span><span class="w"> </span><span class="s1">'Unknown'</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">model_type</span> <span class="o">=</span> <span class="s2">"Discrete"</span> <span class="k">if</span> <span class="n">results</span><span class="p">[</span><span class="s2">"is_discrete"</span><span class="p">]</span> <span class="k">else</span> <span class="s2">"Continuous"</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Type: </span><span class="si">{</span><span class="n">model_type</span><span class="si">}</span><span class="s2"> Tokenizer"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Samples evaluated: </span><span class="si">{</span><span class="n">results</span><span class="p">[</span><span class="s1">'num_samples'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">results</span><span class="p">[</span><span class="s2">"avg_metrics"</span><span class="p">])</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s2">"="</span> <span class="o">*</span> <span class="mi">60</span><span class="p">)</span></div>
 </div>
 
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SimpleDataset</span><span class="p">(</span><span class="n">Dataset</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Simple dataset wrapper for evaluation from tensors/arrays.</span>
+<span class="w">    </span><span class="sd">"""Simple dataset wrapper for evaluation from tensors/arrays.</span>
 
 <span class="sd">    Convenient wrapper when you have images already loaded in memory</span>
 <span class="sd">    and want to evaluate with TokenizerEvaluator.</span>
@@ -972,7 +974,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; # From torch tensors</span>
 <span class="sd">        &gt;&gt;&gt; images = torch.randn(100, 1, 64, 64, 64)</span>
 <span class="sd">        &gt;&gt;&gt; dataset = SimpleDataset(images)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -1008,7 +1010,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

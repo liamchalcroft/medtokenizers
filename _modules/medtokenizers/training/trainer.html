@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.training.trainer &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.training.trainer &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,7 +446,7 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.training.trainer</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Accelerate-first trainer for medical tokenizers.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Accelerate-first trainer for medical tokenizers."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -467,22 +469,22 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_infinite_loader</span><span class="p">(</span><span class="n">loader</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Yield batches indefinitely, creating fresh iterators each pass.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Yield batches indefinitely, creating fresh iterators each pass."""</span>
     <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
         <span class="k">yield from</span> <span class="n">loader</span>
 
 
 <span class="c1"># Enable faster kernel selection and matmul where supported</span>
 <span class="n">torch</span><span class="o">.</span><span class="n">backends</span><span class="o">.</span><span class="n">cudnn</span><span class="o">.</span><span class="n">benchmark</span> <span class="o">=</span> <span class="kc">True</span>
-<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">torch</span><span class="p">,</span> <span class="s2">&quot;set_float32_matmul_precision&quot;</span><span class="p">):</span>
-    <span class="c1"># Use &quot;high&quot; to enable TF32 for Ampere+ GPUs (faster matmul with minimal precision loss)</span>
-    <span class="n">torch</span><span class="o">.</span><span class="n">set_float32_matmul_precision</span><span class="p">(</span><span class="s2">&quot;high&quot;</span><span class="p">)</span>
+<span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">torch</span><span class="p">,</span> <span class="s2">"set_float32_matmul_precision"</span><span class="p">):</span>
+    <span class="c1"># Use "high" to enable TF32 for Ampere+ GPUs (faster matmul with minimal precision loss)</span>
+    <span class="n">torch</span><span class="o">.</span><span class="n">set_float32_matmul_precision</span><span class="p">(</span><span class="s2">"high"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Trainer">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Trainer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Trainer</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Accelerate-first trainer for medical tokenizers.</span>
+<span class="w">    </span><span class="sd">"""Accelerate-first trainer for medical tokenizers.</span>
 
 <span class="sd">    Supports:</span>
 <span class="sd">    - Flexible callback system</span>
@@ -494,7 +496,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    - NaN detection and recovery</span>
 <span class="sd">    - Compound losses (VQGANLoss, VAEGANLoss) with separate discriminator optimizer</span>
 <span class="sd">    - KL annealing for VAE training</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="Trainer.__init__">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Trainer.__init__">[docs]</a>
@@ -519,7 +521,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">disc_optimizer</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">Optimizer</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">model_ema_decay</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize trainer.</span>
+<span class="w">        </span><span class="sd">"""Initialize trainer.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            model: Tokenizer model to train</span>
@@ -545,7 +547,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            model_ema_decay: Optional EMA decay rate for model weights (e.g., 0.9999).</span>
 <span class="sd">                When set, maintains an exponential moving average of model parameters.</span>
 <span class="sd">                EMA weights are used for validation and saved alongside checkpoints.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">model</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span> <span class="o">=</span> <span class="n">optimizer</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span> <span class="o">=</span> <span class="n">accelerator</span>
@@ -568,8 +570,8 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop_training</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">nan_tracker</span> <span class="o">=</span> <span class="n">NaNTracker</span><span class="p">(</span><span class="n">threshold</span><span class="o">=</span><span class="n">nan_threshold</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">train_logger</span> <span class="o">=</span> <span class="n">MetricsLogger</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="n">accelerator</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;train/&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">val_logger</span> <span class="o">=</span> <span class="n">MetricsLogger</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="n">accelerator</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;val/&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_logger</span> <span class="o">=</span> <span class="n">MetricsLogger</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="n">accelerator</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"train/"</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">val_logger</span> <span class="o">=</span> <span class="n">MetricsLogger</span><span class="p">(</span><span class="n">accelerator</span><span class="o">=</span><span class="n">accelerator</span><span class="p">,</span> <span class="n">prefix</span><span class="o">=</span><span class="s2">"val/"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span> <span class="o">=</span> <span class="mi">0</span>
 
         <span class="c1"># Stored tensors for discriminator step (set during train_step)</span>
@@ -585,56 +587,56 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="n">enable_gradient_checkpointing</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_enable_gradient_checkpointing</span><span class="p">(</span><span class="n">model</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="n">enable_compile_train_step</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">torch</span><span class="p">,</span> <span class="s2">&quot;compile&quot;</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;default&quot;</span><span class="p">,</span> <span class="n">dynamic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">enable_compile_train_step</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">torch</span><span class="p">,</span> <span class="s2">"compile"</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">model</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"default"</span><span class="p">,</span> <span class="n">dynamic</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_is_compound_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if loss_fn is a compound loss (VQGANLoss or VAEGANLoss).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Check if loss_fn is a compound loss (VQGANLoss or VAEGANLoss)."""</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.losses.compound</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAEGANLoss</span><span class="p">,</span> <span class="n">VQGANLoss</span>
 
         <span class="k">return</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">,</span> <span class="p">(</span><span class="n">VQGANLoss</span><span class="p">,</span> <span class="n">VAEGANLoss</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_enable_gradient_checkpointing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">model</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">for</span> <span class="n">module</span> <span class="ow">in</span> <span class="n">model</span><span class="o">.</span><span class="n">modules</span><span class="p">():</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s2">&quot;use_checkpointing&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="s2">"use_checkpointing"</span><span class="p">):</span>
                 <span class="n">module</span><span class="o">.</span><span class="n">use_checkpointing</span> <span class="o">=</span> <span class="kc">True</span>
 
 <div class="viewcode-block" id="Trainer.init_trackers">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Trainer.init_trackers">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">init_trackers</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">project_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">config</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize Accelerate trackers (e.g., wandb).</span>
+<span class="w">        </span><span class="sd">"""Initialize Accelerate trackers (e.g., wandb).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            project_name: Name of project</span>
 <span class="sd">            config: Optional configuration to log</span>
 <span class="sd">            **kwargs: Additional arguments passed to accelerator.init_trackers</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">config</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">config</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">init_trackers</span><span class="p">(</span><span class="n">project_name</span><span class="p">,</span> <span class="n">config</span><span class="o">=</span><span class="n">config</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Log a message via accelerator.print.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Log a message via accelerator.print."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
 
 <div class="viewcode-block" id="Trainer.end_training">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Trainer.end_training">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">end_training</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;End training and wait for all processes.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""End training and wait for all processes."""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">end_training</span><span class="p">()</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_run_callbacks</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run all callbacks for a given event.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Run all callbacks for a given event."""</span>
         <span class="k">for</span> <span class="n">callback</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">callbacks</span><span class="p">:</span>
             <span class="nb">getattr</span><span class="p">(</span><span class="n">callback</span><span class="p">,</span> <span class="n">event</span><span class="p">)(</span><span class="bp">self</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_compute_loss</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">images</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">output</span><span class="p">:</span> <span class="nb">dict</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute loss from model output, dispatching to the appropriate loss function.</span>
+<span class="w">        </span><span class="sd">"""Compute loss from model output, dispatching to the appropriate loss function.</span>
 
 <span class="sd">        Handles Combined, CombinedPerceptual, VQGANLoss, and VAEGANLoss.</span>
 
@@ -644,17 +646,17 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple of (loss_tensor, loss_dict, reconstruction_tensor)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;reconstructions&quot;</span><span class="p">]</span>
-            <span class="n">quant_loss</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;quant_loss&quot;</span><span class="p">)</span>
-            <span class="n">kl_loss</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kl_loss&quot;</span><span class="p">)</span>
-            <span class="n">posteriors</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;posteriors&quot;</span><span class="p">)</span>
+            <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">"reconstructions"</span><span class="p">]</span>
+            <span class="n">quant_loss</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"quant_loss"</span><span class="p">)</span>
+            <span class="n">kl_loss</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"kl_loss"</span><span class="p">)</span>
+            <span class="n">posteriors</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"posteriors"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">reconstructions</span>
-            <span class="n">quant_loss</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;quant_loss&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="n">kl_loss</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;kl_loss&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
-            <span class="n">posteriors</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;posteriors&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">quant_loss</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">"quant_loss"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">kl_loss</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">"kl_loss"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">posteriors</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">"posteriors"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="kn">from</span><span class="w"> </span><span class="nn">.losses.basic</span><span class="w"> </span><span class="kn">import</span> <span class="n">CombinedPerceptual</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">.losses.compound</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAEGANLoss</span><span class="p">,</span> <span class="n">VQGANLoss</span>
@@ -671,20 +673,20 @@ window.runMermaid = runMermaid;</script>
             <span class="n">aux_loss</span> <span class="o">=</span> <span class="n">quant_loss</span> <span class="k">if</span> <span class="n">quant_loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">kl_loss</span>
             <span class="n">loss</span><span class="p">,</span> <span class="n">loss_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">images</span><span class="p">,</span> <span class="n">aux_loss</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">kl_loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">loss_dict</span><span class="p">[</span><span class="s2">&quot;kl&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">kl_loss</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
+                <span class="n">loss_dict</span><span class="p">[</span><span class="s2">"kl"</span><span class="p">]</span> <span class="o">=</span> <span class="n">kl_loss</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span><span class="o">.</span><span class="n">item</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">images</span><span class="p">)</span>
-            <span class="n">loss_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;total&quot;</span><span class="p">:</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()}</span>
+            <span class="n">loss_dict</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"total"</span><span class="p">:</span> <span class="n">loss</span><span class="o">.</span><span class="n">item</span><span class="p">()}</span>
 
         <span class="k">return</span> <span class="n">loss</span><span class="p">,</span> <span class="n">loss_dict</span><span class="p">,</span> <span class="n">reconstruction</span>
 
 <div class="viewcode-block" id="Trainer.train_step">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Trainer.train_step">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">train_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">,</span> <span class="n">sync_gradients</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Single training step.</span>
+<span class="w">        </span><span class="sd">"""Single training step.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            batch: Input batch (tensor or dict with &quot;image&quot; key)</span>
+<span class="sd">            batch: Input batch (tensor or dict with "image" key)</span>
 <span class="sd">            sync_gradients: If False and model supports no_sync(), skip gradient</span>
 <span class="sd">                all-reduce (used for gradient accumulation intermediate steps).</span>
 <span class="sd">                Default True syncs every step.</span>
@@ -692,10 +694,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Returns:</span>
 <span class="sd">            loss: Scalar loss value</span>
 <span class="sd">            metrics: Dictionary of metrics</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Handle dict batches from dataloaders</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span>
+            <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">"image"</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="k">else</span><span class="p">:</span>
@@ -708,7 +710,7 @@ window.runMermaid = runMermaid;</script>
             <span class="p">)</span>
             <span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="o">.</span><span class="n">contiguous</span><span class="p">(</span><span class="n">memory_format</span><span class="o">=</span><span class="n">mem_format</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">sync_gradients</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;no_sync&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sync_gradients</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="p">,</span> <span class="s2">"no_sync"</span><span class="p">):</span>
             <span class="n">ctx</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">no_sync</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">ctx</span> <span class="o">=</span> <span class="n">nullcontext</span><span class="p">()</span>
@@ -726,13 +728,13 @@ window.runMermaid = runMermaid;</script>
 
             <span class="k">if</span> <span class="n">nan_detected</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;NaN detected at step </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="si">}</span><span class="s2">; skipping batch &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;(skipped=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nan_tracker</span><span class="o">.</span><span class="n">skipped_batches</span><span class="si">}</span><span class="s2">).&quot;</span>
+                    <span class="sa">f</span><span class="s2">"NaN detected at step </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="si">}</span><span class="s2">; skipping batch "</span>
+                    <span class="sa">f</span><span class="s2">"(skipped=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nan_tracker</span><span class="o">.</span><span class="n">skipped_batches</span><span class="si">}</span><span class="s2">)."</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_last_images</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_last_reconstruction</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="n">skipped_dict</span> <span class="o">=</span> <span class="nb">dict</span><span class="o">.</span><span class="n">fromkeys</span><span class="p">(</span><span class="n">loss_dict</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
-                <span class="n">skipped_dict</span><span class="p">[</span><span class="s2">&quot;skipped&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
+                <span class="n">skipped_dict</span><span class="p">[</span><span class="s2">"skipped"</span><span class="p">]</span> <span class="o">=</span> <span class="mf">1.0</span>
                 <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">skipped_dict</span>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">backward</span><span class="p">(</span><span class="n">loss</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">gradient_accumulation_steps</span><span class="p">)</span>
@@ -746,19 +748,19 @@ window.runMermaid = runMermaid;</script>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_aux_loss_tensor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output</span><span class="p">,</span> <span class="n">reconstruction</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract an auxiliary-loss tensor for NaN checking.</span>
+<span class="w">        </span><span class="sd">"""Extract an auxiliary-loss tensor for NaN checking.</span>
 
 <span class="sd">        Returns quant_loss for discrete tokenizers, kl_loss for VAEs, or a</span>
-<span class="sd">        zero tensor (matching reconstruction&#39;s device/dtype) otherwise.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        zero tensor (matching reconstruction's device/dtype) otherwise.</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">aux</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;quant_loss&quot;</span><span class="p">)</span>
+            <span class="n">aux</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"quant_loss"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">aux</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">aux</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kl_loss&quot;</span><span class="p">)</span>
+                <span class="n">aux</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"kl_loss"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">aux</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;quant_loss&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">aux</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">"quant_loss"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">aux</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">aux</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">&quot;kl_loss&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">aux</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="s2">"kl_loss"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">aux</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span>
@@ -769,18 +771,18 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">aux</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_disc_train_step</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Discriminator training step (called after generator optimizer step).</span>
+<span class="w">        </span><span class="sd">"""Discriminator training step (called after generator optimizer step).</span>
 
 <span class="sd">        Uses stored images/reconstruction from the most recent train_step.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            disc_loss: Scalar discriminator loss value</span>
 <span class="sd">            disc_dict: Dictionary of discriminator metrics</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_images</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_last_reconstruction</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="p">{}</span>
 
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">,</span> <span class="s2">&quot;has_discriminator&quot;</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">,</span> <span class="s2">"has_discriminator"</span><span class="p">,</span> <span class="kc">False</span><span class="p">):</span>
             <span class="k">return</span> <span class="mf">0.0</span><span class="p">,</span> <span class="p">{}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">disc_optimizer</span><span class="o">.</span><span class="n">zero_grad</span><span class="p">(</span><span class="n">set_to_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -804,7 +806,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">disc_loss</span><span class="o">.</span><span class="n">item</span><span class="p">(),</span> <span class="n">disc_dict</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update model weights after gradient accumulation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update model weights after gradient accumulation."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_grad_norm</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">clip_grad_norm_</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">parameters</span><span class="p">(),</span> <span class="bp">self</span><span class="o">.</span><span class="n">max_grad_norm</span>
@@ -826,7 +828,7 @@ window.runMermaid = runMermaid;</script>
             <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_swap_ema_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Swap model weights with EMA weights. Returns original weights for restoring.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Swap model weights with EMA weights. Returns original weights for restoring."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ema_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">original</span> <span class="o">=</span> <span class="p">{}</span>
@@ -837,7 +839,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">return</span> <span class="n">original</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_restore_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">original</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Restore model weights from saved original state.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Restore model weights from saved original state."""</span>
         <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">original</span><span class="p">:</span>
                 <span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">copy_</span><span class="p">(</span><span class="n">original</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
@@ -848,7 +850,7 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="nf">validate</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">val_loader</span><span class="p">:</span> <span class="n">DataLoader</span><span class="p">,</span> <span class="n">max_batches</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run validation.</span>
+<span class="w">        </span><span class="sd">"""Run validation.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            val_loader: Validation data loader</span>
@@ -857,12 +859,12 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            metrics: Dictionary of validation metrics</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Swap to EMA weights for validation</span>
         <span class="n">original_weights</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_swap_ema_weights</span><span class="p">()</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">&quot;on_validation_begin&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">"on_validation_begin"</span><span class="p">)</span>
 
         <span class="n">total_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
         <span class="n">total_samples</span> <span class="o">=</span> <span class="mi">0</span>
@@ -876,7 +878,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">first_batch</span> <span class="o">=</span> <span class="n">batch</span>
             <span class="c1"># Handle dict batches from dataloaders</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span>
+                <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">"image"</span><span class="p">]</span>
             <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                 <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
@@ -894,9 +896,9 @@ window.runMermaid = runMermaid;</script>
             <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">loss_dict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
                 <span class="n">metrics_sum</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">metrics_sum</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span> <span class="o">+</span> <span class="n">value</span> <span class="o">*</span> <span class="n">batch_size</span>
 
-        <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">&quot;val_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">:</span> <span class="n">v</span> <span class="o">/</span> <span class="n">total_samples</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics_sum</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
+        <span class="n">metrics</span> <span class="o">=</span> <span class="p">{</span><span class="sa">f</span><span class="s2">"val_</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">"</span><span class="p">:</span> <span class="n">v</span> <span class="o">/</span> <span class="n">total_samples</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics_sum</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">&quot;on_validation_end&quot;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">first_batch</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">"on_validation_end"</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">metrics</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">first_batch</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
 
         <span class="c1"># Restore original (non-EMA) weights for continued training</span>
@@ -918,7 +920,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">resume</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">max_val_batches</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Train the model.</span>
+<span class="w">        </span><span class="sd">"""Train the model.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            train_loader: Training data loader</span>
@@ -928,7 +930,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">            val_interval: Run validation every N epochs</span>
 <span class="sd">            resume: Optional checkpoint directory path to resume from</span>
 <span class="sd">            max_val_batches: Optional maximum batches for validation (None = full dataset)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">resume</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">load_checkpoint</span><span class="p">(</span><span class="n">resume</span><span class="p">)</span>
 
@@ -955,9 +957,9 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">name</span><span class="p">:</span> <span class="n">param</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">clone</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">named_parameters</span><span class="p">()</span>
             <span class="p">}</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model EMA initialized (decay=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_ema_decay</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model EMA initialized (decay=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">model_ema_decay</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">&quot;on_train_begin&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">"on_train_begin"</span><span class="p">)</span>
 
         <span class="c1"># Use self.current_epoch from checkpoint if resuming, otherwise start from 0</span>
         <span class="n">start_epoch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="o">+</span> <span class="mi">1</span> <span class="k">if</span> <span class="n">resume</span> <span class="k">else</span> <span class="mi">0</span>
@@ -968,10 +970,10 @@ window.runMermaid = runMermaid;</script>
 
             <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="o">=</span> <span class="n">epoch</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">&quot;on_epoch_begin&quot;</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">"on_epoch_begin"</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">)</span>
 
             <span class="c1"># KL annealing for VAEGANLoss</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">,</span> <span class="s2">&quot;set_epoch&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">,</span> <span class="s2">"set_epoch"</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="o">.</span><span class="n">set_epoch</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
                 <span class="kn">from</span><span class="w"> </span><span class="nn">.losses.compound</span><span class="w"> </span><span class="kn">import</span> <span class="n">VAEGANLoss</span>
 
@@ -983,19 +985,19 @@ window.runMermaid = runMermaid;</script>
                     <span class="p">)</span>
                 <span class="p">):</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">: kl_weight=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="o">.</span><span class="n">kl_weight</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> &quot;</span>
-                        <span class="sa">f</span><span class="s2">&quot;(target=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="o">.</span><span class="n">_kl_weight_target</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">)&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">: kl_weight=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="o">.</span><span class="n">kl_weight</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2"> "</span>
+                        <span class="sa">f</span><span class="s2">"(target=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="o">.</span><span class="n">_kl_weight_target</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">)"</span>
                     <span class="p">)</span>
 
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">,</span> <span class="s2">&quot;set_weights&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_config</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="p">,</span> <span class="s2">"set_weights"</span><span class="p">):</span>
                 <span class="n">vgg_w</span><span class="p">,</span> <span class="n">gram_w</span><span class="p">,</span> <span class="n">stage</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_config</span><span class="o">.</span><span class="n">compute_stage_weights</span><span class="p">(</span><span class="n">epoch</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">loss_fn</span><span class="o">.</span><span class="n">set_weights</span><span class="p">(</span><span class="n">vgg_w</span><span class="p">,</span> <span class="n">gram_w</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">epoch</span> <span class="o">==</span> <span class="n">start_epoch</span> <span class="ow">or</span> <span class="n">epoch</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">loss_config</span><span class="o">.</span><span class="n">stage1_epochs</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Loss stage </span><span class="si">{</span><span class="n">stage</span><span class="si">}</span><span class="s2">: vgg_weight=</span><span class="si">{</span><span class="n">vgg_w</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, gram_weight=</span><span class="si">{</span><span class="n">gram_w</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Loss stage </span><span class="si">{</span><span class="n">stage</span><span class="si">}</span><span class="s2">: vgg_weight=</span><span class="si">{</span><span class="n">vgg_w</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">, gram_weight=</span><span class="si">{</span><span class="n">gram_w</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span>
                     <span class="p">)</span>
 
-            <span class="n">epoch_metrics</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="n">epoch</span><span class="p">}</span>
+            <span class="n">epoch_metrics</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"epoch"</span><span class="p">:</span> <span class="n">epoch</span><span class="p">}</span>
             <span class="n">total_loss</span> <span class="o">=</span> <span class="mf">0.0</span>
             <span class="n">num_batches</span> <span class="o">=</span> <span class="mi">0</span>
 
@@ -1007,13 +1009,13 @@ window.runMermaid = runMermaid;</script>
             <span class="n">pbar</span> <span class="o">=</span> <span class="n">tqdm</span><span class="p">(</span>
                 <span class="n">train_iter</span><span class="p">,</span>
                 <span class="n">total</span><span class="o">=</span><span class="n">steps_per_epoch</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">train_loader</span><span class="p">),</span>
-                <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">epochs</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+                <span class="n">desc</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="n">epochs</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="k">for</span> <span class="n">batch_idx</span><span class="p">,</span> <span class="n">batch</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">pbar</span><span class="p">):</span>
                 <span class="k">if</span> <span class="n">steps_per_epoch</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">batch_idx</span> <span class="o">&gt;=</span> <span class="n">steps_per_epoch</span><span class="p">:</span>
                     <span class="k">break</span>
 
-                <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">&quot;on_batch_begin&quot;</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="o">=</span><span class="n">batch_idx</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">"on_batch_begin"</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="o">=</span><span class="n">batch_idx</span><span class="p">)</span>
 
                 <span class="n">is_sync_step</span> <span class="o">=</span> <span class="p">(</span><span class="n">batch_idx</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">gradient_accumulation_steps</span> <span class="o">==</span> <span class="mi">0</span>
                 <span class="n">loss</span><span class="p">,</span> <span class="n">loss_dict</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_step</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">sync_gradients</span><span class="o">=</span><span class="n">is_sync_step</span><span class="p">)</span>
@@ -1037,28 +1039,28 @@ window.runMermaid = runMermaid;</script>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">log_every_steps</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">train_logger</span><span class="o">.</span><span class="n">log_step</span><span class="p">(</span><span class="n">loss_dict</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="p">)</span>
 
-                <span class="n">pbar</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">({</span><span class="s2">&quot;loss&quot;</span><span class="p">:</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="s2">&quot;step&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="p">})</span>
+                <span class="n">pbar</span><span class="o">.</span><span class="n">set_postfix</span><span class="p">({</span><span class="s2">"loss"</span><span class="p">:</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="s2">"step"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="p">})</span>
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span>
-                    <span class="s2">&quot;on_batch_end&quot;</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="o">=</span><span class="n">batch_idx</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="n">loss</span>
+                    <span class="s2">"on_batch_end"</span><span class="p">,</span> <span class="n">batch</span><span class="o">=</span><span class="n">batch</span><span class="p">,</span> <span class="n">batch_idx</span><span class="o">=</span><span class="n">batch_idx</span><span class="p">,</span> <span class="n">loss</span><span class="o">=</span><span class="n">loss</span>
                 <span class="p">)</span>
 
-            <span class="n">epoch_metrics</span><span class="p">[</span><span class="s2">&quot;train_loss&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="n">num_batches</span>
+            <span class="n">epoch_metrics</span><span class="p">[</span><span class="s2">"train_loss"</span><span class="p">]</span> <span class="o">=</span> <span class="n">total_loss</span> <span class="o">/</span> <span class="n">num_batches</span>
 
             <span class="k">if</span> <span class="n">val_loader</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">epoch</span> <span class="o">%</span> <span class="n">val_interval</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="n">val_metrics</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">validate</span><span class="p">(</span><span class="n">val_loader</span><span class="p">,</span> <span class="n">max_batches</span><span class="o">=</span><span class="n">max_val_batches</span><span class="p">)</span>
                 <span class="n">epoch_metrics</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">val_metrics</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">val_logger</span><span class="o">.</span><span class="n">log_step</span><span class="p">(</span><span class="n">val_metrics</span><span class="p">,</span> <span class="n">step</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">&quot;on_epoch_end&quot;</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">epoch_metrics</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">"on_epoch_end"</span><span class="p">,</span> <span class="n">epoch</span><span class="o">=</span><span class="n">epoch</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="n">epoch_metrics</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">&quot;on_train_end&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_run_callbacks</span><span class="p">(</span><span class="s2">"on_train_end"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Trainer.save_checkpoint">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Trainer.save_checkpoint">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save training checkpoint.</span>
+<span class="w">        </span><span class="sd">"""Save training checkpoint.</span>
 
 <span class="sd">        Saves Accelerate state (model, optimizer, schedulers) plus metadata.json</span>
 <span class="sd">        containing epoch, global_step, warmup_steps, and scheduler state info.</span>
@@ -1069,13 +1071,13 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If output_dir is not a directory path</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">checkpoint_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">checkpoint_dir</span><span class="o">.</span><span class="n">suffix</span><span class="p">:</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">)</span><span class="o">.</span><span class="n">endswith</span><span class="p">(</span><span class="s2">"/"</span><span class="p">)</span> <span class="ow">and</span> <span class="n">checkpoint_dir</span><span class="o">.</span><span class="n">suffix</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Trainer now uses Accelerate directory format. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected a directory path, got: </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="s2">&quot;Please specify a checkpoint directory (e.g., &#39;checkpoints/step_100/&#39;)&quot;</span>
+                <span class="s2">"Trainer now uses Accelerate directory format. "</span>
+                <span class="sa">f</span><span class="s2">"Expected a directory path, got: </span><span class="si">{</span><span class="n">output_dir</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="s2">"Please specify a checkpoint directory (e.g., 'checkpoints/step_100/')"</span>
             <span class="p">)</span>
 
         <span class="n">checkpoint_dir</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
@@ -1084,33 +1086,33 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">save_state</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">checkpoint_dir</span><span class="p">))</span>
 
         <span class="c1"># Determine current scheduler phase</span>
-        <span class="n">current_scheduler</span> <span class="o">=</span> <span class="s2">&quot;warmup&quot;</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">warmup_steps</span> <span class="k">else</span> <span class="s2">&quot;main&quot;</span>
+        <span class="n">current_scheduler</span> <span class="o">=</span> <span class="s2">"warmup"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">warmup_steps</span> <span class="k">else</span> <span class="s2">"main"</span>
 
         <span class="c1"># Build metadata with scheduler state</span>
         <span class="n">metadata_dict</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">,</span>
-            <span class="s2">&quot;global_step&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="p">,</span>
-            <span class="s2">&quot;warmup_steps&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">warmup_steps</span><span class="p">,</span>
-            <span class="s2">&quot;current_scheduler&quot;</span><span class="p">:</span> <span class="n">current_scheduler</span><span class="p">,</span>
-            <span class="s2">&quot;lr&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">&quot;lr&quot;</span><span class="p">],</span>
+            <span class="s2">"epoch"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="p">,</span>
+            <span class="s2">"global_step"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="p">,</span>
+            <span class="s2">"warmup_steps"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">warmup_steps</span><span class="p">,</span>
+            <span class="s2">"current_scheduler"</span><span class="p">:</span> <span class="n">current_scheduler</span><span class="p">,</span>
+            <span class="s2">"lr"</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">param_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="s2">"lr"</span><span class="p">],</span>
         <span class="p">}</span>
         <span class="k">if</span> <span class="n">metadata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">metadata_dict</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
 
-        <span class="n">metadata_file</span> <span class="o">=</span> <span class="n">checkpoint_dir</span> <span class="o">/</span> <span class="s2">&quot;metadata.json&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata_file</span><span class="p">,</span> <span class="s2">&quot;w&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+        <span class="n">metadata_file</span> <span class="o">=</span> <span class="n">checkpoint_dir</span> <span class="o">/</span> <span class="s2">"metadata.json"</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata_file</span><span class="p">,</span> <span class="s2">"w"</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
             <span class="n">json</span><span class="o">.</span><span class="n">dump</span><span class="p">(</span><span class="n">metadata_dict</span><span class="p">,</span> <span class="n">f</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
 
         <span class="c1"># Save EMA state alongside checkpoint</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ema_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">ema_path</span> <span class="o">=</span> <span class="n">checkpoint_dir</span> <span class="o">/</span> <span class="s2">&quot;ema_state.pt&quot;</span>
+            <span class="n">ema_path</span> <span class="o">=</span> <span class="n">checkpoint_dir</span> <span class="o">/</span> <span class="s2">"ema_state.pt"</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_ema_state</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">ema_path</span><span class="p">))</span></div>
 
 
 <div class="viewcode-block" id="Trainer.load_checkpoint">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Trainer.load_checkpoint">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_checkpoint</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">input_dir</span><span class="p">:</span> <span class="nb">str</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load training checkpoint.</span>
+<span class="w">        </span><span class="sd">"""Load training checkpoint.</span>
 
 <span class="sd">        Loads Accelerate state (model, optimizer, schedulers) and metadata.json.</span>
 <span class="sd">        Validates that warmup_steps matches the current config and warns on mismatch.</span>
@@ -1120,76 +1122,76 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If input_dir is not a directory or is a legacy .pt file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">checkpoint_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">input_dir</span><span class="p">)</span>
 
         <span class="c1"># Check for legacy .pt file and raise clear error</span>
-        <span class="k">if</span> <span class="n">checkpoint_path</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;.pt&quot;</span><span class="p">,</span> <span class="s2">&quot;.pth&quot;</span><span class="p">,</span> <span class="s2">&quot;.ckpt&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">checkpoint_path</span><span class="o">.</span><span class="n">suffix</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">".pt"</span><span class="p">,</span> <span class="s2">".pth"</span><span class="p">,</span> <span class="s2">".ckpt"</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Legacy checkpoint file detected: </span><span class="si">{</span><span class="n">input_dir</span><span class="si">}</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;Trainer now uses Accelerate directory checkpoints ONLY.</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;Expected a checkpoint DIRECTORY containing:</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;  - model weights (pytorch_model.bin or model.safetensors)</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;  - optimizer state (optimizer.bin)</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;  - scheduler states (scheduler.bin)</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;  - metadata.json</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="s2">&quot;To convert old checkpoints, load the .pt file manually and save via Trainer.save_checkpoint().&quot;</span>
+                <span class="sa">f</span><span class="s2">"Legacy checkpoint file detected: </span><span class="si">{</span><span class="n">input_dir</span><span class="si">}</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"Trainer now uses Accelerate directory checkpoints ONLY.</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"Expected a checkpoint DIRECTORY containing:</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"  - model weights (pytorch_model.bin or model.safetensors)</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"  - optimizer state (optimizer.bin)</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"  - scheduler states (scheduler.bin)</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"  - metadata.json</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="s2">"To convert old checkpoints, load the .pt file manually and save via Trainer.save_checkpoint()."</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">checkpoint_path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Trainer now uses Accelerate directory format. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Expected a directory, got: </span><span class="si">{</span><span class="n">input_dir</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="s2">&quot;Please use a checkpoint directory with metadata.json&quot;</span>
+                <span class="s2">"Trainer now uses Accelerate directory format. "</span>
+                <span class="sa">f</span><span class="s2">"Expected a directory, got: </span><span class="si">{</span><span class="n">input_dir</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="s2">"Please use a checkpoint directory with metadata.json"</span>
             <span class="p">)</span>
 
         <span class="c1"># Load Accelerate state (model, optimizer, registered schedulers)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">load_state</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">checkpoint_path</span><span class="p">))</span>
 
         <span class="c1"># Load metadata and restore training state</span>
-        <span class="n">metadata_file</span> <span class="o">=</span> <span class="n">checkpoint_path</span> <span class="o">/</span> <span class="s2">&quot;metadata.json&quot;</span>
+        <span class="n">metadata_file</span> <span class="o">=</span> <span class="n">checkpoint_path</span> <span class="o">/</span> <span class="s2">"metadata.json"</span>
         <span class="k">if</span> <span class="n">metadata_file</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">metadata_file</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
                 <span class="n">metadata</span> <span class="o">=</span> <span class="n">json</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">f</span><span class="p">)</span>
 
-            <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;epoch&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;global_step&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"epoch"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">global_step</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"global_step"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
 
             <span class="c1"># Validate warmup_steps config matches checkpoint</span>
-            <span class="n">saved_warmup_steps</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;warmup_steps&quot;</span><span class="p">)</span>
+            <span class="n">saved_warmup_steps</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"warmup_steps"</span><span class="p">)</span>
             <span class="k">if</span> <span class="p">(</span>
                 <span class="n">saved_warmup_steps</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
                 <span class="ow">and</span> <span class="n">saved_warmup_steps</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">warmup_steps</span>
             <span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
-                    <span class="sa">f</span><span class="s2">&quot;WARNING: warmup_steps mismatch! &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Checkpoint has warmup_steps=</span><span class="si">{</span><span class="n">saved_warmup_steps</span><span class="si">}</span><span class="s2">, &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;but current config has warmup_steps=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">warmup_steps</span><span class="si">}</span><span class="s2">. &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Scheduler behavior may be unexpected.&quot;</span>
+                    <span class="sa">f</span><span class="s2">"WARNING: warmup_steps mismatch! "</span>
+                    <span class="sa">f</span><span class="s2">"Checkpoint has warmup_steps=</span><span class="si">{</span><span class="n">saved_warmup_steps</span><span class="si">}</span><span class="s2">, "</span>
+                    <span class="sa">f</span><span class="s2">"but current config has warmup_steps=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">warmup_steps</span><span class="si">}</span><span class="s2">. "</span>
+                    <span class="sa">f</span><span class="s2">"Scheduler behavior may be unexpected."</span>
                 <span class="p">)</span>
 
             <span class="c1"># Log resume info</span>
-            <span class="n">saved_scheduler</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;current_scheduler&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
-            <span class="n">saved_lr</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;lr&quot;</span><span class="p">,</span> <span class="s2">&quot;unknown&quot;</span><span class="p">)</span>
+            <span class="n">saved_scheduler</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"current_scheduler"</span><span class="p">,</span> <span class="s2">"unknown"</span><span class="p">)</span>
+            <span class="n">saved_lr</span> <span class="o">=</span> <span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"lr"</span><span class="p">,</span> <span class="s2">"unknown"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Resumed from checkpoint: epoch=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="si">}</span><span class="s2">, &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;global_step=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="si">}</span><span class="s2">, scheduler=</span><span class="si">{</span><span class="n">saved_scheduler</span><span class="si">}</span><span class="s2">, lr=</span><span class="si">{</span><span class="n">saved_lr</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="sa">f</span><span class="s2">"Resumed from checkpoint: epoch=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">current_epoch</span><span class="si">}</span><span class="s2">, "</span>
+                <span class="sa">f</span><span class="s2">"global_step=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">global_step</span><span class="si">}</span><span class="s2">, scheduler=</span><span class="si">{</span><span class="n">saved_scheduler</span><span class="si">}</span><span class="s2">, lr=</span><span class="si">{</span><span class="n">saved_lr</span><span class="si">}</span><span class="s2">"</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;WARNING: No metadata.json found in </span><span class="si">{</span><span class="n">input_dir</span><span class="si">}</span><span class="s2">. &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Training state (epoch, global_step) will start from 0.&quot;</span>
+                <span class="sa">f</span><span class="s2">"WARNING: No metadata.json found in </span><span class="si">{</span><span class="n">input_dir</span><span class="si">}</span><span class="s2">. "</span>
+                <span class="sa">f</span><span class="s2">"Training state (epoch, global_step) will start from 0."</span>
             <span class="p">)</span>
 
         <span class="c1"># Load EMA state if present</span>
-        <span class="n">ema_path</span> <span class="o">=</span> <span class="n">checkpoint_path</span> <span class="o">/</span> <span class="s2">&quot;ema_state.pt&quot;</span>
+        <span class="n">ema_path</span> <span class="o">=</span> <span class="n">checkpoint_path</span> <span class="o">/</span> <span class="s2">"ema_state.pt"</span>
         <span class="k">if</span> <span class="n">ema_path</span><span class="o">.</span><span class="n">exists</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">model_ema_decay</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_ema_state</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">ema_path</span><span class="p">),</span>
                 <span class="n">map_location</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">device</span><span class="p">,</span>
                 <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">&quot;Loaded EMA state from checkpoint&quot;</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="s2">"Loaded EMA state from checkpoint"</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
@@ -1202,7 +1204,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

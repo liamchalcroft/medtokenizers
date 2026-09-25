@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.networks.rae &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.networks.rae &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,13 +446,13 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.networks.rae</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Representation Autoencoder (RAE) tokenizer.</span>
+<span></span><span class="sd">"""Representation Autoencoder (RAE) tokenizer.</span>
 
 <span class="sd">Implements a frozen representation encoder + trainable decoder pipeline,</span>
 <span class="sd">following the RAE formulation (Zheng et al., 2025). The encoder is kept</span>
 <span class="sd">frozen and provides token-level embeddings, while the decoder learns to</span>
 <span class="sd">reconstruct images or volumes from those embeddings.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -464,19 +466,19 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">medtokenizers.modules.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseTokenizer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">medtokenizers.networks._types</span><span class="w"> </span><span class="kn">import</span> <span class="n">NetworkEval</span>
 
-<span class="n">EncoderType</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;vit&quot;</span><span class="p">,</span> <span class="s2">&quot;medsiglip&quot;</span><span class="p">,</span> <span class="s2">&quot;neurovfm&quot;</span><span class="p">]</span>
+<span class="n">EncoderType</span> <span class="o">=</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"vit"</span><span class="p">,</span> <span class="s2">"medsiglip"</span><span class="p">,</span> <span class="s2">"neurovfm"</span><span class="p">]</span>
 
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">EncoderOutput</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Container for encoder outputs.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Container for encoder outputs."""</span>
 
     <span class="n">tokens</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span>
     <span class="n">grid_shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ViTEncoderAdapter</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for frozen HuggingFace ViT/SigLIP-style encoders.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Adapter for frozen HuggingFace ViT/SigLIP-style encoders."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -495,53 +497,53 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">requires_grad_</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">drop_cls_token</span> <span class="o">=</span> <span class="n">drop_cls_token</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;hidden_size&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;hidden_dim&quot;</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">"hidden_size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">"hidden_dim"</span><span class="p">,</span> <span class="kc">None</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Unable to infer hidden size from encoder config. &quot;</span>
-                <span class="s2">&quot;Please provide a compatible ViT-style encoder.&quot;</span>
+                <span class="s2">"Unable to infer hidden size from encoder config. "</span>
+                <span class="s2">"Please provide a compatible ViT-style encoder."</span>
             <span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;patch_size&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">"patch_size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Unable to infer patch size from encoder config. &quot;</span>
-                <span class="s2">&quot;Please provide a ViT-style encoder with patch_size in the config.&quot;</span>
+                <span class="s2">"Unable to infer patch size from encoder config. "</span>
+                <span class="s2">"Please provide a ViT-style encoder with patch_size in the config."</span>
             <span class="p">)</span>
 
         <span class="k">if</span> <span class="n">image_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">image_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;image_size&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+            <span class="n">image_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">"image_size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">image_size</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                 <span class="n">image_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">image_size</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
             <span class="k">if</span> <span class="n">image_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">size_from_proc</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processor</span><span class="p">,</span> <span class="s2">&quot;size&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                <span class="n">size_from_proc</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processor</span><span class="p">,</span> <span class="s2">"size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
                 <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size_from_proc</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                    <span class="n">image_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size_from_proc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;shortest_edge&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span>
-                        <span class="n">size_from_proc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;height&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                    <span class="n">image_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size_from_proc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"shortest_edge"</span><span class="p">,</span> <span class="mi">0</span><span class="p">))</span> <span class="ow">or</span> <span class="nb">int</span><span class="p">(</span>
+                        <span class="n">size_from_proc</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"height"</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
                     <span class="p">)</span>
                 <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">size_from_proc</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
                     <span class="n">image_size</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">size_from_proc</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
         <span class="k">if</span> <span class="n">image_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Unable to infer image size from encoder config or processor. &quot;</span>
-                <span class="s2">&quot;Please pass image_size explicitly.&quot;</span>
+                <span class="s2">"Unable to infer image size from encoder config or processor. "</span>
+                <span class="s2">"Please pass image_size explicitly."</span>
             <span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">image_size</span> <span class="o">=</span> <span class="n">image_size</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">expected_channels</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">&quot;num_channels&quot;</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">expected_channels</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">config</span><span class="p">,</span> <span class="s2">"num_channels"</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
 
-        <span class="n">mean</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processor</span><span class="p">,</span> <span class="s2">&quot;image_mean&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
-        <span class="n">std</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processor</span><span class="p">,</span> <span class="s2">&quot;image_std&quot;</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+        <span class="n">mean</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processor</span><span class="p">,</span> <span class="s2">"image_mean"</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
+        <span class="n">std</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processor</span><span class="p">,</span> <span class="s2">"image_std"</span><span class="p">,</span> <span class="p">[</span><span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">,</span> <span class="mf">0.5</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span>
-            <span class="s2">&quot;encoder_mean&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">persistent</span><span class="o">=</span><span class="kc">False</span>
+            <span class="s2">"encoder_mean"</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">mean</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">persistent</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span>
-            <span class="s2">&quot;encoder_std&quot;</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">std</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">persistent</span><span class="o">=</span><span class="kc">False</span>
+            <span class="s2">"encoder_std"</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="n">std</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">),</span> <span class="n">persistent</span><span class="o">=</span><span class="kc">False</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
@@ -550,21 +552,21 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">x</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">repeat</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Input channels do not match encoder expectation. &quot;</span>
-                    <span class="sa">f</span><span class="s2">&quot;Got </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> channels, expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">encoder_mean</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">.&quot;</span>
+                    <span class="s2">"Input channels do not match encoder expectation. "</span>
+                    <span class="sa">f</span><span class="s2">"Got </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2"> channels, expected </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">encoder_mean</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">."</span>
                 <span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder_mean</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">))</span> <span class="o">/</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder_std</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 
     <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EncoderOutput</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">4</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;ViT encoder expects 4D input (B, C, H, W).&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"ViT encoder expects 4D input (B, C, H, W)."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_size</span> <span class="ow">or</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_size</span><span class="p">:</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">functional</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
                 <span class="n">x</span><span class="p">,</span>
                 <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">image_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">image_size</span><span class="p">),</span>
-                <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;bicubic&quot;</span><span class="p">,</span>
+                <span class="n">mode</span><span class="o">=</span><span class="s2">"bicubic"</span><span class="p">,</span>
                 <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
             <span class="p">)</span>
 
@@ -584,7 +586,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">NeuroVFMEncoderAdapter</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Adapter for NeuroVFM encoders loaded from HuggingFace Hub.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Adapter for NeuroVFM encoders loaded from HuggingFace Hub."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -597,8 +599,8 @@ window.runMermaid = runMermaid;</script>
             <span class="kn">from</span><span class="w"> </span><span class="nn">neurovfm.pipelines</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_encoder</span>
         <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-                <span class="s2">&quot;neurovfm is required to use the NeuroVFM encoder adapter. &quot;</span>
-                <span class="s2">&quot;Install it with: pip install neurovfm&quot;</span>
+                <span class="s2">"neurovfm is required to use the NeuroVFM encoder adapter. "</span>
+                <span class="s2">"Install it with: pip install neurovfm"</span>
             <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
 
         <span class="n">encoder_pipeline</span><span class="p">,</span> <span class="n">preprocessor</span> <span class="o">=</span> <span class="n">load_encoder</span><span class="p">(</span>
@@ -609,26 +611,26 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_amp</span> <span class="o">=</span> <span class="n">use_amp</span>
 
         <span class="n">model</span> <span class="o">=</span> <span class="n">encoder_pipeline</span><span class="o">.</span><span class="n">model</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">&quot;embed_dim&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span>
-            <span class="n">model</span><span class="p">,</span> <span class="s2">&quot;hidden_size&quot;</span><span class="p">,</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="s2">"embed_dim"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">or</span> <span class="nb">getattr</span><span class="p">(</span>
+            <span class="n">model</span><span class="p">,</span> <span class="s2">"hidden_size"</span><span class="p">,</span> <span class="kc">None</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">hidden_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unable to infer hidden size from NeuroVFM encoder.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unable to infer hidden size from NeuroVFM encoder."</span><span class="p">)</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">preprocessor</span><span class="p">,</span> <span class="s2">&quot;patch_size&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">preprocessor</span><span class="p">,</span> <span class="s2">"patch_size"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Unable to infer patch size from NeuroVFM preprocessor.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Unable to infer patch size from NeuroVFM preprocessor."</span><span class="p">)</span>
 
     <span class="nd">@torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">()</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">encode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">EncoderOutput</span><span class="p">:</span>
         <span class="n">tokens</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder_pipeline</span><span class="o">.</span><span class="n">embed</span><span class="p">(</span><span class="n">batch</span><span class="p">,</span> <span class="n">use_amp</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">use_amp</span><span class="p">)</span>
 
-        <span class="k">if</span> <span class="s2">&quot;series_cu_seqlens&quot;</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">:</span>
-            <span class="n">cu</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;series_cu_seqlens&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
-            <span class="n">coords</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tokens</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"series_cu_seqlens"</span> <span class="ow">in</span> <span class="n">batch</span><span class="p">:</span>
+            <span class="n">cu</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">"series_cu_seqlens"</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">"coords"</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tokens</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">cu</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="n">tokens</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
-            <span class="n">coords</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tokens</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
+            <span class="n">coords</span> <span class="o">=</span> <span class="n">batch</span><span class="p">[</span><span class="s2">"coords"</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">tokens</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
 
         <span class="n">grid_shapes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="n">series_tokens</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
@@ -660,8 +662,8 @@ window.runMermaid = runMermaid;</script>
 
         <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="n">grid_shapes</span><span class="p">))</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;NeuroVFM encoder returned mixed grid shapes in the same batch. &quot;</span>
-                <span class="s2">&quot;Please batch series with consistent spatial sizes.&quot;</span>
+                <span class="s2">"NeuroVFM encoder returned mixed grid shapes in the same batch. "</span>
+                <span class="s2">"Please batch series with consistent spatial sizes."</span>
             <span class="p">)</span>
 
         <span class="n">tokens</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">series_tokens</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
@@ -669,7 +671,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">PatchDecoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Patch-wise MLP decoder for RAE latents.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Patch-wise MLP decoder for RAE latents."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -705,7 +707,7 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="p">,</span> <span class="n">tokens</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">grid_shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">tokens</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Decoder expects tokens of shape (B, N, C).&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Decoder expects tokens of shape (B, N, C)."</span><span class="p">)</span>
 
         <span class="n">batch_size</span><span class="p">,</span> <span class="n">num_tokens</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="n">tokens</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">patch_dim</span> <span class="o">=</span> <span class="n">prod</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">)</span>
@@ -754,7 +756,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="RAETokenizer">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.RAETokenizer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RAETokenizer</span><span class="p">(</span><span class="n">BaseTokenizer</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Representation Autoencoder (RAE) tokenizer with a frozen encoder.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Representation Autoencoder (RAE) tokenizer with a frozen encoder."""</span>
 
 <div class="viewcode-block" id="RAETokenizer.__init__">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.RAETokenizer.__init__">[docs]</a>
@@ -775,7 +777,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">noise_tau</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span>
         <span class="n">latent_stats_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">latent_eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;RAETokenizer&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"RAETokenizer"</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">dim</span><span class="o">=</span><span class="n">dim</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
 
@@ -785,10 +787,10 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">noise_tau</span> <span class="o">=</span> <span class="n">noise_tau</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">latent_eps</span> <span class="o">=</span> <span class="n">latent_eps</span>
 
-        <span class="k">if</span> <span class="n">encoder_type</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;vit&quot;</span><span class="p">,</span> <span class="s2">&quot;medsiglip&quot;</span><span class="p">}:</span>
+        <span class="k">if</span> <span class="n">encoder_type</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">"vit"</span><span class="p">,</span> <span class="s2">"medsiglip"</span><span class="p">}:</span>
             <span class="k">if</span> <span class="n">dim</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;ViT/SigLIP encoder adapters only support dim=2 inputs.&quot;</span>
+                    <span class="s2">"ViT/SigLIP encoder adapters only support dim=2 inputs."</span>
                 <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">ViTEncoderAdapter</span><span class="p">(</span>
                 <span class="n">encoder_name_or_path</span><span class="o">=</span><span class="n">encoder_name_or_path</span><span class="p">,</span>
@@ -799,16 +801,16 @@ window.runMermaid = runMermaid;</script>
             <span class="n">inferred_patch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">patch_size</span>
             <span class="n">grid_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">image_size</span> <span class="o">//</span> <span class="n">inferred_patch</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">latent_grid_shape</span> <span class="o">=</span> <span class="p">(</span><span class="n">grid_shape</span><span class="p">,</span> <span class="n">grid_shape</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">encoder_type</span> <span class="o">==</span> <span class="s2">&quot;neurovfm&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">encoder_type</span> <span class="o">==</span> <span class="s2">"neurovfm"</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">dim</span> <span class="o">!=</span> <span class="mi">3</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;NeuroVFM encoder adapter only supports dim=3 inputs.&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"NeuroVFM encoder adapter only supports dim=3 inputs."</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span> <span class="o">=</span> <span class="n">NeuroVFMEncoderAdapter</span><span class="p">(</span>
                 <span class="n">encoder_name_or_path</span><span class="o">=</span><span class="n">encoder_name_or_path</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">latent_grid_shape</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="n">inferred_patch</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encoder</span><span class="o">.</span><span class="n">patch_size</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported encoder_type: </span><span class="si">{</span><span class="n">encoder_type</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported encoder_type: </span><span class="si">{</span><span class="n">encoder_type</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">patch_size</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">patch_size</span> <span class="o">=</span> <span class="n">inferred_patch</span>
@@ -840,27 +842,27 @@ window.runMermaid = runMermaid;</script>
             <span class="c1"># Latent stats are a plain dict of tensors (mean/var), so</span>
             <span class="c1"># weights_only=True is both safe and sufficient here. It blocks</span>
             <span class="c1"># arbitrary pickle code execution when loading untrusted files.</span>
-            <span class="n">stats</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">latent_stats_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">latent_mean</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">latent_var</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;var&quot;</span><span class="p">)</span>
+            <span class="n">stats</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">latent_stats_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s2">"cpu"</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">latent_mean</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"mean"</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">latent_var</span> <span class="o">=</span> <span class="n">stats</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"var"</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">config</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;dim&quot;</span><span class="p">:</span> <span class="n">dim</span><span class="p">,</span>
-            <span class="s2">&quot;encoder_type&quot;</span><span class="p">:</span> <span class="n">encoder_type</span><span class="p">,</span>
-            <span class="s2">&quot;encoder_name_or_path&quot;</span><span class="p">:</span> <span class="n">encoder_name_or_path</span><span class="p">,</span>
-            <span class="s2">&quot;out_channels&quot;</span><span class="p">:</span> <span class="n">out_channels</span><span class="p">,</span>
-            <span class="s2">&quot;latent_dim&quot;</span><span class="p">:</span> <span class="n">latent_dim</span><span class="p">,</span>
-            <span class="s2">&quot;patch_size&quot;</span><span class="p">:</span> <span class="n">patch_size</span><span class="p">,</span>
-            <span class="s2">&quot;encoder_image_size&quot;</span><span class="p">:</span> <span class="n">encoder_image_size</span><span class="p">,</span>
-            <span class="s2">&quot;encoder_drop_cls_token&quot;</span><span class="p">:</span> <span class="n">encoder_drop_cls_token</span><span class="p">,</span>
-            <span class="s2">&quot;encoder_kwargs&quot;</span><span class="p">:</span> <span class="n">encoder_kwargs</span> <span class="ow">or</span> <span class="p">{},</span>
-            <span class="s2">&quot;decoder_hidden_dim&quot;</span><span class="p">:</span> <span class="n">decoder_hidden_dim</span><span class="p">,</span>
-            <span class="s2">&quot;decoder_num_layers&quot;</span><span class="p">:</span> <span class="n">decoder_num_layers</span><span class="p">,</span>
-            <span class="s2">&quot;decoder_dropout&quot;</span><span class="p">:</span> <span class="n">decoder_dropout</span><span class="p">,</span>
-            <span class="s2">&quot;noise_tau&quot;</span><span class="p">:</span> <span class="n">noise_tau</span><span class="p">,</span>
-            <span class="s2">&quot;latent_stats_path&quot;</span><span class="p">:</span> <span class="n">latent_stats_path</span><span class="p">,</span>
-            <span class="s2">&quot;latent_eps&quot;</span><span class="p">:</span> <span class="n">latent_eps</span><span class="p">,</span>
-            <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
+            <span class="s2">"dim"</span><span class="p">:</span> <span class="n">dim</span><span class="p">,</span>
+            <span class="s2">"encoder_type"</span><span class="p">:</span> <span class="n">encoder_type</span><span class="p">,</span>
+            <span class="s2">"encoder_name_or_path"</span><span class="p">:</span> <span class="n">encoder_name_or_path</span><span class="p">,</span>
+            <span class="s2">"out_channels"</span><span class="p">:</span> <span class="n">out_channels</span><span class="p">,</span>
+            <span class="s2">"latent_dim"</span><span class="p">:</span> <span class="n">latent_dim</span><span class="p">,</span>
+            <span class="s2">"patch_size"</span><span class="p">:</span> <span class="n">patch_size</span><span class="p">,</span>
+            <span class="s2">"encoder_image_size"</span><span class="p">:</span> <span class="n">encoder_image_size</span><span class="p">,</span>
+            <span class="s2">"encoder_drop_cls_token"</span><span class="p">:</span> <span class="n">encoder_drop_cls_token</span><span class="p">,</span>
+            <span class="s2">"encoder_kwargs"</span><span class="p">:</span> <span class="n">encoder_kwargs</span> <span class="ow">or</span> <span class="p">{},</span>
+            <span class="s2">"decoder_hidden_dim"</span><span class="p">:</span> <span class="n">decoder_hidden_dim</span><span class="p">,</span>
+            <span class="s2">"decoder_num_layers"</span><span class="p">:</span> <span class="n">decoder_num_layers</span><span class="p">,</span>
+            <span class="s2">"decoder_dropout"</span><span class="p">:</span> <span class="n">decoder_dropout</span><span class="p">,</span>
+            <span class="s2">"noise_tau"</span><span class="p">:</span> <span class="n">noise_tau</span><span class="p">,</span>
+            <span class="s2">"latent_stats_path"</span><span class="p">:</span> <span class="n">latent_stats_path</span><span class="p">,</span>
+            <span class="s2">"latent_eps"</span><span class="p">:</span> <span class="n">latent_eps</span><span class="p">,</span>
+            <span class="s2">"name"</span><span class="p">:</span> <span class="n">name</span><span class="p">,</span>
         <span class="p">}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">_last_grid_shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span></div>
@@ -875,16 +877,16 @@ window.runMermaid = runMermaid;</script>
             <span class="n">grid</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">num_tokens</span><span class="o">**</span><span class="mf">0.5</span><span class="p">))</span>
             <span class="k">if</span> <span class="n">grid</span> <span class="o">*</span> <span class="n">grid</span> <span class="o">!=</span> <span class="n">num_tokens</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;Unable to infer square grid shape from token count. &quot;</span>
-                    <span class="s2">&quot;Please provide a fixed encoder image size.&quot;</span>
+                    <span class="s2">"Unable to infer square grid shape from token count. "</span>
+                    <span class="s2">"Please provide a fixed encoder image size."</span>
                 <span class="p">)</span>
             <span class="k">return</span> <span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 
         <span class="n">grid</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">num_tokens</span> <span class="o">**</span> <span class="p">(</span><span class="mi">1</span> <span class="o">/</span> <span class="mi">3</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">grid</span><span class="o">**</span><span class="mi">3</span> <span class="o">!=</span> <span class="n">num_tokens</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;Unable to infer cubic grid shape from token count. &quot;</span>
-                <span class="s2">&quot;Please provide a fixed grid shape.&quot;</span>
+                <span class="s2">"Unable to infer cubic grid shape from token count. "</span>
+                <span class="s2">"Please provide a fixed grid shape."</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="p">(</span><span class="n">grid</span><span class="p">,</span> <span class="n">grid</span><span class="p">,</span> <span class="n">grid</span><span class="p">)</span>
 
@@ -932,7 +934,7 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">grid_shape</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">z</span><span class="o">.</span><span class="n">dim</span><span class="p">()</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Latents must be 4D or 5D tensors.&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Latents must be 4D or 5D tensors."</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">grid_shape</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">grid_shape</span> <span class="o">=</span> <span class="n">z</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
@@ -950,7 +952,7 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="nb">input</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">]</span> <span class="o">|</span> <span class="n">NetworkEval</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Full forward pass: encode -&gt; decode.</span>
+<span class="w">        </span><span class="sd">"""Full forward pass: encode -&gt; decode.</span>
 
 <span class="sd">        Follows the same return contract as the sibling tokenizers</span>
 <span class="sd">        (``ContinuousTokenizer``/``DiscreteTokenizer``): a dict during</span>
@@ -969,15 +971,15 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">                - ``reconstructions``: Decoded output.</span>
 <span class="sd">                - ``posteriors``: Always ``None`` (RAE has no posterior).</span>
 <span class="sd">                - ``latent``: Latent grid tensor.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">latent</span><span class="p">,</span> <span class="n">grid_shape</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="nb">input</span><span class="p">)</span>
         <span class="n">reconstructions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">decode</span><span class="p">(</span><span class="n">latent</span><span class="p">,</span> <span class="n">grid_shape</span><span class="o">=</span><span class="n">grid_shape</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">{</span>
-                <span class="s2">&quot;reconstructions&quot;</span><span class="p">:</span> <span class="n">reconstructions</span><span class="p">,</span>
-                <span class="s2">&quot;latent&quot;</span><span class="p">:</span> <span class="n">latent</span><span class="p">,</span>
-                <span class="s2">&quot;latents&quot;</span><span class="p">:</span> <span class="n">latent</span><span class="p">,</span>
+                <span class="s2">"reconstructions"</span><span class="p">:</span> <span class="n">reconstructions</span><span class="p">,</span>
+                <span class="s2">"latent"</span><span class="p">:</span> <span class="n">latent</span><span class="p">,</span>
+                <span class="s2">"latents"</span><span class="p">:</span> <span class="n">latent</span><span class="p">,</span>
             <span class="p">}</span>
 
         <span class="k">return</span> <span class="n">NetworkEval</span><span class="p">(</span>
@@ -993,7 +995,7 @@ window.runMermaid = runMermaid;</script>
 
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;RAETokenizer&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"RAETokenizer"</span><span class="p">]</span>
 </pre></div>
 
            </div>
@@ -1004,7 +1006,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

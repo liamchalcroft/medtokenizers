@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.modules.layers &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.modules.layers &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -452,7 +454,7 @@ window.runMermaid = runMermaid;</script>
 <span class="c1"># The Encoder/Decoder/ResnetBlock/AttnBlock/Upsample/Downsample structure and the</span>
 <span class="c1"># nonlinearity/Normalize helpers follow that implementation (here generalized to 2D/3D).</span>
 <span class="c1"># See THIRD_PARTY_NOTICES.md for details.</span>
-<span class="sd">&quot;&quot;&quot;Neural network layers for encoder-decoder architectures.</span>
+<span class="sd">"""Neural network layers for encoder-decoder architectures.</span>
 
 <span class="sd">This module provides the building blocks for VAE/VQ-VAE encoder and decoder</span>
 <span class="sd">networks, with full support for both 2D and 3D volumetric data. The design</span>
@@ -477,7 +479,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">- For 3D volumes, always use `torch.channels_last_3d` memory format</span>
 <span class="sd">- Enable checkpointing for volumes &gt; 128³ during training</span>
 <span class="sd">- Use `torch.backends.cudnn.benchmark = True` for consistent input sizes</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -508,14 +510,14 @@ window.runMermaid = runMermaid;</script>
     <span class="n">padding</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span>
     <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Factory for 2D/3D convolutions with optimal memory format.</span>
+<span class="w">    </span><span class="sd">"""Factory for 2D/3D convolutions with optimal memory format.</span>
 
 <span class="sd">    Creates Conv2d or Conv3d based on spatial dimensionality. For 3D,</span>
 <span class="sd">    initializes weights in channels_last_3d format for improved cuDNN</span>
 <span class="sd">    kernel selection and cache efficiency on NVIDIA GPUs.</span>
 
 <span class="sd">    The channels-last format stores tensors as NHWDC instead of NCHWD,</span>
-<span class="sd">    which aligns better with cuDNN&#39;s internal representations and can</span>
+<span class="sd">    which aligns better with cuDNN's internal representations and can</span>
 <span class="sd">    provide 20-40% throughput improvements for 3D convolutions.</span>
 
 <span class="sd">    Args:</span>
@@ -535,7 +537,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; x = torch.randn(1, 64, 32, 32, 32)</span>
 <span class="sd">        &gt;&gt;&gt; x = x.to(memory_format=torch.channels_last_3d)</span>
 <span class="sd">        &gt;&gt;&gt; y = conv(x)  # Stays in channels_last_3d format</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="n">conv</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Conv2d</span><span class="p">(</span>
             <span class="n">in_channels</span><span class="p">,</span> <span class="n">out_channels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="p">,</span> <span class="n">stride</span><span class="p">,</span> <span class="n">padding</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
@@ -551,18 +553,18 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_padding</span><span class="p">(</span><span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get asymmetric padding for strided convolutions.</span>
+<span class="w">    </span><span class="sd">"""Get asymmetric padding for strided convolutions.</span>
 
 <span class="sd">    When using stride=2 with kernel_size=3, we need asymmetric padding</span>
 <span class="sd">    to ensure output size is exactly input_size // 2. This pads only</span>
-<span class="sd">    the &quot;end&quot; of each spatial dimension.</span>
+<span class="sd">    the "end" of each spatial dimension.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Padding tuple for F.pad (reversed order: last dim first)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># F.pad format: (left, right, top, bottom[, front, back])</span>
     <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
         <span class="k">return</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>  <span class="c1"># H and W padding</span>
@@ -571,7 +573,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Upsample</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Learnable upsampling via nearest-neighbor interpolation + convolution.</span>
+<span class="w">    </span><span class="sd">"""Learnable upsampling via nearest-neighbor interpolation + convolution.</span>
 
 <span class="sd">    Upsamples spatial dimensions by 2x using nearest-neighbor interpolation,</span>
 <span class="sd">    then applies a 3x3 convolution to learn smooth upsampling patterns.</span>
@@ -593,7 +595,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Args:</span>
 <span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
 <span class="sd">        in_channels: Number of input/output channels</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -602,23 +604,23 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">_scale_factor</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span> <span class="k">if</span> <span class="n">dim</span> <span class="o">==</span> <span class="mi">3</span> <span class="k">else</span> <span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial_upsampled&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Upsample input by 2x in all spatial dimensions.</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial_upsampled"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Upsample input by 2x in all spatial dimensions.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x: Input tensor of shape (B, C, H, W) or (B, C, H, W, D)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Upsampled tensor with spatial dims doubled</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># F.interpolate is faster than repeat_interleave and uses less memory</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale_factor</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">scale_factor</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_scale_factor</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"nearest"</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">Downsample</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Strided convolution for 2x spatial downsampling.</span>
+<span class="w">    </span><span class="sd">"""Strided convolution for 2x spatial downsampling.</span>
 
 <span class="sd">    Downsamples by factor of 2 using stride-2 convolution with asymmetric</span>
 <span class="sd">    padding. This learns spatial aggregation patterns rather than using</span>
@@ -633,7 +635,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Args:</span>
 <span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
 <span class="sd">        in_channels: Number of input/output channels</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dim</span><span class="p">:</span> <span class="n">SpatialDim</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -643,25 +645,25 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span> <span class="o">=</span> <span class="n">get_padding</span><span class="p">(</span><span class="n">dim</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial_downsampled&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Downsample input by 2x in all spatial dimensions.</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial_downsampled"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Downsample input by 2x in all spatial dimensions.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x: Input tensor of shape (B, C, H, W) or (B, C, H, W, D)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Downsampled tensor with spatial dims halved</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Asymmetric padding for exact 2x downsampling</span>
-        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">x</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">_padding</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"constant"</span><span class="p">,</span> <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ResnetBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pre-activation residual block with GroupNorm.</span>
+<span class="w">    </span><span class="sd">"""Pre-activation residual block with GroupNorm.</span>
 
-<span class="sd">    Implements the &quot;full pre-activation&quot; residual block design where</span>
+<span class="sd">    Implements the "full pre-activation" residual block design where</span>
 <span class="sd">    normalization and activation precede each convolution. This provides</span>
 <span class="sd">    better gradient flow and is standard in modern autoencoder architectures.</span>
 
@@ -683,7 +685,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        in_channels: Number of input channels</span>
 <span class="sd">        out_channels: Number of output channels (default: same as input)</span>
 <span class="sd">        dropout: Dropout probability (default: 0.0)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -711,16 +713,16 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels_out *spatial&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply residual block transformation.</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels_out *spatial"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Apply residual block transformation.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x: Input tensor</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Residual output: shortcut(x) + conv2(conv1(x))</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm1</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">h</span> <span class="o">=</span> <span class="n">nonlinearity</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
         <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">conv1</span><span class="p">(</span><span class="n">h</span><span class="p">)</span>
@@ -736,15 +738,15 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="AttnBlock">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.AttnBlock">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">AttnBlock</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Self-attention block with efficient scaled dot-product attention.</span>
+<span class="w">    </span><span class="sd">"""Self-attention block with efficient scaled dot-product attention.</span>
 
 <span class="sd">    Applies multi-head self-attention over spatial dimensions to capture</span>
-<span class="sd">    long-range dependencies. Uses PyTorch&#39;s optimized scaled_dot_product_attention</span>
+<span class="sd">    long-range dependencies. Uses PyTorch's optimized scaled_dot_product_attention</span>
 <span class="sd">    which automatically selects the best kernel (Flash Attention when available).</span>
 
 <span class="sd">    When to Use Attention</span>
 <span class="sd">    ---------------------</span>
-<span class="sd">    Attention is computationally expensive (O(n²) in spatial size), so it&#39;s</span>
+<span class="sd">    Attention is computationally expensive (O(n²) in spatial size), so it's</span>
 <span class="sd">    typically only used at lower resolutions (e.g., 32x32 or 16x16) where</span>
 <span class="sd">    the spatial dimension is small enough to be tractable.</span>
 
@@ -757,7 +759,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Args:</span>
 <span class="sd">        dim: Spatial dimensionality (2 or 3)</span>
 <span class="sd">        in_channels: Number of input/output channels</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="AttnBlock.__init__">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.AttnBlock.__init__">[docs]</a>
@@ -777,16 +779,16 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="AttnBlock.forward">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.AttnBlock.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply self-attention over spatial dimensions.</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Apply self-attention over spatial dimensions.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x: Input tensor</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Attention output with residual connection: x + attn(x)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">h_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
         <span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">q</span><span class="p">(</span><span class="n">h_</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">k</span><span class="p">(</span><span class="n">h_</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">v</span><span class="p">(</span><span class="n">h_</span><span class="p">)</span>
 
@@ -808,7 +810,7 @@ window.runMermaid = runMermaid;</script>
             <span class="n">k</span> <span class="o">=</span> <span class="n">k</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">v</span> <span class="o">=</span> <span class="n">v</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span> <span class="o">*</span> <span class="n">w</span> <span class="o">*</span> <span class="n">d</span><span class="p">)</span><span class="o">.</span><span class="n">transpose</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
 
-        <span class="c1"># Use PyTorch&#39;s SDPA - let it choose the best backend automatically</span>
+        <span class="c1"># Use PyTorch's SDPA - let it choose the best backend automatically</span>
         <span class="n">h_</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">scaled_dot_product_attention</span><span class="p">(</span><span class="n">q</span><span class="p">,</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span><span class="p">,</span> <span class="n">scale</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">scale</span><span class="p">)</span>
 
         <span class="c1"># Reshape back to spatial: (B, 1, N, C) -&gt; (B, C, *spatial)</span>
@@ -823,7 +825,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="Encoder">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Encoder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Encoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Progressive encoder for VAE/VQ-VAE architectures.</span>
+<span class="w">    </span><span class="sd">"""Progressive encoder for VAE/VQ-VAE architectures.</span>
 
 <span class="sd">    The encoder progressively downsamples the input while increasing</span>
 <span class="sd">    channel depth, producing a low-resolution, high-channel latent</span>
@@ -863,7 +865,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        spatial_compression: Total spatial compression factor</span>
 <span class="sd">        use_checkpointing: Enable gradient checkpointing (default: False)</span>
 <span class="sd">        **kwargs: Additional config (use_encoder_mid, patch_size, etc.)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="Encoder.__init__">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Encoder.__init__">[docs]</a>
@@ -888,21 +890,21 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">use_checkpointing</span> <span class="o">=</span> <span class="n">use_checkpointing</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
 
-        <span class="c1"># NVIDIA MAISI encoder doesn&#39;t use mid blocks</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">use_encoder_mid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_encoder_mid&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># NVIDIA MAISI encoder doesn't use mid blocks</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_encoder_mid</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"use_encoder_mid"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
-        <span class="c1"># NVIDIA MAISI doesn&#39;t use nonlinearity between norm_out and conv_out</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">use_output_nonlinearity</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_output_nonlinearity&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># NVIDIA MAISI doesn't use nonlinearity between norm_out and conv_out</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_output_nonlinearity</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"use_output_nonlinearity"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># Optional spatial compression (wavelets, patching)</span>
-        <span class="n">patch_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch_size&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">patch_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"patch_size"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">patch_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">compressor</span> <span class="o">=</span> <span class="n">SpatialCompressor</span><span class="p">(</span>
                 <span class="n">patch_size</span><span class="p">,</span>
-                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch_method&quot;</span><span class="p">,</span> <span class="s2">&quot;haar&quot;</span><span class="p">),</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"patch_method"</span><span class="p">,</span> <span class="s2">"haar"</span><span class="p">),</span>
                 <span class="n">dim</span><span class="p">,</span>
-                <span class="n">resolution</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resolution&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-                <span class="n">voronoi_jitter</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;voronoi_jitter&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                <span class="n">resolution</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"resolution"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="n">voronoi_jitter</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"voronoi_jitter"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">compressor</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Identity</span><span class="p">()</span>
@@ -948,7 +950,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">curr_res</span> <span class="o">=</span> <span class="n">curr_res</span> <span class="o">//</span> <span class="mi">2</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">down</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">down</span><span class="p">)</span>
 
-        <span class="c1"># Middle blocks (optional - NVIDIA MAISI doesn&#39;t use them)</span>
+        <span class="c1"># Middle blocks (optional - NVIDIA MAISI doesn't use them)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_encoder_mid</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mid</span> <span class="o">=</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_1</span> <span class="o">=</span> <span class="n">ResnetBlock</span><span class="p">(</span>
@@ -956,7 +958,7 @@ window.runMermaid = runMermaid;</script>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">attn_1</span> <span class="o">=</span> <span class="p">(</span>
                 <span class="n">AttnBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">)</span>
-                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">&quot;mid&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">"mid"</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span>
                 <span class="k">else</span> <span class="kc">None</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_2</span> <span class="o">=</span> <span class="n">ResnetBlock</span><span class="p">(</span>
@@ -971,7 +973,7 @@ window.runMermaid = runMermaid;</script>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply module with optional gradient checkpointing.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Apply module with optional gradient checkpointing."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_checkpointing</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">checkpoint</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">use_reentrant</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -979,16 +981,16 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="Encoder.forward">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Encoder.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch z_channels *spatial_compressed&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Encode input to latent representation.</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch z_channels *spatial_compressed"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Encode input to latent representation.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            x: Input tensor of shape (B, C, H, W) or (B, C, H, W, D)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Latent tensor with reduced spatial dimensions</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Note: channels_last conversion removed - it confuses torch.compile</span>
         <span class="c1"># Use model.to(memory_format=torch.channels_last_3d) at model level instead</span>
 
@@ -1035,7 +1037,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="Decoder">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Decoder">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Decoder</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Progressive decoder for VAE/VQ-VAE architectures.</span>
+<span class="w">    </span><span class="sd">"""Progressive decoder for VAE/VQ-VAE architectures.</span>
 
 <span class="sd">    The decoder progressively upsamples the latent representation while</span>
 <span class="sd">    decreasing channel depth, reconstructing the original input dimensions.</span>
@@ -1069,7 +1071,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        spatial_compression: Total spatial compression factor</span>
 <span class="sd">        use_checkpointing: Enable gradient checkpointing (default: False)</span>
 <span class="sd">        **kwargs: Additional config (decoder_blocks_per_stage, patch_size, etc.)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="Decoder.__init__">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Decoder.__init__">[docs]</a>
@@ -1095,20 +1097,20 @@ window.runMermaid = runMermaid;</script>
         <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
 
         <span class="c1"># NVIDIA MAISI has different blocks per stage: [2, 2, 0]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">decoder_blocks_per_stage</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;decoder_blocks_per_stage&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">decoder_blocks_per_stage</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"decoder_blocks_per_stage"</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
 
-        <span class="c1"># NVIDIA MAISI doesn&#39;t use nonlinearity between norm_out and conv_out</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">use_output_nonlinearity</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;use_output_nonlinearity&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># NVIDIA MAISI doesn't use nonlinearity between norm_out and conv_out</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">use_output_nonlinearity</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"use_output_nonlinearity"</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
 
         <span class="c1"># Optional spatial decompression</span>
-        <span class="n">patch_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch_size&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="n">patch_size</span> <span class="o">=</span> <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"patch_size"</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">patch_size</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">decompressor</span> <span class="o">=</span> <span class="n">SpatialDecompressor</span><span class="p">(</span>
                 <span class="n">patch_size</span><span class="p">,</span>
-                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;patch_method&quot;</span><span class="p">,</span> <span class="s2">&quot;haar&quot;</span><span class="p">),</span>
+                <span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"patch_method"</span><span class="p">,</span> <span class="s2">"haar"</span><span class="p">),</span>
                 <span class="n">dim</span><span class="p">,</span>
-                <span class="n">resolution</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;resolution&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
-                <span class="n">voronoi_jitter</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;voronoi_jitter&quot;</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
+                <span class="n">resolution</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"resolution"</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span>
+                <span class="n">voronoi_jitter</span><span class="o">=</span><span class="n">kwargs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"voronoi_jitter"</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">),</span>
                 <span class="n">out_channels</span><span class="o">=</span><span class="n">out_channels</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1132,7 +1134,7 @@ window.runMermaid = runMermaid;</script>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">attn_1</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">AttnBlock</span><span class="p">(</span><span class="n">dim</span><span class="p">,</span> <span class="n">block_in</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">&quot;mid&quot;</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="s2">"mid"</span> <span class="ow">in</span> <span class="nb">str</span><span class="p">(</span><span class="n">attn_resolutions</span><span class="p">)</span>
             <span class="k">else</span> <span class="kc">None</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mid</span><span class="o">.</span><span class="n">block_2</span> <span class="o">=</span> <span class="n">ResnetBlock</span><span class="p">(</span>
@@ -1179,7 +1181,7 @@ window.runMermaid = runMermaid;</script>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_checkpoint_forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">module</span><span class="p">:</span> <span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply module with optional gradient checkpointing.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Apply module with optional gradient checkpointing."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">use_checkpointing</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">training</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">checkpoint</span><span class="p">(</span><span class="n">module</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">use_reentrant</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">module</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
@@ -1187,16 +1189,16 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="Decoder.forward">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Decoder.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch z_channels *spatial_compressed&quot;</span><span class="p">]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;batch channels *spatial&quot;</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decode latent representation to output.</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">z</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch z_channels *spatial_compressed"</span><span class="p">]</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"batch channels *spatial"</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Decode latent representation to output.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            z: Latent tensor</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Reconstructed output tensor</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Note: channels_last conversion removed - it confuses torch.compile</span>
         <span class="c1"># Use model.to(memory_format=torch.channels_last_3d) at model level instead</span>
 
@@ -1247,7 +1249,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

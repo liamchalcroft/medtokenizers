@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.modules.patch &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.modules.patch &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -454,7 +456,7 @@ window.runMermaid = runMermaid;</script>
 <span class="c1"># SpatialCompressor/SpatialDecompressor are adapted from cosmos_tokenizer/modules/patching.py.</span>
 <span class="c1"># The Voronoi tiling path is an original addition.</span>
 <span class="c1"># See THIRD_PARTY_NOTICES.md for details.</span>
-<span class="sd">&quot;&quot;&quot;Spatial compression modules for handling wavelet, rearrange, and Voronoi tilings.&quot;&quot;&quot;</span>
+<span class="sd">"""Spatial compression modules for handling wavelet, rearrange, and Voronoi tilings."""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">math</span>
 
@@ -464,26 +466,26 @@ window.runMermaid = runMermaid;</script>
 <span class="kn">from</span><span class="w"> </span><span class="nn">einops</span><span class="w"> </span><span class="kn">import</span> <span class="n">rearrange</span>
 
 <span class="n">_WAVELETS</span> <span class="o">=</span> <span class="p">{</span>
-    <span class="s2">&quot;haar&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.7071067811865476</span><span class="p">,</span> <span class="mf">0.7071067811865476</span><span class="p">]),</span>
-    <span class="s2">&quot;rearrange&quot;</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
+    <span class="s2">"haar"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">0.7071067811865476</span><span class="p">,</span> <span class="mf">0.7071067811865476</span><span class="p">]),</span>
+    <span class="s2">"rearrange"</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">]),</span>
 <span class="p">}</span>
 <span class="n">_PERSISTENT</span> <span class="o">=</span> <span class="kc">False</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">SpatialCompressorBase</span><span class="p">(</span><span class="n">nn</span><span class="o">.</span><span class="n">Module</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for SpatialCompressor and SpatialDecompressor with shared functionality.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Base class for SpatialCompressor and SpatialDecompressor with shared functionality."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">patch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-        <span class="n">patch_method</span><span class="o">=</span><span class="s2">&quot;haar&quot;</span><span class="p">,</span>
+        <span class="n">patch_method</span><span class="o">=</span><span class="s2">"haar"</span><span class="p">,</span>
         <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">voronoi_jitter</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
     <span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">patch_size</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">patch_size</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;patch_size must be a power of 2&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"patch_size must be a power of 2"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">=</span> <span class="n">patch_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">=</span> <span class="n">patch_method</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">=</span> <span class="n">dim</span>
@@ -499,34 +501,34 @@ window.runMermaid = runMermaid;</script>
             <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Register wavelets buffer</span>
-        <span class="k">if</span> <span class="n">patch_method</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;haar&quot;</span><span class="p">,</span> <span class="s2">&quot;rearrange&quot;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">patch_method</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"haar"</span><span class="p">,</span> <span class="s2">"rearrange"</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span>
-                <span class="s2">&quot;wavelets&quot;</span><span class="p">,</span> <span class="n">_WAVELETS</span><span class="p">[</span><span class="n">patch_method</span><span class="p">],</span> <span class="n">persistent</span><span class="o">=</span><span class="n">_PERSISTENT</span>
+                <span class="s2">"wavelets"</span><span class="p">,</span> <span class="n">_WAVELETS</span><span class="p">[</span><span class="n">patch_method</span><span class="p">],</span> <span class="n">persistent</span><span class="o">=</span><span class="n">_PERSISTENT</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">range</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="nb">int</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">tensor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">))</span><span class="o">.</span><span class="n">item</span><span class="p">()))</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span>
-                <span class="s2">&quot;_arange&quot;</span><span class="p">,</span>
+                <span class="s2">"_arange"</span><span class="p">,</span>
                 <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">_WAVELETS</span><span class="p">[</span><span class="n">patch_method</span><span class="p">]</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span>
                 <span class="n">persistent</span><span class="o">=</span><span class="n">_PERSISTENT</span><span class="p">,</span>
             <span class="p">)</span>
-        <span class="k">elif</span> <span class="n">patch_method</span> <span class="o">==</span> <span class="s2">&quot;voronoi&quot;</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">patch_method</span> <span class="o">==</span> <span class="s2">"voronoi"</span><span class="p">:</span>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;resolution must be provided for voronoi patching&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"resolution must be provided for voronoi patching"</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_setup_voronoi_boundaries</span><span class="p">()</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown patch method: </span><span class="si">{</span><span class="n">patch_method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown patch method: </span><span class="si">{</span><span class="n">patch_method</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
         <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">parameters</span><span class="p">():</span>
             <span class="n">param</span><span class="o">.</span><span class="n">requires_grad</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_setup_voronoi_boundaries</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup Voronoi boundaries (shared between SpatialCompressor and SpatialDecompressor).&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Setup Voronoi boundaries (shared between SpatialCompressor and SpatialDecompressor)."""</span>
         <span class="n">jitter_scale</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">voronoi_jitter</span><span class="p">,</span> <span class="mf">0.0</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">axis</span><span class="p">,</span> <span class="n">length</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">):</span>
             <span class="n">cells</span> <span class="o">=</span> <span class="n">length</span> <span class="o">//</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span>
             <span class="k">if</span> <span class="n">cells</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span> <span class="o">!=</span> <span class="n">length</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                    <span class="s2">&quot;resolution must be divisible by patch_size for voronoi tiling&quot;</span>
+                    <span class="s2">"resolution must be divisible by patch_size for voronoi tiling"</span>
                 <span class="p">)</span>
             <span class="n">boundaries</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">length</span><span class="p">,</span> <span class="n">steps</span><span class="o">=</span><span class="n">cells</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">jitter_scale</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">cells</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
@@ -546,19 +548,19 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">boundaries</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">length</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">[</span><span class="n">idx</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
             <span class="n">boundaries</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">length</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">register_buffer</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;voronoi_boundaries_</span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">,</span> <span class="n">persistent</span><span class="o">=</span><span class="n">_PERSISTENT</span>
+                <span class="sa">f</span><span class="s2">"voronoi_boundaries_</span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">boundaries</span><span class="p">,</span> <span class="n">persistent</span><span class="o">=</span><span class="n">_PERSISTENT</span>
             <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_bounds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">axis</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
-        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;voronoi_boundaries_</span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"voronoi_boundaries_</span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="SpatialCompressor">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.SpatialCompressor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SpatialCompressor</span><span class="p">(</span><span class="n">SpatialCompressorBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compress spatial dimensions into channel dimensions using several tilings.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Compress spatial dimensions into channel dimensions using several tilings."""</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_dwt_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reflect&quot;</span><span class="p">,</span> <span class="n">rescale</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dwt_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"reflect"</span><span class="p">,</span> <span class="n">rescale</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
         <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelets</span>
         <span class="n">n</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -582,7 +584,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">out</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">cat</span><span class="p">([</span><span class="n">xll</span><span class="p">,</span> <span class="n">xlh</span><span class="p">,</span> <span class="n">xhl</span><span class="p">,</span> <span class="n">xhh</span><span class="p">],</span> <span class="n">dim</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">out</span> <span class="o">/</span> <span class="mi">2</span> <span class="k">if</span> <span class="n">rescale</span> <span class="k">else</span> <span class="n">out</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_dwt_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;reflect&quot;</span><span class="p">,</span> <span class="n">rescale</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_dwt_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">mode</span><span class="o">=</span><span class="s2">"reflect"</span><span class="p">,</span> <span class="n">rescale</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
         <span class="n">dtype</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">dtype</span>
         <span class="n">h</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">wavelets</span>
         <span class="n">n</span><span class="p">,</span> <span class="n">g</span> <span class="o">=</span> <span class="n">h</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
@@ -633,13 +635,13 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">rearrange</span><span class="p">(</span>
                 <span class="n">x</span><span class="p">,</span>
-                <span class="s2">&quot;b c (h p1) (w p2) -&gt; b (c p1 p2) h w&quot;</span><span class="p">,</span>
+                <span class="s2">"b c (h p1) (w p2) -&gt; b (c p1 p2) h w"</span><span class="p">,</span>
                 <span class="n">p1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
                 <span class="n">p2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
             <span class="p">)</span><span class="o">.</span><span class="n">contiguous</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">rearrange</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
-            <span class="s2">&quot;b c (h p1) (w p2) (d p3) -&gt; b (c p1 p2 p3) h w d&quot;</span><span class="p">,</span>
+            <span class="s2">"b c (h p1) (w p2) (d p3) -&gt; b (c p1 p2 p3) h w d"</span><span class="p">,</span>
             <span class="n">p1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
             <span class="n">p2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
             <span class="n">p3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
@@ -649,7 +651,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;input resolution does not match configured voronoi resolution&quot;</span>
+                <span class="s2">"input resolution does not match configured voronoi resolution"</span>
             <span class="p">)</span>
         <span class="n">y_bounds</span><span class="p">,</span> <span class="n">x_bounds</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_voronoi_bounds</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span> <span class="bp">self</span><span class="o">.</span><span class="n">_voronoi_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
         <span class="n">num_y</span><span class="p">,</span> <span class="n">num_x</span> <span class="o">=</span> <span class="n">y_bounds</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">x_bounds</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span>
@@ -665,20 +667,20 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">patch</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
                     <span class="n">patch</span><span class="p">,</span>
                     <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">),</span>
-                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s2">"bilinear"</span><span class="p">,</span>
                     <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">patches</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">patch</span><span class="p">)</span>
         <span class="n">patches</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
             <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">num_y</span><span class="p">,</span> <span class="n">num_x</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">rearrange</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="s2">&quot;b c p hy hx -&gt; b (c p) hy hx&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rearrange</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="s2">"b c p hy hx -&gt; b (c p) hy hx"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_voronoi_3d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
         <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">d</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">h</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">d</span><span class="p">)</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">resolution</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="s2">&quot;input resolution does not match configured voronoi resolution&quot;</span>
+                <span class="s2">"input resolution does not match configured voronoi resolution"</span>
             <span class="p">)</span>
         <span class="n">y_bounds</span><span class="p">,</span> <span class="n">x_bounds</span><span class="p">,</span> <span class="n">z_bounds</span> <span class="o">=</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_voronoi_bounds</span><span class="p">(</span><span class="mi">0</span><span class="p">),</span>
@@ -705,7 +707,7 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">patch</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
                         <span class="n">patch</span><span class="p">,</span>
                         <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">),</span>
-                        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;trilinear&quot;</span><span class="p">,</span>
+                        <span class="n">mode</span><span class="o">=</span><span class="s2">"trilinear"</span><span class="p">,</span>
                         <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="n">patch</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -713,18 +715,18 @@ window.runMermaid = runMermaid;</script>
         <span class="n">patches</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">stack</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
             <span class="n">b</span><span class="p">,</span> <span class="n">c</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">num_y</span><span class="p">,</span> <span class="n">num_x</span><span class="p">,</span> <span class="n">num_z</span>
         <span class="p">)</span>
-        <span class="k">return</span> <span class="n">rearrange</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="s2">&quot;b c p hy hx hz -&gt; b (c p) hy hx hz&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">rearrange</span><span class="p">(</span><span class="n">patches</span><span class="p">,</span> <span class="s2">"b c p hy hx hz -&gt; b (c p) hy hx hz"</span><span class="p">)</span>
 
 <div class="viewcode-block" id="SpatialCompressor.forward">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.SpatialCompressor.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">&quot;haar&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">"haar"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_haar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">&quot;rearrange&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">"rearrange"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_arrange</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">&quot;voronoi&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">"voronoi"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_voronoi_2d</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_voronoi_3d</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown patch method: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown patch method: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 </div>
 
 
@@ -732,14 +734,14 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="SpatialDecompressor">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.SpatialDecompressor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SpatialDecompressor</span><span class="p">(</span><span class="n">SpatialCompressorBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reconstruct original spatial layout from compressed channel representation.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Reconstruct original spatial layout from compressed channel representation."""</span>
 
 <div class="viewcode-block" id="SpatialDecompressor.__init__">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.SpatialDecompressor.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">patch_size</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
-        <span class="n">patch_method</span><span class="o">=</span><span class="s2">&quot;haar&quot;</span><span class="p">,</span>
+        <span class="n">patch_method</span><span class="o">=</span><span class="s2">"haar"</span><span class="p">,</span>
         <span class="n">dim</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span>
         <span class="n">resolution</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">voronoi_jitter</span><span class="o">=</span><span class="mf">0.0</span><span class="p">,</span>
@@ -748,8 +750,8 @@ window.runMermaid = runMermaid;</script>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">patch_size</span><span class="p">,</span> <span class="n">patch_method</span><span class="p">,</span> <span class="n">dim</span><span class="p">,</span> <span class="n">resolution</span><span class="p">,</span> <span class="n">voronoi_jitter</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">base_channels</span> <span class="o">=</span> <span class="n">out_channels</span>
 
-        <span class="k">if</span> <span class="n">patch_method</span> <span class="o">==</span> <span class="s2">&quot;voronoi&quot;</span> <span class="ow">and</span> <span class="n">out_channels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;out_channels must be provided for voronoi unpatching&quot;</span><span class="p">)</span></div>
+        <span class="k">if</span> <span class="n">patch_method</span> <span class="o">==</span> <span class="s2">"voronoi"</span> <span class="ow">and</span> <span class="n">out_channels</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"out_channels must be provided for voronoi unpatching"</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_idwt_2d</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">rescale</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
@@ -865,13 +867,13 @@ window.runMermaid = runMermaid;</script>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">rearrange</span><span class="p">(</span>
                 <span class="n">x</span><span class="p">,</span>
-                <span class="s2">&quot;b (c p1 p2) h w -&gt; b c (h p1) (w p2)&quot;</span><span class="p">,</span>
+                <span class="s2">"b (c p1 p2) h w -&gt; b c (h p1) (w p2)"</span><span class="p">,</span>
                 <span class="n">p1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
                 <span class="n">p2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="k">return</span> <span class="n">rearrange</span><span class="p">(</span>
             <span class="n">x</span><span class="p">,</span>
-            <span class="s2">&quot;b (c p1 p2 p3) h w d -&gt; b c (h p1) (w p2) (d p3)&quot;</span><span class="p">,</span>
+            <span class="s2">"b (c p1 p2 p3) h w d -&gt; b c (h p1) (w p2) (d p3)"</span><span class="p">,</span>
             <span class="n">p1</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
             <span class="n">p2</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
             <span class="n">p3</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span>
@@ -884,7 +886,7 @@ window.runMermaid = runMermaid;</script>
             <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_voronoi_bounds</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">hy</span><span class="p">,</span> <span class="n">hx</span><span class="p">)</span> <span class="o">!=</span> <span class="p">(</span><span class="n">num_y</span><span class="p">,</span> <span class="n">num_x</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Patch grid does not match Voronoi configuration&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Patch grid does not match Voronoi configuration"</span><span class="p">)</span>
         <span class="n">patches</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_channels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">hy</span><span class="p">,</span> <span class="n">hx</span><span class="p">)</span>
         <span class="n">patches</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
             <span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_channels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="p">,</span> <span class="n">hy</span><span class="p">,</span> <span class="n">hx</span>
@@ -905,7 +907,7 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">patch</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
                     <span class="n">patches</span><span class="p">[:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="p">:,</span> <span class="n">iy</span><span class="p">,</span> <span class="n">ix</span><span class="p">],</span>
                     <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">y1</span> <span class="o">-</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">),</span>
-                    <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;bilinear&quot;</span><span class="p">,</span>
+                    <span class="n">mode</span><span class="o">=</span><span class="s2">"bilinear"</span><span class="p">,</span>
                     <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="n">output</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">y0</span><span class="p">:</span><span class="n">y1</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span><span class="n">x1</span><span class="p">]</span> <span class="o">=</span> <span class="n">patch</span>
@@ -915,7 +917,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">b</span><span class="p">,</span> <span class="n">_</span><span class="p">,</span> <span class="n">hy</span><span class="p">,</span> <span class="n">hx</span><span class="p">,</span> <span class="n">hz</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span>
         <span class="n">dims</span> <span class="o">=</span> <span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_voronoi_bounds</span><span class="p">(</span><span class="n">axis</span><span class="p">))</span> <span class="o">-</span> <span class="mi">1</span> <span class="k">for</span> <span class="n">axis</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">)]</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">hy</span><span class="p">,</span> <span class="n">hx</span><span class="p">,</span> <span class="n">hz</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">dims</span><span class="p">):</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Patch grid does not match Voronoi configuration&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"Patch grid does not match Voronoi configuration"</span><span class="p">)</span>
         <span class="n">patches</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">base_channels</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_size</span><span class="o">**</span><span class="bp">self</span><span class="o">.</span><span class="n">dim</span><span class="p">,</span> <span class="n">hy</span><span class="p">,</span> <span class="n">hx</span><span class="p">,</span> <span class="n">hz</span><span class="p">)</span>
         <span class="n">patches</span> <span class="o">=</span> <span class="n">patches</span><span class="o">.</span><span class="n">view</span><span class="p">(</span>
             <span class="n">b</span><span class="p">,</span>
@@ -949,7 +951,7 @@ window.runMermaid = runMermaid;</script>
                     <span class="n">patch</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
                         <span class="n">patch</span><span class="p">,</span>
                         <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="n">z1</span> <span class="o">-</span> <span class="n">z0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">-</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">),</span>
-                        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;trilinear&quot;</span><span class="p">,</span>
+                        <span class="n">mode</span><span class="o">=</span><span class="s2">"trilinear"</span><span class="p">,</span>
                         <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
                     <span class="p">)</span>
                     <span class="n">output</span><span class="p">[:,</span> <span class="p">:,</span> <span class="n">y0</span><span class="p">:</span><span class="n">y1</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span><span class="n">x1</span><span class="p">,</span> <span class="n">z0</span><span class="p">:</span><span class="n">z1</span><span class="p">]</span> <span class="o">=</span> <span class="n">patch</span><span class="o">.</span><span class="n">permute</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
@@ -958,17 +960,17 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="SpatialDecompressor.forward">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.SpatialDecompressor.forward">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">x</span><span class="p">):</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">&quot;haar&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">"haar"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_ihaar</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">&quot;rearrange&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">"rearrange"</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_iarrange</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">&quot;voronoi&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span> <span class="o">==</span> <span class="s2">"voronoi"</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">_inverse_voronoi_2d</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
                 <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">dim</span> <span class="o">==</span> <span class="mi">2</span>
                 <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_inverse_voronoi_3d</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
             <span class="p">)</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown patch method: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unknown patch method: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">patch_method</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
@@ -981,7 +983,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

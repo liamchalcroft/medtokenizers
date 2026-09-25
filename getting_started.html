@@ -6,7 +6,7 @@
   <meta charset="utf-8" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Getting Started &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>Getting Started &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="_static/css/custom.css?v=ab4584ce" />
@@ -14,7 +14,7 @@
   
       <script src="_static/jquery.js?v=5d32c60e"></script>
       <script src="_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="_static/documentation_options.js?v=01f34227"></script>
+      <script src="_static/documentation_options.js?v=a58bc63e"></script>
       <script src="_static/doctools.js?v=fd6eb6e6"></script>
       <script src="_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="_static/js/theme.js"></script>
@@ -101,9 +101,9 @@
 <section id="installation">
 <h2>Installation<a class="headerlink" href="#installation" title="Link to this heading"></a></h2>
 <div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span>.
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[dev]&quot;</span><span class="w">    </span><span class="c1"># tests + linting</span>
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[docs]&quot;</span><span class="w">   </span><span class="c1"># documentation</span>
-pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">&quot;.[all]&quot;</span><span class="w">    </span><span class="c1"># everything (cloud + training too)</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[dev]"</span><span class="w">    </span><span class="c1"># tests + linting</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[docs]"</span><span class="w">   </span><span class="c1"># documentation</span>
+pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[all]"</span><span class="w">    </span><span class="c1"># everything (cloud + training too)</span>
 </pre></div>
 </div>
 <p>medtokenizers requires Python 3.10+ and PyTorch 2.0+.</p>
@@ -124,7 +124,7 @@ for a smoke test; load your own trained weights for real reconstructions.</p>
 <span class="n">volume</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">unsqueeze</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span>
 <span class="n">volume</span> <span class="o">=</span> <span class="p">(</span><span class="n">volume</span> <span class="o">-</span> <span class="n">volume</span><span class="o">.</span><span class="n">min</span><span class="p">())</span> <span class="o">/</span> <span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">max</span><span class="p">()</span> <span class="o">-</span> <span class="n">volume</span><span class="o">.</span><span class="n">min</span><span class="p">()</span> <span class="o">+</span> <span class="mf">1e-8</span><span class="p">)</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">MAISITokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># or MAISITokenizer.from_pretrained(&quot;./checkpoint&quot;)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">MAISITokenizer</span><span class="p">()</span><span class="o">.</span><span class="n">eval</span><span class="p">()</span>  <span class="c1"># or MAISITokenizer.from_pretrained("./checkpoint")</span>
 <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
     <span class="n">recon</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">reconstruct</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">roi_size</span><span class="o">=</span><span class="p">(</span><span class="mi">96</span><span class="p">,</span> <span class="mi">96</span><span class="p">,</span> <span class="mi">64</span><span class="p">),</span> <span class="n">overlap</span><span class="o">=</span><span class="mf">0.5</span><span class="p">)</span>
 </pre></div>
@@ -152,8 +152,8 @@ back into images.</p>
 <h2>Evaluation<a class="headerlink" href="#evaluation" title="Link to this heading"></a></h2>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">medtokenizers</span><span class="w"> </span><span class="kn">import</span> <span class="n">load_tokenizer</span><span class="p">,</span> <span class="n">TokenizerEvaluator</span>
 
-<span class="n">model</span> <span class="o">=</span> <span class="n">load_tokenizer</span><span class="p">(</span><span class="s2">&quot;./path/to/checkpoint&quot;</span><span class="p">)</span>
-<span class="n">evaluator</span> <span class="o">=</span> <span class="n">TokenizerEvaluator</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">&quot;cuda&quot;</span><span class="p">)</span>
+<span class="n">model</span> <span class="o">=</span> <span class="n">load_tokenizer</span><span class="p">(</span><span class="s2">"./path/to/checkpoint"</span><span class="p">)</span>
+<span class="n">evaluator</span> <span class="o">=</span> <span class="n">TokenizerEvaluator</span><span class="p">(</span><span class="n">model</span><span class="p">,</span> <span class="n">device</span><span class="o">=</span><span class="s2">"cuda"</span><span class="p">)</span>
 <span class="n">results</span> <span class="o">=</span> <span class="n">evaluator</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">test_loader</span><span class="p">)</span>
 <span class="n">evaluator</span><span class="o">.</span><span class="n">print_results</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
 </pre></div>
@@ -173,7 +173,7 @@ back into images.</p>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

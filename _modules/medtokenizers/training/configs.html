@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.training.configs &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.training.configs &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,7 +446,7 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.training.configs</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Training configuration classes.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Training configuration classes."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -455,11 +457,11 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.LossConfig">[docs]</a>
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">LossConfig</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configuration for multi-loss training.</span>
+<span class="w">    </span><span class="sd">"""Configuration for multi-loss training.</span>
 
 <span class="sd">    Supports L1 reconstruction, quantization, VGG perceptual, Gram style,</span>
 <span class="sd">    and Laplacian smoothness losses with stage-based scheduling.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">l1_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span>
     <span class="n">quant_weight</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span>
@@ -480,14 +482,14 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="LossConfig.compute_stage_weights">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.LossConfig.compute_stage_weights">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">compute_stage_weights</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute VGG/Gram weights and current stage for given epoch.</span>
+<span class="w">        </span><span class="sd">"""Compute VGG/Gram weights and current stage for given epoch.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            epoch: Current epoch number</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            (vgg_weight, gram_weight, stage)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">epoch</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage1_epochs</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage1_vgg_weight</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage1_gram_weight</span><span class="p">,</span> <span class="mi">1</span>
 
@@ -506,7 +508,7 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">uses_vgg</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether VGG loss is enabled in any stage.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Whether VGG loss is enabled in any stage."""</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">vgg_weight</span> <span class="o">&gt;</span> <span class="mi">0</span>
             <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage1_vgg_weight</span> <span class="o">&gt;</span> <span class="mi">0</span>
@@ -515,7 +517,7 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">uses_gram</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether Gram loss is enabled in any stage.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Whether Gram loss is enabled in any stage."""</span>
         <span class="k">return</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">gram_weight</span> <span class="o">&gt;</span> <span class="mi">0</span>
             <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">stage1_gram_weight</span> <span class="o">&gt;</span> <span class="mi">0</span>
@@ -524,7 +526,7 @@ window.runMermaid = runMermaid;</script>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">uses_laplacian</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Whether Laplacian loss is enabled.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Whether Laplacian loss is enabled."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">laplacian_weight</span> <span class="o">&gt;</span> <span class="mi">0</span></div>
 
 </pre></div>
@@ -537,7 +539,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

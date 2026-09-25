@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.modules.utils &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.modules.utils &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,12 +446,12 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.modules.utils</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Utility functions for medtokenizers modules.</span>
+<span></span><span class="sd">"""Utility functions for medtokenizers modules.</span>
 
 <span class="sd">This module provides foundational building blocks used across the tokenization</span>
 <span class="sd">pipeline, including differentiable rounding, numerical utilities, and</span>
 <span class="sd">normalization layers.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -464,11 +466,11 @@ window.runMermaid = runMermaid;</script>
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">jaxtyping</span><span class="w"> </span><span class="kn">import</span> <span class="n">Float</span>
 
-<span class="n">F_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;F_co&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Callable</span><span class="p">)</span>
+<span class="n">F_co</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"F_co"</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="n">Callable</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_is_compiling</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if we&#39;re inside torch.compile/dynamo tracing.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Check if we're inside torch.compile/dynamo tracing."""</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">torch</span><span class="o">.</span><span class="n">compiler</span><span class="o">.</span><span class="n">is_compiling</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">AttributeError</span><span class="p">:</span>
@@ -480,10 +482,10 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">jaxtyped_compile_safe</span><span class="p">(</span><span class="n">typechecker</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">[[</span><span class="n">F_co</span><span class="p">],</span> <span class="n">F_co</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Jaxtyping decorator that skips type checking during torch.compile.</span>
+<span class="w">    </span><span class="sd">"""Jaxtyping decorator that skips type checking during torch.compile.</span>
 
-<span class="sd">    When torch.dynamo traces a function for compilation, beartype&#39;s runtime</span>
-<span class="sd">    type checking can fail because dynamo uses proxy objects that don&#39;t</span>
+<span class="sd">    When torch.dynamo traces a function for compilation, beartype's runtime</span>
+<span class="sd">    type checking can fail because dynamo uses proxy objects that don't</span>
 <span class="sd">    satisfy the type annotations (even though the actual tensors do).</span>
 
 <span class="sd">    This wrapper detects compilation context and bypasses type checking,</span>
@@ -494,9 +496,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        from beartype import beartype</span>
 
 <span class="sd">        @jaxtyped_compile_safe(beartype)</span>
-<span class="sd">        def forward(self, x: Float[torch.Tensor, &quot;batch channels *spatial&quot;]) -&gt; ...:</span>
+<span class="sd">        def forward(self, x: Float[torch.Tensor, "batch channels *spatial"]) -&gt; ...:</span>
 <span class="sd">            ...</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">jaxtyping</span><span class="w"> </span><span class="kn">import</span> <span class="n">jaxtyped</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">decorator</span><span class="p">(</span><span class="n">fn</span><span class="p">:</span> <span class="n">F_co</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">F_co</span><span class="p">:</span>
@@ -516,7 +518,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">_RoundSTE</span><span class="p">(</span><span class="n">torch</span><span class="o">.</span><span class="n">autograd</span><span class="o">.</span><span class="n">Function</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Straight-Through Estimator for rounding with AMP-safe gradients.</span>
+<span class="w">    </span><span class="sd">"""Straight-Through Estimator for rounding with AMP-safe gradients.</span>
 
 <span class="sd">    The straight-through estimator (STE) is a cornerstone technique for training</span>
 <span class="sd">    discrete representations. It solves a fundamental problem: rounding is</span>
@@ -528,7 +530,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Forward pass: y = round(x)  [discrete output]</span>
 <span class="sd">    Backward pass: dy/dx = 1    [pretend rounding was identity]</span>
 
-<span class="sd">    This &quot;lie&quot; works remarkably well in practice because:</span>
+<span class="sd">    This "lie" works remarkably well in practice because:</span>
 <span class="sd">    1. The gradient direction is preserved (sign of error is correct)</span>
 <span class="sd">    2. Small input changes still produce proportional gradient signals</span>
 <span class="sd">    3. The network learns to produce inputs that round to good codes</span>
@@ -540,27 +542,27 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    NaN/Inf propagation during training.</span>
 
 <span class="sd">    References:</span>
-<span class="sd">        Bengio et al. &quot;Estimating or Propagating Gradients Through Stochastic</span>
-<span class="sd">        Neurons for Conditional Computation&quot; (2013)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        Bengio et al. "Estimating or Propagating Gradients Through Stochastic</span>
+<span class="sd">        Neurons for Conditional Computation" (2013)</span>
+<span class="sd">    """</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">forward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Round input to nearest integer.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Round input to nearest integer."""</span>
         <span class="k">return</span> <span class="n">x</span><span class="o">.</span><span class="n">round</span><span class="p">()</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">backward</span><span class="p">(</span><span class="n">ctx</span><span class="p">,</span> <span class="n">grad_output</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pass gradients through with clipping for AMP stability.</span>
+<span class="w">        </span><span class="sd">"""Pass gradients through with clipping for AMP stability.</span>
 
 <span class="sd">        Clipping bounds are set to ±1e4 which is well within float16 range</span>
 <span class="sd">        (max ~65504) while being large enough to not impede normal training.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="n">grad_output</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="o">-</span><span class="mf">1e4</span><span class="p">,</span> <span class="mf">1e4</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">round_ste</span><span class="p">(</span><span class="n">z</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Round tensor with straight-through gradient estimator.</span>
+<span class="w">    </span><span class="sd">"""Round tensor with straight-through gradient estimator.</span>
 
 <span class="sd">    This is the primary quantization primitive used by FSQ and related methods.</span>
 <span class="sd">    During forward pass, values are rounded to nearest integers. During backward</span>
@@ -582,12 +584,12 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Note:</span>
 <span class="sd">        For numerical stability under AMP, gradients are clipped to ±1e4.</span>
 <span class="sd">        This prevents overflow in float16 while preserving gradient direction.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">_RoundSTE</span><span class="o">.</span><span class="n">apply</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">log</span><span class="p">(</span><span class="n">t</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span> <span class="n">eps</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-5</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Numerically stable logarithm with floor clamping.</span>
+<span class="w">    </span><span class="sd">"""Numerically stable logarithm with floor clamping.</span>
 
 <span class="sd">    Prevents log(0) = -inf by clamping input to minimum epsilon value.</span>
 <span class="sd">    Essential for entropy computations where probabilities may be zero.</span>
@@ -598,12 +600,12 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        log(max(t, eps)) - safe logarithm of input</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">t</span><span class="o">.</span><span class="n">clamp</span><span class="p">(</span><span class="nb">min</span><span class="o">=</span><span class="n">eps</span><span class="p">)</span><span class="o">.</span><span class="n">log</span><span class="p">()</span>
 
 
-<span class="k">def</span><span class="w"> </span><span class="nf">entropy</span><span class="p">(</span><span class="n">prob</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">&quot;... K&quot;</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Shannon entropy of probability distribution.</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">entropy</span><span class="p">(</span><span class="n">prob</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="s2">"... K"</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">"""Compute Shannon entropy of probability distribution.</span>
 
 <span class="sd">    H(p) = -Σ p_i * log(p_i)</span>
 
@@ -623,15 +625,15 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; p_peaked = torch.tensor([0.97, 0.01, 0.01, 0.01])</span>
 <span class="sd">        &gt;&gt;&gt; entropy(p_peaked)  # Low entropy</span>
 <span class="sd">        tensor(0.1545)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="p">(</span><span class="o">-</span><span class="n">prob</span> <span class="o">*</span> <span class="n">log</span><span class="p">(</span><span class="n">prob</span><span class="p">))</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">dim</span><span class="o">=-</span><span class="mi">1</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">nonlinearity</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Float</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="o">...</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Swish/SiLU activation function: x * sigmoid(x).</span>
+<span class="w">    </span><span class="sd">"""Swish/SiLU activation function: x * sigmoid(x).</span>
 
 <span class="sd">    The Swish activation (also called SiLU) provides smooth, non-monotonic</span>
-<span class="sd">    activation that often outperforms ReLU in deep networks. It&#39;s self-gated,</span>
+<span class="sd">    activation that often outperforms ReLU in deep networks. It's self-gated,</span>
 <span class="sd">    meaning the input modulates its own activation.</span>
 
 <span class="sd">    Properties:</span>
@@ -649,14 +651,14 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Note:</span>
 <span class="sd">        Uses F.silu() which has optimized CUDA kernels and enables</span>
 <span class="sd">        better fusion with torch.compile().</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">F</span><span class="o">.</span><span class="n">silu</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="Normalize">
 <a class="viewcode-back" href="../../../api/quantizers.html#medtokenizers.Normalize">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">Normalize</span><span class="p">(</span><span class="n">in_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">num_groups</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">nn</span><span class="o">.</span><span class="n">GroupNorm</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create GroupNorm layer with automatic group count adjustment.</span>
+<span class="w">    </span><span class="sd">"""Create GroupNorm layer with automatic group count adjustment.</span>
 
 <span class="sd">    GroupNorm normalizes over groups of channels, providing batch-size</span>
 <span class="sd">    independent normalization. This is crucial for medical imaging where</span>
@@ -676,7 +678,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; norm = Normalize(64)   # 32 groups of 2 channels each</span>
 <span class="sd">        &gt;&gt;&gt; norm = Normalize(48)   # Adjusted to 16 groups of 3 channels</span>
 <span class="sd">        &gt;&gt;&gt; norm = Normalize(17)   # Adjusted to 1 group (17 is prime)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">num_groups</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">num_groups</span><span class="p">,</span> <span class="n">in_channels</span><span class="p">)</span>
     <span class="k">while</span> <span class="n">in_channels</span> <span class="o">%</span> <span class="n">num_groups</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
         <span class="n">num_groups</span> <span class="o">-=</span> <span class="mi">1</span>
@@ -690,9 +692,9 @@ window.runMermaid = runMermaid;</script>
     <span class="n">x</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
     <span class="n">expected_dim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
     <span class="n">expected_channels</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span>
-    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;encode&quot;</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"encode"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Validate input tensor shape, dtype, and properties at API boundaries.</span>
+<span class="w">    </span><span class="sd">"""Validate input tensor shape, dtype, and properties at API boundaries.</span>
 
 <span class="sd">    Provides clear, actionable error messages for common mistakes. Use this</span>
 <span class="sd">    at encode/decode entry points to fail fast with helpful diagnostics.</span>
@@ -708,50 +710,50 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ValueError: If x has wrong shape, dimensions, or contains NaN/Inf</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; validate_tensor_input(x, expected_dim=3, expected_channels=1, name=&quot;encode&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; validate_tensor_input(x, expected_dim=3, expected_channels=1, name="encode")</span>
 <span class="sd">        &gt;&gt;&gt; # Raises ValueError if x is not (B, 1, H, W, D) floating point tensor</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() expected torch.Tensor, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. &quot;</span>
-            <span class="s2">&quot;Convert your input to a tensor first.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() expected torch.Tensor, got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">. "</span>
+            <span class="s2">"Convert your input to a tensor first."</span>
         <span class="p">)</span>
 
     <span class="c1"># Check dtype is floating point</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">x</span><span class="o">.</span><span class="n">is_floating_point</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() expected floating point tensor, got </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">. &quot;</span>
-            <span class="s2">&quot;Convert with x.float() or x.to(torch.float32).&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() expected floating point tensor, got </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">. "</span>
+            <span class="s2">"Convert with x.float() or x.to(torch.float32)."</span>
         <span class="p">)</span>
 
     <span class="c1"># Check number of dimensions</span>
     <span class="n">expected_ndim</span> <span class="o">=</span> <span class="n">expected_dim</span> <span class="o">+</span> <span class="mi">2</span>  <span class="c1"># batch + channels + spatial</span>
     <span class="k">if</span> <span class="n">x</span><span class="o">.</span><span class="n">ndim</span> <span class="o">!=</span> <span class="n">expected_ndim</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() expected </span><span class="si">{</span><span class="n">expected_ndim</span><span class="si">}</span><span class="s2">D tensor (batch, channels, *spatial), &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">D tensor with shape </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">. &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;For </span><span class="si">{</span><span class="n">expected_dim</span><span class="si">}</span><span class="s2">D spatial, input should be &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="s1">&#39;(B, C, H, W)&#39;</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">expected_dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">&#39;(B, C, H, W, D)&#39;</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() expected </span><span class="si">{</span><span class="n">expected_ndim</span><span class="si">}</span><span class="s2">D tensor (batch, channels, *spatial), "</span>
+            <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="n">x</span><span class="o">.</span><span class="n">ndim</span><span class="si">}</span><span class="s2">D tensor with shape </span><span class="si">{</span><span class="nb">tuple</span><span class="p">(</span><span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span><span class="si">}</span><span class="s2">. "</span>
+            <span class="sa">f</span><span class="s2">"For </span><span class="si">{</span><span class="n">expected_dim</span><span class="si">}</span><span class="s2">D spatial, input should be "</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="s1">'(B, C, H, W)'</span><span class="w"> </span><span class="k">if</span><span class="w"> </span><span class="n">expected_dim</span><span class="w"> </span><span class="o">==</span><span class="w"> </span><span class="mi">2</span><span class="w"> </span><span class="k">else</span><span class="w"> </span><span class="s1">'(B, C, H, W, D)'</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="c1"># Check channel count</span>
     <span class="n">actual_channels</span> <span class="o">=</span> <span class="n">x</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">actual_channels</span> <span class="o">!=</span> <span class="n">expected_channels</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() expected </span><span class="si">{</span><span class="n">expected_channels</span><span class="si">}</span><span class="s2"> input channels, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="n">actual_channels</span><span class="si">}</span><span class="s2">. Check your model&#39;s in_channels parameter.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() expected </span><span class="si">{</span><span class="n">expected_channels</span><span class="si">}</span><span class="s2"> input channels, "</span>
+            <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="n">actual_channels</span><span class="si">}</span><span class="s2">. Check your model's in_channels parameter."</span>
         <span class="p">)</span>
 
     <span class="c1"># Check for NaN/Inf</span>
     <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() received input containing NaN values. &quot;</span>
-            <span class="s2">&quot;Check your data preprocessing pipeline.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() received input containing NaN values. "</span>
+            <span class="s2">"Check your data preprocessing pipeline."</span>
         <span class="p">)</span>
     <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">any</span><span class="p">():</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() received input containing Inf values. &quot;</span>
-            <span class="s2">&quot;Check your data preprocessing pipeline.&quot;</span>
+            <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">() received input containing Inf values. "</span>
+            <span class="s2">"Check your data preprocessing pipeline."</span>
         <span class="p">)</span>
 </pre></div>
 
@@ -763,7 +765,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

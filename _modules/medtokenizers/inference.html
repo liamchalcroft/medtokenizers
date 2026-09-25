@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.inference &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.inference &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,7 +446,7 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.inference</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Inference utilities for medical image tokenizers.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Inference utilities for medical image tokenizers."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
@@ -469,7 +471,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">load_tokenizer</span><span class="p">(</span>
     <span class="n">model_name_or_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span> <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Union</span><span class="p">[</span><span class="n">ContinuousTokenizer</span><span class="p">,</span> <span class="n">DiscreteTokenizer</span><span class="p">,</span> <span class="n">RAETokenizer</span><span class="p">,</span> <span class="n">TiTokTokenizer</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load tokenizer from local path or HuggingFace Hub.</span>
+<span class="w">    </span><span class="sd">"""Load tokenizer from local path or HuggingFace Hub.</span>
 
 <span class="sd">    Attempts to load as ContinuousTokenizer, DiscreteTokenizer, TiTokTokenizer,</span>
 <span class="sd">    and RAETokenizer (in that order). Raises detailed error if all fail.</span>
@@ -485,9 +487,9 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Raises:</span>
 <span class="sd">        ValueError: If model cannot be loaded as either tokenizer type.</span>
 <span class="sd">            Error message includes details from both loading attempts.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="s2">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span>
 
     <span class="n">errors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="ne">Exception</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
 
@@ -499,21 +501,21 @@ window.runMermaid = runMermaid;</script>
             <span class="n">model</span><span class="o">.</span><span class="n">train</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
             <span class="k">return</span> <span class="n">model</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">KeyError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="c1"># Config mismatch - this tokenizer type doesn&#39;t match, try next</span>
+            <span class="c1"># Config mismatch - this tokenizer type doesn't match, try next</span>
             <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
         <span class="k">except</span> <span class="ne">FileNotFoundError</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="c1"># Model path doesn&#39;t exist - fail fast, don&#39;t try other types</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model not found at </span><span class="si">{</span><span class="n">model_name_or_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
+            <span class="c1"># Model path doesn't exist - fail fast, don't try other types</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Model not found at </span><span class="si">{</span><span class="n">model_name_or_path</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">e</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
             <span class="c1"># Common loading errors - record but continue to try other type</span>
             <span class="n">errors</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="bp">cls</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">e</span><span class="p">))</span>
 
     <span class="c1"># Both failed - provide detailed error message</span>
-    <span class="n">error_details</span> <span class="o">=</span> <span class="s2">&quot;; &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">err</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">)</span>
+    <span class="n">error_details</span> <span class="o">=</span> <span class="s2">"; "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">err</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">err</span> <span class="ow">in</span> <span class="n">errors</span><span class="p">)</span>
     <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-        <span class="sa">f</span><span class="s2">&quot;Could not load model from </span><span class="si">{</span><span class="n">model_name_or_path</span><span class="si">}</span><span class="s2">. &quot;</span>
-        <span class="s2">&quot;Tried ContinuousTokenizer, DiscreteTokenizer, TiTokTokenizer, &quot;</span>
-        <span class="sa">f</span><span class="s2">&quot;and RAETokenizer. Errors: </span><span class="si">{</span><span class="n">error_details</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="sa">f</span><span class="s2">"Could not load model from </span><span class="si">{</span><span class="n">model_name_or_path</span><span class="si">}</span><span class="s2">. "</span>
+        <span class="s2">"Tried ContinuousTokenizer, DiscreteTokenizer, TiTokTokenizer, "</span>
+        <span class="sa">f</span><span class="s2">"and RAETokenizer. Errors: </span><span class="si">{</span><span class="n">error_details</span><span class="si">}</span><span class="s2">"</span>
     <span class="p">)</span></div>
 
 
@@ -523,9 +525,9 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">save_indices</span><span class="p">(</span>
     <span class="n">indices</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">save_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
-    <span class="n">dtype</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;int16&quot;</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"int16"</span><span class="p">,</span> <span class="s2">"int32"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"int16"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save discrete tokenizer indices to disk with efficient storage.</span>
+<span class="w">    </span><span class="sd">"""Save discrete tokenizer indices to disk with efficient storage.</span>
 
 <span class="sd">    Uses int16 by default which supports vocabulary sizes up to 32,767.</span>
 <span class="sd">    For larger vocabularies (unlikely), use int32.</span>
@@ -533,7 +535,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Args:</span>
 <span class="sd">        indices: Discrete indices from tokenizer.encode() or tokenizer.tokenize()</span>
 <span class="sd">        save_path: Path to save file (will add .npz suffix)</span>
-<span class="sd">        dtype: Storage dtype - &quot;int16&quot; (default, 2 bytes) or &quot;int32&quot; (4 bytes)</span>
+<span class="sd">        dtype: Storage dtype - "int16" (default, 2 bytes) or "int32" (4 bytes)</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        TypeError: If indices are not integer tensors/arrays</span>
@@ -541,18 +543,18 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; indices, _, _ = tokenizer.encode(images)</span>
-<span class="sd">        &gt;&gt;&gt; save_indices(indices, &quot;tokens/batch_001&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; save_indices(indices, "tokens/batch_001")</span>
+<span class="sd">    """</span>
     <span class="n">save_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
     <span class="n">save_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;int16&quot;</span><span class="p">,</span> <span class="s2">&quot;int32&quot;</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;dtype must be &#39;int16&#39; or &#39;int32&#39;, got </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"int16"</span><span class="p">,</span> <span class="s2">"int32"</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"dtype must be 'int16' or 'int32', got </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2">."</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">indices</span><span class="o">.</span><span class="n">is_floating_point</span><span class="p">()</span> <span class="ow">or</span> <span class="n">indices</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">torch</span><span class="o">.</span><span class="n">bool</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;save_indices() expects integer tensor indices, got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"save_indices() expects integer tensor indices, got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="n">numel</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">numel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -561,7 +563,7 @@ window.runMermaid = runMermaid;</script>
     <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">issubdtype</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">dtype</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">integer</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;save_indices() expects integer numpy arrays, got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"save_indices() expects integer numpy arrays, got </span><span class="si">{</span><span class="n">indices</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
         <span class="n">numel</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">size</span>
         <span class="k">if</span> <span class="n">numel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
@@ -569,32 +571,32 @@ window.runMermaid = runMermaid;</script>
             <span class="n">max_val</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">max</span><span class="p">())</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span>
-            <span class="s2">&quot;save_indices() expects torch.Tensor or numpy.ndarray, &quot;</span>
-            <span class="sa">f</span><span class="s2">&quot;got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">.&quot;</span>
+            <span class="s2">"save_indices() expects torch.Tensor or numpy.ndarray, "</span>
+            <span class="sa">f</span><span class="s2">"got </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">."</span>
         <span class="p">)</span>
 
     <span class="k">if</span> <span class="n">numel</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">min_val</span> <span class="o">&lt;</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;indices must be non-negative, found minimum value </span><span class="si">{</span><span class="n">min_val</span><span class="si">}</span><span class="s2">.&quot;</span>
+                <span class="sa">f</span><span class="s2">"indices must be non-negative, found minimum value </span><span class="si">{</span><span class="n">min_val</span><span class="si">}</span><span class="s2">."</span>
             <span class="p">)</span>
 
         <span class="n">max_allowed</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">max</span> <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;int16&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">max</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int16</span><span class="p">)</span><span class="o">.</span><span class="n">max</span> <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">"int16"</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">iinfo</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int32</span><span class="p">)</span><span class="o">.</span><span class="n">max</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">max_val</span> <span class="o">&gt;</span> <span class="n">max_allowed</span><span class="p">:</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;max index </span><span class="si">{</span><span class="n">max_val</span><span class="si">}</span><span class="s2"> exceeds </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> range (</span><span class="si">{</span><span class="n">max_allowed</span><span class="si">}</span><span class="s2">). &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Use dtype=&#39;int32&#39; or reduce codebook size.&quot;</span>
+                <span class="sa">f</span><span class="s2">"max index </span><span class="si">{</span><span class="n">max_val</span><span class="si">}</span><span class="s2"> exceeds </span><span class="si">{</span><span class="n">dtype</span><span class="si">}</span><span class="s2"> range (</span><span class="si">{</span><span class="n">max_allowed</span><span class="si">}</span><span class="s2">). "</span>
+                <span class="sa">f</span><span class="s2">"Use dtype='int32' or reduce codebook size."</span>
             <span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 
-    <span class="n">np_dtype</span> <span class="o">=</span> <span class="n">INDICES_DTYPE</span> <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;int16&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span>
+    <span class="n">np_dtype</span> <span class="o">=</span> <span class="n">INDICES_DTYPE</span> <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">"int16"</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">int32</span>
     <span class="n">indices</span> <span class="o">=</span> <span class="n">indices</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np_dtype</span><span class="p">)</span>
 
-    <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span><span class="n">save_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.npz&quot;</span><span class="p">),</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices</span><span class="p">)</span></div>
+    <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span><span class="n">save_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".npz"</span><span class="p">),</span> <span class="n">indices</span><span class="o">=</span><span class="n">indices</span><span class="p">)</span></div>
 
 
 
@@ -605,7 +607,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">int64</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load discrete tokenizer indices from disk.</span>
+<span class="w">    </span><span class="sd">"""Load discrete tokenizer indices from disk.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        load_path: Path to .npz file containing indices</span>
@@ -616,10 +618,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Indices tensor ready for tokenizer.decode()</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; indices = load_indices(&quot;tokens/batch_001.npz&quot;, device=&quot;cuda&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; indices = load_indices("tokens/batch_001.npz", device="cuda")</span>
 <span class="sd">        &gt;&gt;&gt; images = tokenizer.decode(indices)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">load_path</span><span class="p">)[</span><span class="s2">&quot;indices&quot;</span><span class="p">]</span>
+<span class="sd">    """</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">load_path</span><span class="p">)[</span><span class="s2">"indices"</span><span class="p">]</span>
     <span class="n">indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">indices</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">int64</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -634,9 +636,9 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">save_latents</span><span class="p">(</span>
     <span class="n">latents</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">save_path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
-    <span class="n">dtype</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;float16&quot;</span><span class="p">,</span> <span class="s2">&quot;float32&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;float16&quot;</span><span class="p">,</span>
+    <span class="n">dtype</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"float16"</span><span class="p">,</span> <span class="s2">"float32"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"float16"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save continuous tokenizer latents to disk with efficient storage.</span>
+<span class="w">    </span><span class="sd">"""Save continuous tokenizer latents to disk with efficient storage.</span>
 
 <span class="sd">    Uses float16 by default which is sufficient for most latent diffusion</span>
 <span class="sd">    applications. Use float32 if full precision is required.</span>
@@ -644,22 +646,22 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Args:</span>
 <span class="sd">        latents: Continuous latents from tokenizer.encode() or tokenizer.tokenize()</span>
 <span class="sd">        save_path: Path to save file (will add .npz suffix)</span>
-<span class="sd">        dtype: Storage dtype - &quot;float16&quot; (default, 2 bytes) or &quot;float32&quot; (4 bytes)</span>
+<span class="sd">        dtype: Storage dtype - "float16" (default, 2 bytes) or "float32" (4 bytes)</span>
 
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; latents, _ = tokenizer.encode(images)</span>
-<span class="sd">        &gt;&gt;&gt; save_latents(latents, &quot;latents/batch_001&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; save_latents(latents, "latents/batch_001")</span>
+<span class="sd">    """</span>
     <span class="n">save_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">save_path</span><span class="p">)</span>
     <span class="n">save_path</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">latents</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="n">latents</span> <span class="o">=</span> <span class="n">latents</span><span class="o">.</span><span class="n">detach</span><span class="p">()</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 
-    <span class="n">np_dtype</span> <span class="o">=</span> <span class="n">LATENTS_DTYPE</span> <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">&quot;float16&quot;</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+    <span class="n">np_dtype</span> <span class="o">=</span> <span class="n">LATENTS_DTYPE</span> <span class="k">if</span> <span class="n">dtype</span> <span class="o">==</span> <span class="s2">"float16"</span> <span class="k">else</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
     <span class="n">latents</span> <span class="o">=</span> <span class="n">latents</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np_dtype</span><span class="p">)</span>
 
-    <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span><span class="n">save_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">&quot;.npz&quot;</span><span class="p">),</span> <span class="n">latents</span><span class="o">=</span><span class="n">latents</span><span class="p">)</span></div>
+    <span class="n">np</span><span class="o">.</span><span class="n">savez_compressed</span><span class="p">(</span><span class="n">save_path</span><span class="o">.</span><span class="n">with_suffix</span><span class="p">(</span><span class="s2">".npz"</span><span class="p">),</span> <span class="n">latents</span><span class="o">=</span><span class="n">latents</span><span class="p">)</span></div>
 
 
 
@@ -670,7 +672,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="n">dtype</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">dtype</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load continuous tokenizer latents from disk.</span>
+<span class="w">    </span><span class="sd">"""Load continuous tokenizer latents from disk.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        load_path: Path to .npz file containing latents</span>
@@ -681,10 +683,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        Latents tensor ready for tokenizer.decode()</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        &gt;&gt;&gt; latents = load_latents(&quot;latents/batch_001.npz&quot;, device=&quot;cuda&quot;)</span>
+<span class="sd">        &gt;&gt;&gt; latents = load_latents("latents/batch_001.npz", device="cuda")</span>
 <span class="sd">        &gt;&gt;&gt; images = tokenizer.decode(latents)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">latents</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">load_path</span><span class="p">)[</span><span class="s2">&quot;latents&quot;</span><span class="p">]</span>
+<span class="sd">    """</span>
+    <span class="n">latents</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">load_path</span><span class="p">)[</span><span class="s2">"latents"</span><span class="p">]</span>
     <span class="n">latents</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">latents</span><span class="o">.</span><span class="n">astype</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">float32</span><span class="p">))</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">dtype</span><span class="p">)</span>
 
     <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -695,13 +697,13 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;load_tokenizer&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;save_indices&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;load_indices&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;save_latents&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;load_latents&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;INDICES_DTYPE&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;LATENTS_DTYPE&quot;</span><span class="p">,</span>
+    <span class="s2">"load_tokenizer"</span><span class="p">,</span>
+    <span class="s2">"save_indices"</span><span class="p">,</span>
+    <span class="s2">"load_indices"</span><span class="p">,</span>
+    <span class="s2">"save_latents"</span><span class="p">,</span>
+    <span class="s2">"load_latents"</span><span class="p">,</span>
+    <span class="s2">"INDICES_DTYPE"</span><span class="p">,</span>
+    <span class="s2">"LATENTS_DTYPE"</span><span class="p">,</span>
 <span class="p">]</span>
 </pre></div>
 
@@ -713,7 +715,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

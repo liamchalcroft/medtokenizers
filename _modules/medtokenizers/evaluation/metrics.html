@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.evaluation.metrics &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.evaluation.metrics &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,14 +446,14 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.evaluation.metrics</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Evaluation metrics for medical image tokenizers.</span>
+<span></span><span class="sd">"""Evaluation metrics for medical image tokenizers.</span>
 
 <span class="sd">This module provides evaluation metrics for both continuous and discrete</span>
 <span class="sd">tokenizers including:</span>
 <span class="sd">- Reconstruction quality: PSNR, SSIM, MSE, MAE</span>
 <span class="sd">- Perceptual quality: LPIPS</span>
 <span class="sd">- Discrete tokenizer metrics: Perplexity, codebook usage, entropy</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
@@ -472,10 +474,10 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">_create_gaussian_window</span><span class="p">(</span>
     <span class="n">size</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">sigma</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">ndim</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dtype_str</span><span class="p">:</span> <span class="nb">str</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create and cache Gaussian window for SSIM computation.</span>
+<span class="w">    </span><span class="sd">"""Create and cache Gaussian window for SSIM computation.</span>
 
 <span class="sd">    Cached by (size, sigma, ndim, device, dtype) to avoid recreation.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">coords</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">size</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">torch</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span> <span class="o">-</span> <span class="n">size</span> <span class="o">//</span> <span class="mi">2</span>
     <span class="n">g</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="p">(</span><span class="n">coords</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
 
@@ -492,11 +494,11 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_get_lpips_model</span><span class="p">(</span><span class="n">net</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">device</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get cached LPIPS model, loading only once per (net, device) combination.</span>
+<span class="w">    </span><span class="sd">"""Get cached LPIPS model, loading only once per (net, device) combination.</span>
 
 <span class="sd">    LPIPS models are expensive to load (~100-500ms) as they require loading</span>
 <span class="sd">    VGG/AlexNet weights. This function caches them for reuse.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">cache_key</span> <span class="o">=</span> <span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">cache_key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">_LPIPS_CACHE</span><span class="p">:</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">lpips</span>
@@ -508,10 +510,10 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="clear_metric_caches">
 <a class="viewcode-back" href="../../../api/evaluation.html#medtokenizers.clear_metric_caches">[docs]</a>
 <span class="k">def</span><span class="w"> </span><span class="nf">clear_metric_caches</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Clear all cached metric computation resources.</span>
+<span class="w">    </span><span class="sd">"""Clear all cached metric computation resources.</span>
 
 <span class="sd">    Useful for freeing GPU memory after evaluation or when switching devices.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">_LPIPS_CACHE</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
     <span class="n">_create_gaussian_window</span><span class="o">.</span><span class="n">cache_clear</span><span class="p">()</span></div>
 
@@ -519,7 +521,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="nd">@dataclass</span>
 <span class="k">class</span><span class="w"> </span><span class="nc">EvaluationMetrics</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Container for evaluation metrics.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Container for evaluation metrics."""</span>
 
     <span class="c1"># Reconstruction metrics</span>
     <span class="n">mse</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
@@ -539,17 +541,17 @@ window.runMermaid = runMermaid;</script>
     <span class="n">compression_ratio</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert metrics to dictionary.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Convert metrics to dictionary."""</span>
         <span class="k">return</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">v</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="vm">__dict__</span><span class="o">.</span><span class="n">items</span><span class="p">()</span> <span class="k">if</span> <span class="n">v</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Pretty print metrics.&quot;&quot;&quot;</span>
-        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;Evaluation Metrics:&quot;</span><span class="p">]</span>
-        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;-&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Pretty print metrics."""</span>
+        <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"Evaluation Metrics:"</span><span class="p">]</span>
+        <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">"-"</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">20s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">return</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
+                <span class="n">lines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">"  </span><span class="si">{</span><span class="n">key</span><span class="si">:</span><span class="s2">20s</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">value</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">lines</span><span class="p">)</span>
 
 
 <div class="viewcode-block" id="compute_mse">
@@ -559,7 +561,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Mean Squared Error.</span>
+<span class="w">    </span><span class="sd">"""Compute Mean Squared Error.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        reconstruction: Reconstructed images (B, C, H, W) or (B, C, H, W, D)</span>
@@ -573,7 +575,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; recon = torch.randn(8, 1, 128, 128, 128)</span>
 <span class="sd">        &gt;&gt;&gt; target = torch.randn(8, 1, 128, 128, 128)</span>
 <span class="sd">        &gt;&gt;&gt; mse = compute_mse(recon, target)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -585,7 +587,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">reconstruction</span> <span class="o">*</span> <span class="n">mask</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">target</span> <span class="o">*</span> <span class="n">mask</span>
 
-    <span class="n">mse</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+    <span class="n">mse</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">mse_loss</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">"mean"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mse</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
@@ -597,7 +599,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Mean Absolute Error.</span>
+<span class="w">    </span><span class="sd">"""Compute Mean Absolute Error.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        reconstruction: Reconstructed images (B, C, H, W) or (B, C, H, W, D)</span>
@@ -611,7 +613,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; recon = torch.randn(8, 1, 128, 128, 128)</span>
 <span class="sd">        &gt;&gt;&gt; target = torch.randn(8, 1, 128, 128, 128)</span>
 <span class="sd">        &gt;&gt;&gt; mae = compute_mae(recon, target)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">)</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -623,7 +625,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">reconstruction</span> <span class="o">*</span> <span class="n">mask</span>
         <span class="n">target</span> <span class="o">=</span> <span class="n">target</span> <span class="o">*</span> <span class="n">mask</span>
 
-    <span class="n">mae</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">l1_loss</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">&quot;mean&quot;</span><span class="p">)</span>
+    <span class="n">mae</span> <span class="o">=</span> <span class="n">F</span><span class="o">.</span><span class="n">l1_loss</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">reduction</span><span class="o">=</span><span class="s2">"mean"</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">mae</span><span class="o">.</span><span class="n">item</span><span class="p">()</span></div>
 
 
@@ -636,7 +638,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">data_range</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Peak Signal-to-Noise Ratio (PSNR).</span>
+<span class="w">    </span><span class="sd">"""Compute Peak Signal-to-Noise Ratio (PSNR).</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        reconstruction: Reconstructed images (B, C, H, W) or (B, C, H, W, D)</span>
@@ -651,10 +653,10 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; recon = torch.randn(8, 1, 128, 128, 128)</span>
 <span class="sd">        &gt;&gt;&gt; target = torch.randn(8, 1, 128, 128, 128)</span>
 <span class="sd">        &gt;&gt;&gt; psnr = compute_psnr(recon, target, data_range=1.0)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">mse</span> <span class="o">=</span> <span class="n">compute_mse</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">target</span><span class="p">,</span> <span class="n">mask</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">mse</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">&quot;inf&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="s2">"inf"</span><span class="p">)</span>
     <span class="n">psnr</span> <span class="o">=</span> <span class="mi">20</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">data_range</span><span class="p">)</span> <span class="o">-</span> <span class="mi">10</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">log10</span><span class="p">(</span><span class="n">mse</span><span class="p">)</span>
     <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">psnr</span><span class="p">)</span></div>
 
@@ -669,7 +671,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">window_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">11</span><span class="p">,</span>
     <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Structural Similarity Index (SSIM).</span>
+<span class="w">    </span><span class="sd">"""Compute Structural Similarity Index (SSIM).</span>
 
 <span class="sd">    Uses a Gaussian window-based approach to measure structural similarity</span>
 <span class="sd">    between images. Works for both 2D and 3D images.</span>
@@ -688,7 +690,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; recon = torch.randn(8, 1, 128, 128, 128)</span>
 <span class="sd">        &gt;&gt;&gt; target = torch.randn(8, 1, 128, 128, 128)</span>
 <span class="sd">        &gt;&gt;&gt; ssim = compute_ssim(recon, target, data_range=1.0)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">reconstruction</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">)</span><span class="o">.</span><span class="n">float</span><span class="p">()</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">target</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -714,7 +716,7 @@ window.runMermaid = runMermaid;</script>
 
     <span class="c1"># Get cached Gaussian window (avoids recreation on each call)</span>
     <span class="n">device_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reconstruction</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
-    <span class="n">dtype_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reconstruction</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.&quot;</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># e.g., &quot;float32&quot;</span>
+    <span class="n">dtype_str</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">reconstruction</span><span class="o">.</span><span class="n">dtype</span><span class="p">)</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">"."</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>  <span class="c1"># e.g., "float32"</span>
     <span class="n">window</span> <span class="o">=</span> <span class="n">_create_gaussian_window</span><span class="p">(</span><span class="n">window_size</span><span class="p">,</span> <span class="mf">1.5</span><span class="p">,</span> <span class="n">ndim</span><span class="p">,</span> <span class="n">device_str</span><span class="p">,</span> <span class="n">dtype_str</span><span class="p">)</span>
 
     <span class="c1"># Expand window to match channel dimension</span>
@@ -757,10 +759,10 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_lpips</span><span class="p">(</span>
     <span class="n">reconstruction</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
     <span class="n">target</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span>
-    <span class="n">net</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;alex&quot;</span><span class="p">,</span>
+    <span class="n">net</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"alex"</span><span class="p">,</span>
     <span class="n">device</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Learned Perceptual Image Patch Similarity (LPIPS).</span>
+<span class="w">    </span><span class="sd">"""Compute Learned Perceptual Image Patch Similarity (LPIPS).</span>
 
 <span class="sd">    Note: This requires the lpips package to be installed:</span>
 <span class="sd">        pip install lpips</span>
@@ -768,7 +770,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Args:</span>
 <span class="sd">        reconstruction: Reconstructed images (B, C, H, W)</span>
 <span class="sd">        target: Target images (B, C, H, W)</span>
-<span class="sd">        net: Network to use (&#39;alex&#39;, &#39;vgg&#39;, &#39;squeeze&#39;)</span>
+<span class="sd">        net: Network to use ('alex', 'vgg', 'squeeze')</span>
 <span class="sd">        device: Device to use for computation</span>
 
 <span class="sd">    Returns:</span>
@@ -777,13 +779,13 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; recon = torch.randn(8, 1, 128, 128)</span>
 <span class="sd">        &gt;&gt;&gt; target = torch.randn(8, 1, 128, 128)</span>
-<span class="sd">        &gt;&gt;&gt; lpips_val = compute_lpips(recon, target, net=&#39;alex&#39;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; lpips_val = compute_lpips(recon, target, net='alex')</span>
+<span class="sd">    """</span>
     <span class="k">try</span><span class="p">:</span>
         <span class="kn">import</span><span class="w"> </span><span class="nn">lpips</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">_</span>  <span class="c1"># noqa: F401 - Check if lpips is available</span>
     <span class="k">except</span> <span class="ne">ImportError</span> <span class="k">as</span> <span class="n">err</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ImportError</span><span class="p">(</span>
-            <span class="s2">&quot;lpips package not found. Install with: pip install lpips&quot;</span>
+            <span class="s2">"lpips package not found. Install with: pip install lpips"</span>
         <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">err</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
@@ -797,8 +799,8 @@ window.runMermaid = runMermaid;</script>
     <span class="c1"># LPIPS only works with 2D images</span>
     <span class="k">if</span> <span class="n">reconstruction</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">5</span><span class="p">:</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;LPIPS only supports 2D images. For 3D volumes, compute LPIPS &quot;</span>
-            <span class="s2">&quot;on 2D slices and average.&quot;</span>
+            <span class="s2">"LPIPS only supports 2D images. For 3D volumes, compute LPIPS "</span>
+            <span class="s2">"on 2D slices and average."</span>
         <span class="p">)</span>
 
     <span class="c1"># LPIPS expects 3-channel RGB images, so repeat grayscale if needed</span>
@@ -808,7 +810,7 @@ window.runMermaid = runMermaid;</script>
 
     <span class="c1"># Get device</span>
     <span class="k">if</span> <span class="n">device</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">device</span> <span class="o">=</span> <span class="s2">&quot;cuda&quot;</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">&quot;cpu&quot;</span>
+        <span class="n">device</span> <span class="o">=</span> <span class="s2">"cuda"</span> <span class="k">if</span> <span class="n">torch</span><span class="o">.</span><span class="n">cuda</span><span class="o">.</span><span class="n">is_available</span><span class="p">()</span> <span class="k">else</span> <span class="s2">"cpu"</span>
 
     <span class="c1"># Get cached LPIPS model (avoids expensive reload on each call)</span>
     <span class="n">loss_fn</span> <span class="o">=</span> <span class="n">_get_lpips_model</span><span class="p">(</span><span class="n">net</span><span class="p">,</span> <span class="n">device</span><span class="p">)</span>
@@ -828,7 +830,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_perplexity</span><span class="p">(</span>
     <span class="n">indices</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">codebook_size</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute codebook perplexity for discrete tokenizers.</span>
+<span class="w">    </span><span class="sd">"""Compute codebook perplexity for discrete tokenizers.</span>
 
 <span class="sd">    Perplexity measures how well the codebook is being utilized.</span>
 <span class="sd">    Higher perplexity indicates better codebook usage.</span>
@@ -843,7 +845,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; indices = torch.randint(0, 1024, (8, 32, 32, 32))</span>
 <span class="sd">        &gt;&gt;&gt; perplexity = compute_perplexity(indices, codebook_size=1024)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
 
@@ -867,7 +869,7 @@ window.runMermaid = runMermaid;</script>
 <span class="k">def</span><span class="w"> </span><span class="nf">compute_codebook_usage</span><span class="p">(</span>
     <span class="n">indices</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">],</span> <span class="n">codebook_size</span><span class="p">:</span> <span class="nb">int</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute codebook usage percentage for discrete tokenizers.</span>
+<span class="w">    </span><span class="sd">"""Compute codebook usage percentage for discrete tokenizers.</span>
 
 <span class="sd">    Measures what fraction of the codebook is actually used.</span>
 
@@ -881,8 +883,8 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Example:</span>
 <span class="sd">        &gt;&gt;&gt; indices = torch.randint(0, 1024, (8, 32, 32, 32))</span>
 <span class="sd">        &gt;&gt;&gt; usage = compute_codebook_usage(indices, codebook_size=1024)</span>
-<span class="sd">        &gt;&gt;&gt; print(f&quot;Codebook usage: {usage:.1f}%&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; print(f"Codebook usage: {usage:.1f}%")</span>
+<span class="sd">    """</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">indices</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">):</span>
         <span class="n">indices</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">from_numpy</span><span class="p">(</span><span class="n">indices</span><span class="p">)</span>
 
@@ -900,7 +902,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">input_dtype_bits</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
     <span class="n">latent_dtype_bits</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute compression ratio.</span>
+<span class="w">    </span><span class="sd">"""Compute compression ratio.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        input_shape: Input tensor shape</span>
@@ -915,7 +917,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        &gt;&gt;&gt; input_shape = (8, 1, 256, 256, 256)</span>
 <span class="sd">        &gt;&gt;&gt; latent_shape = (8, 4, 32, 32, 32)</span>
 <span class="sd">        &gt;&gt;&gt; ratio = compute_compression_ratio(input_shape, latent_shape)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">input_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">input_shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">input_dtype_bits</span>
     <span class="n">latent_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">prod</span><span class="p">(</span><span class="n">latent_shape</span><span class="p">)</span> <span class="o">*</span> <span class="n">latent_dtype_bits</span>
     <span class="n">ratio</span> <span class="o">=</span> <span class="n">input_size</span> <span class="o">/</span> <span class="n">latent_size</span>
@@ -931,7 +933,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">compute_lpips_metric</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="n">mask</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">EvaluationMetrics</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute all available metrics.</span>
+<span class="w">    </span><span class="sd">"""Compute all available metrics.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        reconstruction: Reconstructed images</span>
@@ -955,7 +957,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        ...     indices=indices,</span>
 <span class="sd">        ...     codebook_size=1024</span>
 <span class="sd">        ... )</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">metrics</span> <span class="o">=</span> <span class="n">EvaluationMetrics</span><span class="p">()</span>
 
     <span class="c1"># Reconstruction metrics</span>
@@ -975,7 +977,7 @@ window.runMermaid = runMermaid;</script>
             <span class="k">if</span> <span class="n">reconstruction_tensor</span><span class="o">.</span><span class="n">ndim</span> <span class="o">==</span> <span class="mi">4</span><span class="p">:</span>  <span class="c1"># 2D images</span>
                 <span class="n">metrics</span><span class="o">.</span><span class="n">lpips</span> <span class="o">=</span> <span class="n">compute_lpips</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">target</span><span class="p">)</span>
         <span class="k">except</span> <span class="p">(</span><span class="ne">ImportError</span><span class="p">,</span> <span class="ne">RuntimeError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">)</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>
-            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Could not compute LPIPS: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Could not compute LPIPS: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="c1"># Discrete tokenizer metrics</span>
     <span class="k">if</span> <span class="n">indices</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">codebook_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -993,7 +995,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

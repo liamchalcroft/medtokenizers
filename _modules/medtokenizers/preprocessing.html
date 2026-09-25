@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.preprocessing &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.preprocessing &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,11 +446,11 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.preprocessing</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Preprocessing utilities for medical image tokenization.</span>
+<span></span><span class="sd">"""Preprocessing utilities for medical image tokenization.</span>
 
 <span class="sd">Implements NVIDIA MAISI-style preprocessing for consistent inference.</span>
 <span class="sd">Uses medrs for high-performance NIfTI I/O.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -463,15 +465,15 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">example_volume_path</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the path to the bundled simulated T1-weighted brain volume.</span>
+<span class="w">    </span><span class="sd">"""Return the path to the bundled simulated T1-weighted brain volume.</span>
 
 <span class="sd">    The volume is a BrainWeb phantom shipped inside the package so examples and</span>
 <span class="sd">    tests work from an installed wheel, not only from a source checkout. See</span>
 <span class="sd">    ``medtokenizers/assets/README.md`` for provenance and citation terms: the</span>
-<span class="sd">    volume is not covered by this project&#39;s MIT licence.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    volume is not covered by this project's MIT licence.</span>
+<span class="sd">    """</span>
     <span class="k">return</span> <span class="n">Path</span><span class="p">(</span>
-        <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">&quot;medtokenizers&quot;</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;assets&quot;</span> <span class="o">/</span> <span class="s2">&quot;t1w_brainweb.nii.gz&quot;</span><span class="p">)</span>
+        <span class="nb">str</span><span class="p">(</span><span class="n">resources</span><span class="o">.</span><span class="n">files</span><span class="p">(</span><span class="s2">"medtokenizers"</span><span class="p">)</span> <span class="o">/</span> <span class="s2">"assets"</span> <span class="o">/</span> <span class="s2">"t1w_brainweb.nii.gz"</span><span class="p">)</span>
     <span class="p">)</span>
 
 
@@ -485,7 +487,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">b_max</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1.0</span><span class="p">,</span>
     <span class="n">clip</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize intensity to percentile range.</span>
+<span class="w">    </span><span class="sd">"""Normalize intensity to percentile range.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        volume: Input volume</span>
@@ -497,7 +499,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Normalized volume, lower_percentile_value, upper_percentile_value</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">lower_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">lower</span><span class="p">)</span>
     <span class="n">upper_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">percentile</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">upper</span><span class="p">)</span>
 
@@ -518,19 +520,19 @@ window.runMermaid = runMermaid;</script>
     <span class="n">volume</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
     <span class="n">src_spacing</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">],</span>
     <span class="n">tgt_spacing</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
-    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;trilinear&quot;</span><span class="p">,</span>
+    <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"trilinear"</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Resample volume to target spacing.</span>
+<span class="w">    </span><span class="sd">"""Resample volume to target spacing.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        volume: Input volume tensor (B, C, D, H, W)</span>
 <span class="sd">        src_spacing: Source voxel spacing (z, y, x)</span>
 <span class="sd">        tgt_spacing: Target voxel spacing (z, y, x)</span>
-<span class="sd">        mode: Interpolation mode (default: &quot;trilinear&quot;)</span>
+<span class="sd">        mode: Interpolation mode (default: "trilinear")</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Resampled volume tensor</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Calculate target size</span>
     <span class="n">src_size</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
     <span class="n">zoom_factors</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">src_spacing</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">tgt_spacing</span><span class="p">)</span>
@@ -541,7 +543,7 @@ window.runMermaid = runMermaid;</script>
         <span class="n">volume</span><span class="p">,</span>
         <span class="n">size</span><span class="o">=</span><span class="nb">tuple</span><span class="p">(</span><span class="n">tgt_size</span><span class="p">),</span>
         <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
-        <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="s2">&quot;nearest&quot;</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span> <span class="k">if</span> <span class="n">mode</span> <span class="o">!=</span> <span class="s2">"nearest"</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="k">return</span> <span class="n">resampled</span></div>
@@ -554,7 +556,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">volume</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
     <span class="n">k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">]]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Pad volume to be divisible by k.</span>
+<span class="w">    </span><span class="sd">"""Pad volume to be divisible by k.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        volume: Input volume tensor (B, C, D, H, W)</span>
@@ -562,7 +564,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Padded volume, padding amounts (d_front, d_back, h_front, h_back, w_front, w_back)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">d</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
 
     <span class="c1"># Calculate padding needed</span>
@@ -581,7 +583,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">padded</span> <span class="o">=</span> <span class="n">nnf</span><span class="o">.</span><span class="n">pad</span><span class="p">(</span>
         <span class="n">volume</span><span class="p">,</span>
         <span class="p">(</span><span class="n">pad_w_front</span><span class="p">,</span> <span class="n">pad_w_back</span><span class="p">,</span> <span class="n">pad_h_front</span><span class="p">,</span> <span class="n">pad_h_back</span><span class="p">,</span> <span class="n">pad_d_front</span><span class="p">,</span> <span class="n">pad_d_back</span><span class="p">),</span>
-        <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;constant&quot;</span><span class="p">,</span>
+        <span class="n">mode</span><span class="o">=</span><span class="s2">"constant"</span><span class="p">,</span>
         <span class="n">value</span><span class="o">=</span><span class="mi">0</span><span class="p">,</span>
     <span class="p">)</span>
 
@@ -603,7 +605,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">volume</span><span class="p">:</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span>
     <span class="n">padding</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="o">...</span><span class="p">],</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove padding from volume.</span>
+<span class="w">    </span><span class="sd">"""Remove padding from volume.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        volume: Padded volume tensor (B, C, D, H, W)</span>
@@ -611,7 +613,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Unpadded volume tensor</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">pad_d_front</span><span class="p">,</span> <span class="n">pad_d_back</span><span class="p">,</span> <span class="n">pad_h_front</span><span class="p">,</span> <span class="n">pad_h_back</span><span class="p">,</span> <span class="n">pad_w_front</span><span class="p">,</span> <span class="n">pad_w_back</span> <span class="o">=</span> <span class="n">padding</span>
 
     <span class="n">d</span><span class="p">,</span> <span class="n">h</span><span class="p">,</span> <span class="n">w</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:]</span>
@@ -632,7 +634,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">load_nifti</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Load a NIfTI file using medrs.</span>
+<span class="w">    </span><span class="sd">"""Load a NIfTI file using medrs.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        path: Path to NIfTI file</span>
@@ -640,7 +642,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">    Returns:</span>
 <span class="sd">        volume: Volume data as numpy array</span>
 <span class="sd">        metadata: Dictionary with spacing, shape, etc.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">medrs</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">path</span><span class="p">))</span>
 
     <span class="c1"># Get volume data</span>
@@ -648,8 +650,8 @@ window.runMermaid = runMermaid;</script>
     <span class="n">volume</span> <span class="o">=</span> <span class="n">tensor</span><span class="o">.</span><span class="n">numpy</span><span class="p">()</span>
 
     <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;original_shape&quot;</span><span class="p">:</span> <span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
-        <span class="s2">&quot;spacing&quot;</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">spacing</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s2">&quot;spacing&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
+        <span class="s2">"original_shape"</span><span class="p">:</span> <span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+        <span class="s2">"spacing"</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">spacing</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s2">"spacing"</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">),</span>
     <span class="p">}</span>
 
     <span class="k">return</span> <span class="n">volume</span><span class="p">,</span> <span class="n">metadata</span>
@@ -660,7 +662,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">],</span>
     <span class="n">spacing</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save a volume as a NIfTI file.</span>
+<span class="w">    </span><span class="sd">"""Save a volume as a NIfTI file.</span>
 
 <span class="sd">    medrs reads NIfTI but offers no array-to-image constructor, so writing goes</span>
 <span class="sd">    through nibabel.</span>
@@ -669,7 +671,7 @@ window.runMermaid = runMermaid;</script>
 <span class="sd">        volume: Volume data (numpy array or torch tensor)</span>
 <span class="sd">        path: Output path</span>
 <span class="sd">        spacing: Voxel spacing (optional)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="kn">import</span><span class="w"> </span><span class="nn">nibabel</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">nib</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">volume</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
@@ -697,7 +699,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">percentile_upper</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">99.5</span><span class="p">,</span>
     <span class="n">divisible_k</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">,</span> <span class="nb">dict</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;NVIDIA MAISI-style preprocessing pipeline.</span>
+<span class="w">    </span><span class="sd">"""NVIDIA MAISI-style preprocessing pipeline.</span>
 
 <span class="sd">    Uses medrs for efficient NIfTI loading.</span>
 
@@ -710,7 +712,7 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Preprocessed volume tensor (1, 1, D, H, W), metadata dict</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># Load volume using medrs</span>
     <span class="n">img</span> <span class="o">=</span> <span class="n">medrs</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">nifti_path</span><span class="p">))</span>
     <span class="n">tensor</span> <span class="o">=</span> <span class="n">img</span><span class="o">.</span><span class="n">to_torch</span><span class="p">()</span>
@@ -718,14 +720,14 @@ window.runMermaid = runMermaid;</script>
 
     <span class="c1"># Get spacing from medrs image</span>
     <span class="n">original_spacing</span> <span class="o">=</span> <span class="p">(</span>
-        <span class="nb">tuple</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">spacing</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s2">&quot;spacing&quot;</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
+        <span class="nb">tuple</span><span class="p">(</span><span class="n">img</span><span class="o">.</span><span class="n">spacing</span><span class="p">)</span> <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">img</span><span class="p">,</span> <span class="s2">"spacing"</span><span class="p">)</span> <span class="k">else</span> <span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span>
     <span class="p">)</span>
 
     <span class="c1"># Store original info</span>
     <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;original_shape&quot;</span><span class="p">:</span> <span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
-        <span class="s2">&quot;original_spacing&quot;</span><span class="p">:</span> <span class="n">original_spacing</span><span class="p">,</span>
-        <span class="s2">&quot;source_path&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">nifti_path</span><span class="p">),</span>
+        <span class="s2">"original_shape"</span><span class="p">:</span> <span class="n">volume</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span>
+        <span class="s2">"original_spacing"</span><span class="p">:</span> <span class="n">original_spacing</span><span class="p">,</span>
+        <span class="s2">"source_path"</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">nifti_path</span><span class="p">),</span>
     <span class="p">}</span>
 
     <span class="c1"># 1. Reorient to RAS (medrs handles this if properly oriented)</span>
@@ -740,8 +742,8 @@ window.runMermaid = runMermaid;</script>
         <span class="n">b_max</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span>
         <span class="n">clip</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
-    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;percentile_lower_val&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">lower_val</span>
-    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;percentile_upper_val&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">upper_val</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">"percentile_lower_val"</span><span class="p">]</span> <span class="o">=</span> <span class="n">lower_val</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">"percentile_upper_val"</span><span class="p">]</span> <span class="o">=</span> <span class="n">upper_val</span>
 
     <span class="c1"># Convert to tensor</span>
     <span class="n">volume_tensor</span> <span class="o">=</span> <span class="p">(</span>
@@ -749,24 +751,24 @@ window.runMermaid = runMermaid;</script>
     <span class="p">)</span>
 
     <span class="c1"># 3. Resample to target spacing (1mm^3)</span>
-    <span class="n">src_spacing</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;original_spacing&quot;</span><span class="p">]</span>
+    <span class="n">src_spacing</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"original_spacing"</span><span class="p">]</span>
     <span class="k">if</span> <span class="n">src_spacing</span> <span class="o">!=</span> <span class="n">target_spacing</span><span class="p">:</span>
         <span class="n">volume_tensor</span> <span class="o">=</span> <span class="n">resample_to_spacing</span><span class="p">(</span>
             <span class="n">volume_tensor</span><span class="p">,</span>
             <span class="n">src_spacing</span><span class="o">=</span><span class="n">src_spacing</span><span class="p">,</span>
             <span class="n">tgt_spacing</span><span class="o">=</span><span class="n">target_spacing</span><span class="p">,</span>
-            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;trilinear&quot;</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">"trilinear"</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;resampled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;target_spacing&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">target_spacing</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;resampled_shape&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">volume_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"resampled"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"target_spacing"</span><span class="p">]</span> <span class="o">=</span> <span class="n">target_spacing</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"resampled_shape"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">volume_tensor</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
     <span class="k">else</span><span class="p">:</span>
-        <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;resampled&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">metadata</span><span class="p">[</span><span class="s2">"resampled"</span><span class="p">]</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="c1"># 4. Pad to be divisible by k</span>
     <span class="n">volume_padded</span><span class="p">,</span> <span class="n">padding</span> <span class="o">=</span> <span class="n">pad_divisible</span><span class="p">(</span><span class="n">volume_tensor</span><span class="p">,</span> <span class="n">k</span><span class="o">=</span><span class="n">divisible_k</span><span class="p">)</span>
-    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;padding&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">padding</span>
-    <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;padded_shape&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">volume_padded</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">"padding"</span><span class="p">]</span> <span class="o">=</span> <span class="n">padding</span>
+    <span class="n">metadata</span><span class="p">[</span><span class="s2">"padded_shape"</span><span class="p">]</span> <span class="o">=</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">volume_padded</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">2</span><span class="p">:])</span>
 
     <span class="k">return</span> <span class="n">volume_padded</span><span class="p">,</span> <span class="n">metadata</span></div>
 
@@ -779,7 +781,7 @@ window.runMermaid = runMermaid;</script>
     <span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="n">denormalize</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reverse MAISI preprocessing to get back to original space.</span>
+<span class="w">    </span><span class="sd">"""Reverse MAISI preprocessing to get back to original space.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        reconstruction: Reconstructed volume tensor (1, 1, D, H, W)</span>
@@ -788,16 +790,16 @@ window.runMermaid = runMermaid;</script>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        Volume in original space as numpy array</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1"># 1. Remove padding</span>
-    <span class="n">volume</span> <span class="o">=</span> <span class="n">unpad</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;padding&quot;</span><span class="p">])</span>
+    <span class="n">volume</span> <span class="o">=</span> <span class="n">unpad</span><span class="p">(</span><span class="n">reconstruction</span><span class="p">,</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"padding"</span><span class="p">])</span>
 
     <span class="c1"># 2. Resample back to original spacing if needed</span>
-    <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;resampled&quot;</span><span class="p">]:</span>
+    <span class="k">if</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"resampled"</span><span class="p">]:</span>
         <span class="n">volume</span> <span class="o">=</span> <span class="n">nnf</span><span class="o">.</span><span class="n">interpolate</span><span class="p">(</span>
             <span class="n">volume</span><span class="p">,</span>
-            <span class="n">size</span><span class="o">=</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;original_shape&quot;</span><span class="p">],</span>
-            <span class="n">mode</span><span class="o">=</span><span class="s2">&quot;trilinear&quot;</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">metadata</span><span class="p">[</span><span class="s2">"original_shape"</span><span class="p">],</span>
+            <span class="n">mode</span><span class="o">=</span><span class="s2">"trilinear"</span><span class="p">,</span>
             <span class="n">align_corners</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -805,8 +807,8 @@ window.runMermaid = runMermaid;</script>
     <span class="n">volume_np</span> <span class="o">=</span> <span class="n">volume</span><span class="o">.</span><span class="n">cpu</span><span class="p">()</span><span class="o">.</span><span class="n">numpy</span><span class="p">()[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
 
     <span class="k">if</span> <span class="n">denormalize</span><span class="p">:</span>
-        <span class="n">lower_val</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;percentile_lower_val&quot;</span><span class="p">]</span>
-        <span class="n">upper_val</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;percentile_upper_val&quot;</span><span class="p">]</span>
+        <span class="n">lower_val</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"percentile_lower_val"</span><span class="p">]</span>
+        <span class="n">upper_val</span> <span class="o">=</span> <span class="n">metadata</span><span class="p">[</span><span class="s2">"percentile_upper_val"</span><span class="p">]</span>
         <span class="n">volume_np</span> <span class="o">=</span> <span class="n">volume_np</span> <span class="o">*</span> <span class="p">(</span><span class="n">upper_val</span> <span class="o">-</span> <span class="n">lower_val</span><span class="p">)</span> <span class="o">+</span> <span class="n">lower_val</span>
 
     <span class="k">return</span> <span class="n">volume_np</span></div>
@@ -814,14 +816,14 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span>
-    <span class="s2">&quot;percentile_normalize&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;resample_to_spacing&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;pad_divisible&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;unpad&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;load_nifti&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;save_nifti&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;preprocess_for_maisi&quot;</span><span class="p">,</span>
-    <span class="s2">&quot;postprocess_from_maisi&quot;</span><span class="p">,</span>
+    <span class="s2">"percentile_normalize"</span><span class="p">,</span>
+    <span class="s2">"resample_to_spacing"</span><span class="p">,</span>
+    <span class="s2">"pad_divisible"</span><span class="p">,</span>
+    <span class="s2">"unpad"</span><span class="p">,</span>
+    <span class="s2">"load_nifti"</span><span class="p">,</span>
+    <span class="s2">"save_nifti"</span><span class="p">,</span>
+    <span class="s2">"preprocess_for_maisi"</span><span class="p">,</span>
+    <span class="s2">"postprocess_from_maisi"</span><span class="p">,</span>
 <span class="p">]</span>
 </pre></div>
 
@@ -833,7 +835,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

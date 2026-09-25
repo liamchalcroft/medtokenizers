@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.training.callbacks &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.training.callbacks &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,7 +446,7 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.training.callbacks</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;Callback system for extensible training.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""Callback system for extensible training."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -463,7 +465,7 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_metric_to_float</span><span class="p">(</span><span class="n">value</span><span class="p">:</span> <span class="n">Any</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert scalar metric values to Python floats for serialization/comparison.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Convert scalar metric values to Python floats for serialization/comparison."""</span>
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">value</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">Tensor</span><span class="p">):</span>
         <span class="k">if</span> <span class="n">value</span><span class="o">.</span><span class="n">numel</span><span class="p">()</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">value</span><span class="o">.</span><span class="n">mean</span><span class="p">()</span>
@@ -472,10 +474,10 @@ window.runMermaid = runMermaid;</script>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">_emit_message</span><span class="p">(</span><span class="n">trainer</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">message</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Emit callback output through accelerator.print when available, else stdout.&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="s2">&quot;accelerator&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">accelerator</span><span class="p">,</span> <span class="s2">&quot;print&quot;</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Emit callback output through accelerator.print when available, else stdout."""</span>
+    <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="s2">"accelerator"</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">accelerator</span><span class="p">,</span> <span class="s2">"print"</span><span class="p">):</span>
         <span class="n">trainer</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
-    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="s2">&quot;_log&quot;</span><span class="p">):</span>
+    <span class="k">elif</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="s2">"_log"</span><span class="p">):</span>
         <span class="n">trainer</span><span class="o">.</span><span class="n">_log</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
     <span class="k">else</span><span class="p">:</span>
         <span class="nb">print</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
@@ -484,44 +486,44 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="Callback">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Callback">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Callback</span><span class="p">(</span><span class="n">ABC</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for training callbacks.</span>
+<span class="w">    </span><span class="sd">"""Base class for training callbacks.</span>
 
 <span class="sd">    Callbacks allow you to inject custom behavior at different points</span>
 <span class="sd">    during training without modifying the trainer code.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
 <div class="viewcode-block" id="Callback.on_train_begin">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Callback.on_train_begin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_train_begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called at the beginning of training.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called at the beginning of training."""</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="Callback.on_train_end">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Callback.on_train_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_train_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called at the end of training.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called at the end of training."""</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="Callback.on_epoch_begin">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Callback.on_epoch_begin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_epoch_begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called at the beginning of each epoch.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called at the beginning of each epoch."""</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="Callback.on_epoch_end">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Callback.on_epoch_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called at the end of each epoch.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called at the end of each epoch."""</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="Callback.on_batch_begin">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Callback.on_batch_begin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_batch_begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called at the beginning of each batch.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called at the beginning of each batch."""</span>
         <span class="k">pass</span></div>
 
 
@@ -530,21 +532,21 @@ window.runMermaid = runMermaid;</script>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_batch_end</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">batch</span><span class="p">:</span> <span class="n">Any</span><span class="p">,</span> <span class="n">batch_idx</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">loss</span><span class="p">:</span> <span class="nb">float</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called at the end of each batch.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called at the end of each batch."""</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="Callback.on_validation_begin">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Callback.on_validation_begin">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_validation_begin</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called at the beginning of validation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called at the beginning of validation."""</span>
         <span class="k">pass</span></div>
 
 
 <div class="viewcode-block" id="Callback.on_validation_end">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Callback.on_validation_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_validation_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called at the end of validation.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called at the end of validation."""</span>
         <span class="k">pass</span></div>
 </div>
 
@@ -553,12 +555,12 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="EarlyStopping">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.EarlyStopping">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">EarlyStopping</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Early stopping callback to stop training when validation loss stops improving.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Early stopping callback to stop training when validation loss stops improving."""</span>
 
 <div class="viewcode-block" id="EarlyStopping.__init__">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.EarlyStopping.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">patience</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">min_delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">monitor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;val_loss&quot;</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">patience</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">10</span><span class="p">,</span> <span class="n">min_delta</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.0</span><span class="p">,</span> <span class="n">monitor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"val_loss"</span>
     <span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">patience</span> <span class="o">=</span> <span class="n">patience</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">min_delta</span> <span class="o">=</span> <span class="n">min_delta</span>
@@ -585,7 +587,7 @@ window.runMermaid = runMermaid;</script>
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">wait</span> <span class="o">&gt;=</span> <span class="bp">self</span><span class="o">.</span><span class="n">patience</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">stopped_epoch</span> <span class="o">=</span> <span class="n">epoch</span>
                 <span class="n">trainer</span><span class="o">.</span><span class="n">stop_training</span> <span class="o">=</span> <span class="kc">True</span>
-                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Early stopping triggered at epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+                <span class="n">logger</span><span class="o">.</span><span class="n">info</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Early stopping triggered at epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 </div>
 
 
@@ -593,16 +595,16 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="Checkpoint">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Checkpoint">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Checkpoint</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Save model checkpoints during training.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Save model checkpoints during training."""</span>
 
 <div class="viewcode-block" id="Checkpoint.__init__">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Checkpoint.__init__">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">monitor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;val_loss&quot;</span><span class="p">,</span>
+        <span class="n">monitor</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"val_loss"</span><span class="p">,</span>
         <span class="n">save_best_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;min&quot;</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"min"</span><span class="p">,</span>
         <span class="n">verbose</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">save_every_n_epochs</span><span class="p">:</span> <span class="n">Optional</span><span class="p">[</span><span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">):</span>
@@ -635,15 +637,15 @@ window.runMermaid = runMermaid;</script>
                 <span class="n">should_save</span> <span class="o">=</span> <span class="kc">True</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">best_value</span> <span class="o">=</span> <span class="n">current_value</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;min&quot;</span> <span class="ow">and</span> <span class="n">current_value</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_value</span><span class="p">:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">"min"</span> <span class="ow">and</span> <span class="n">current_value</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_value</span><span class="p">:</span>
                     <span class="n">should_save</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">best_value</span> <span class="o">=</span> <span class="n">current_value</span>
-                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;max&quot;</span> <span class="ow">and</span> <span class="n">current_value</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_value</span><span class="p">:</span>
+                <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">"max"</span> <span class="ow">and</span> <span class="n">current_value</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">best_value</span><span class="p">:</span>
                     <span class="n">should_save</span> <span class="o">=</span> <span class="kc">True</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">best_value</span> <span class="o">=</span> <span class="n">current_value</span>
 
         <span class="k">if</span> <span class="n">should_save</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;best&quot;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"best"</span><span class="p">)</span>
 
         <span class="c1"># Periodic checkpoint saving (unconditional, at fixed intervals)</span>
         <span class="k">if</span> <span class="p">(</span>
@@ -651,50 +653,50 @@ window.runMermaid = runMermaid;</script>
             <span class="ow">and</span> <span class="p">(</span><span class="n">epoch</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">save_every_n_epochs</span> <span class="o">==</span> <span class="mi">0</span>
             <span class="ow">and</span> <span class="ow">not</span> <span class="n">should_save</span>  <span class="c1"># avoid duplicate save on same epoch</span>
         <span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">&quot;periodic&quot;</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_save</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">,</span> <span class="n">metrics</span><span class="p">,</span> <span class="n">tag</span><span class="o">=</span><span class="s2">"periodic"</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save a checkpoint to disk.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">_save</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span> <span class="n">tag</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Save a checkpoint to disk.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            trainer: Trainer instance</span>
 <span class="sd">            epoch: Current epoch number</span>
 <span class="sd">            metrics: Epoch metrics dict</span>
-<span class="sd">            tag: Label for verbose output (&#39;best&#39;, &#39;periodic&#39;, etc.)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            tag: Label for verbose output ('best', 'periodic', etc.)</span>
+<span class="sd">        """</span>
         <span class="n">metrics_payload</span> <span class="o">=</span> <span class="p">{</span><span class="n">k</span><span class="p">:</span> <span class="n">_metric_to_float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">()}</span>
         <span class="n">checkpoint_stem</span> <span class="o">=</span> <span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">stem</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">suffix</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">name</span>
         <span class="p">)</span>
 
-        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="s2">&quot;save_checkpoint&quot;</span><span class="p">):</span>
-            <span class="n">checkpoint_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">checkpoint_stem</span><span class="si">}</span><span class="s2">_epoch</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="s2">"save_checkpoint"</span><span class="p">):</span>
+            <span class="n">checkpoint_path</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">checkpoint_stem</span><span class="si">}</span><span class="s2">_epoch</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">"</span>
             <span class="n">trainer</span><span class="o">.</span><span class="n">save_checkpoint</span><span class="p">(</span>
                 <span class="nb">str</span><span class="p">(</span><span class="n">checkpoint_path</span><span class="p">),</span>
-                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;metrics&quot;</span><span class="p">:</span> <span class="n">metrics_payload</span><span class="p">},</span>
+                <span class="n">metadata</span><span class="o">=</span><span class="p">{</span><span class="s2">"metrics"</span><span class="p">:</span> <span class="n">metrics_payload</span><span class="p">},</span>
             <span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">checkpoint_path</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">checkpoint_stem</span><span class="si">}</span><span class="s2">_epoch</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">.pt&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">filepath</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">checkpoint_stem</span><span class="si">}</span><span class="s2">_epoch</span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">.pt"</span>
             <span class="p">)</span>
             <span class="n">checkpoint</span> <span class="o">=</span> <span class="p">{</span>
-                <span class="s2">&quot;epoch&quot;</span><span class="p">:</span> <span class="n">epoch</span><span class="p">,</span>
-                <span class="s2">&quot;model_state_dict&quot;</span><span class="p">:</span> <span class="n">trainer</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
-                <span class="s2">&quot;optimizer_state_dict&quot;</span><span class="p">:</span> <span class="n">trainer</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
-                <span class="s2">&quot;metrics&quot;</span><span class="p">:</span> <span class="n">metrics_payload</span><span class="p">,</span>
+                <span class="s2">"epoch"</span><span class="p">:</span> <span class="n">epoch</span><span class="p">,</span>
+                <span class="s2">"model_state_dict"</span><span class="p">:</span> <span class="n">trainer</span><span class="o">.</span><span class="n">model</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
+                <span class="s2">"optimizer_state_dict"</span><span class="p">:</span> <span class="n">trainer</span><span class="o">.</span><span class="n">optimizer</span><span class="o">.</span><span class="n">state_dict</span><span class="p">(),</span>
+                <span class="s2">"metrics"</span><span class="p">:</span> <span class="n">metrics_payload</span><span class="p">,</span>
             <span class="p">}</span>
             <span class="n">torch</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">checkpoint</span><span class="p">,</span> <span class="n">checkpoint_path</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">verbose</span><span class="p">:</span>
-            <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot; (</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">)&quot;</span> <span class="k">if</span> <span class="n">tag</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-            <span class="n">_emit_message</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Saved checkpoint</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">checkpoint_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="n">label</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">" (</span><span class="si">{</span><span class="n">tag</span><span class="si">}</span><span class="s2">)"</span> <span class="k">if</span> <span class="n">tag</span> <span class="k">else</span> <span class="s2">""</span>
+            <span class="n">_emit_message</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Saved checkpoint</span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2"> to </span><span class="si">{</span><span class="n">checkpoint_path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 
 <div class="viewcode-block" id="LRScheduler">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.LRScheduler">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LRScheduler</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Learning rate scheduling.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Learning rate scheduling."""</span>
 
 <div class="viewcode-block" id="LRScheduler.__init__">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.LRScheduler.__init__">[docs]</a>
@@ -706,7 +708,7 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.LRScheduler.on_epoch_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="p">,</span> <span class="n">torch</span><span class="o">.</span><span class="n">optim</span><span class="o">.</span><span class="n">lr_scheduler</span><span class="o">.</span><span class="n">ReduceLROnPlateau</span><span class="p">):</span>
-            <span class="n">val_loss</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;val_loss&quot;</span><span class="p">)</span>
+            <span class="n">val_loss</span> <span class="o">=</span> <span class="n">metrics</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"val_loss"</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">val_loss</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">scheduler</span><span class="o">.</span><span class="n">step</span><span class="p">(</span><span class="n">val_loss</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -718,7 +720,7 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="Logger">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Logger">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">Logger</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log training progress.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Log training progress."""</span>
 
 <div class="viewcode-block" id="Logger.__init__">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Logger.__init__">[docs]</a>
@@ -737,26 +739,26 @@ window.runMermaid = runMermaid;</script>
             <span class="n">avg_loss</span> <span class="o">=</span> <span class="nb">sum</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_losses</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">print_every</span> <span class="p">:])</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">batch_losses</span><span class="p">[</span><span class="o">-</span><span class="bp">self</span><span class="o">.</span><span class="n">print_every</span> <span class="p">:]</span>
             <span class="p">)</span>
-            <span class="n">_emit_message</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Batch </span><span class="si">{</span><span class="n">batch_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: Loss = </span><span class="si">{</span><span class="n">avg_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+            <span class="n">_emit_message</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Batch </span><span class="si">{</span><span class="n">batch_idx</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">: Loss = </span><span class="si">{</span><span class="n">avg_loss</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="Logger.on_epoch_end">
 <a class="viewcode-back" href="../../../api/training.html#medtokenizers.training.Logger.on_epoch_end">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">on_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">trainer</span><span class="p">:</span> <span class="n">Trainer</span><span class="p">,</span> <span class="n">epoch</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">metrics</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">if</span> <span class="n">metrics</span><span class="p">:</span>
-            <span class="n">metrics_str</span> <span class="o">=</span> <span class="s2">&quot; | &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
-                <span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">_metric_to_float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
+            <span class="n">metrics_str</span> <span class="o">=</span> <span class="s2">" | "</span><span class="o">.</span><span class="n">join</span><span class="p">(</span>
+                <span class="p">[</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">k</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">_metric_to_float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">"</span> <span class="k">for</span> <span class="n">k</span><span class="p">,</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">metrics</span><span class="o">.</span><span class="n">items</span><span class="p">()]</span>
             <span class="p">)</span>
-            <span class="n">_emit_message</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">metrics_str</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">_emit_message</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">metrics_str</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">_emit_message</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">_emit_message</span><span class="p">(</span><span class="n">trainer</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"Epoch </span><span class="si">{</span><span class="n">epoch</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">batch_losses</span> <span class="o">=</span> <span class="p">[]</span></div>
 </div>
 
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ReconstructionLogger</span><span class="p">(</span><span class="n">Callback</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Log reconstruction samples to wandb.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Log reconstruction samples to wandb."""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">num_samples</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">every_n_epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span> <span class="o">=</span> <span class="n">num_samples</span>
@@ -780,7 +782,7 @@ window.runMermaid = runMermaid;</script>
 
         <span class="n">images</span> <span class="o">=</span> <span class="n">batch</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-            <span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="p">[</span><span class="s2">&quot;image&quot;</span><span class="p">]</span>
+            <span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="p">[</span><span class="s2">"image"</span><span class="p">]</span>
         <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">images</span><span class="p">,</span> <span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">)):</span>
             <span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">images</span> <span class="o">=</span> <span class="n">images</span><span class="p">[:</span> <span class="bp">self</span><span class="o">.</span><span class="n">num_samples</span><span class="p">]</span><span class="o">.</span><span class="n">to</span><span class="p">(</span><span class="n">trainer</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">device</span><span class="p">)</span>
@@ -789,7 +791,7 @@ window.runMermaid = runMermaid;</script>
         <span class="k">with</span> <span class="n">torch</span><span class="o">.</span><span class="n">no_grad</span><span class="p">():</span>
             <span class="n">output</span> <span class="o">=</span> <span class="n">trainer</span><span class="o">.</span><span class="n">model</span><span class="p">(</span><span class="n">images</span><span class="p">)</span>
             <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">output</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
-                <span class="n">recons</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">&quot;reconstructions&quot;</span><span class="p">]</span>
+                <span class="n">recons</span> <span class="o">=</span> <span class="n">output</span><span class="p">[</span><span class="s2">"reconstructions"</span><span class="p">]</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="n">recons</span> <span class="o">=</span> <span class="n">output</span><span class="o">.</span><span class="n">reconstructions</span>
 
@@ -829,11 +831,11 @@ window.runMermaid = runMermaid;</script>
 
             <span class="n">combined</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">concatenate</span><span class="p">([</span><span class="n">img_slice</span><span class="p">,</span> <span class="n">rec_slice</span><span class="p">,</span> <span class="n">diff_slice</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="n">log_images</span><span class="o">.</span><span class="n">append</span><span class="p">(</span>
-                <span class="n">wandb</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">combined</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;Sample </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: input | recon | diff&quot;</span><span class="p">)</span>
+                <span class="n">wandb</span><span class="o">.</span><span class="n">Image</span><span class="p">(</span><span class="n">combined</span><span class="p">,</span> <span class="n">caption</span><span class="o">=</span><span class="sa">f</span><span class="s2">"Sample </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">: input | recon | diff"</span><span class="p">)</span>
             <span class="p">)</span>
 
         <span class="n">trainer</span><span class="o">.</span><span class="n">accelerator</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
-            <span class="p">{</span><span class="s2">&quot;reconstructions&quot;</span><span class="p">:</span> <span class="n">log_images</span><span class="p">},</span> <span class="n">step</span><span class="o">=</span><span class="n">trainer</span><span class="o">.</span><span class="n">global_step</span>
+            <span class="p">{</span><span class="s2">"reconstructions"</span><span class="p">:</span> <span class="n">log_images</span><span class="p">},</span> <span class="n">step</span><span class="o">=</span><span class="n">trainer</span><span class="o">.</span><span class="n">global_step</span>
         <span class="p">)</span>
 </pre></div>
 
@@ -845,7 +847,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 

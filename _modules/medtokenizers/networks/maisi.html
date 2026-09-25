@@ -5,7 +5,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>medtokenizers.networks.maisi &mdash; MedTokenizers 0.1.0 documentation</title>
+  <title>medtokenizers.networks.maisi &mdash; MedTokenizers 0.1.1 documentation</title>
       <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=b86133f3" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/theme.css?v=9edc463e" />
       <link rel="stylesheet" type="text/css" href="../../../_static/css/custom.css?v=ab4584ce" />
@@ -13,10 +13,12 @@
   
       <script src="../../../_static/jquery.js?v=5d32c60e"></script>
       <script src="../../../_static/_sphinx_javascript_frameworks_compat.js?v=2cd50e6c"></script>
-      <script src="../../../_static/documentation_options.js?v=01f34227"></script>
+      <script src="../../../_static/documentation_options.js?v=a58bc63e"></script>
       <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
       <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
       <script type="module">import mermaid from "https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.esm.min.mjs";
+
+
 
 
 
@@ -444,7 +446,7 @@ window.runMermaid = runMermaid;</script>
            <div itemprop="articleBody">
              
   <h1>Source code for medtokenizers.networks.maisi</h1><div class="highlight"><pre>
-<span></span><span class="sd">&quot;&quot;&quot;MAISI tokenizer with NVIDIA model configuration.&quot;&quot;&quot;</span>
+<span></span><span class="sd">"""MAISI tokenizer with NVIDIA model configuration."""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Optional</span><span class="p">,</span> <span class="n">Union</span>
@@ -457,34 +459,34 @@ window.runMermaid = runMermaid;</script>
 <div class="viewcode-block" id="MAISITokenizer">
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.MAISITokenizer">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">MAISITokenizer</span><span class="p">(</span><span class="n">ContinuousTokenizer</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;MAISI VAE tokenizer matching NVIDIA NV-Generate-MR architecture.</span>
+<span class="w">    </span><span class="sd">"""MAISI VAE tokenizer matching NVIDIA NV-Generate-MR architecture.</span>
 
 <span class="sd">    To use published NVIDIA MAISI weights, first convert them with</span>
 <span class="sd">    ``scripts/convert_maisi_to_hf.py`` and then load the converted checkpoint via</span>
 <span class="sd">    :meth:`from_pretrained`. Note that NVIDIA MAISI model weights are distributed</span>
-<span class="sd">    under the NVIDIA Source Code License (NSCLv1), separate from this repository&#39;s</span>
+<span class="sd">    under the NVIDIA Source Code License (NSCLv1), separate from this repository's</span>
 <span class="sd">    Apache-2.0 code license.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">DEFAULT_CONFIG</span> <span class="o">=</span> <span class="p">{</span>
-        <span class="s2">&quot;dim&quot;</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
-        <span class="s2">&quot;in_channels&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s2">&quot;out_channels&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-        <span class="s2">&quot;z_channels&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;z_factor&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="s2">&quot;latent_channels&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;channels&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
-        <span class="s2">&quot;channels_mult&quot;</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
-        <span class="s2">&quot;num_res_blocks&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-        <span class="s2">&quot;attn_resolutions&quot;</span><span class="p">:</span> <span class="p">(),</span>
-        <span class="s2">&quot;dropout&quot;</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
-        <span class="s2">&quot;resolution&quot;</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
-        <span class="s2">&quot;spatial_compression&quot;</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
-        <span class="s2">&quot;formulation&quot;</span><span class="p">:</span> <span class="s2">&quot;VAE&quot;</span><span class="p">,</span>
-        <span class="s2">&quot;name&quot;</span><span class="p">:</span> <span class="s2">&quot;MAISITokenizer&quot;</span><span class="p">,</span>
+        <span class="s2">"dim"</span><span class="p">:</span> <span class="mi">3</span><span class="p">,</span>
+        <span class="s2">"in_channels"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"out_channels"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="s2">"z_channels"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"z_factor"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"latent_channels"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"channels"</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+        <span class="s2">"channels_mult"</span><span class="p">:</span> <span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">4</span><span class="p">),</span>
+        <span class="s2">"num_res_blocks"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+        <span class="s2">"attn_resolutions"</span><span class="p">:</span> <span class="p">(),</span>
+        <span class="s2">"dropout"</span><span class="p">:</span> <span class="mf">0.0</span><span class="p">,</span>
+        <span class="s2">"resolution"</span><span class="p">:</span> <span class="mi">256</span><span class="p">,</span>
+        <span class="s2">"spatial_compression"</span><span class="p">:</span> <span class="mi">4</span><span class="p">,</span>
+        <span class="s2">"formulation"</span><span class="p">:</span> <span class="s2">"VAE"</span><span class="p">,</span>
+        <span class="s2">"name"</span><span class="p">:</span> <span class="s2">"MAISITokenizer"</span><span class="p">,</span>
         <span class="c1"># NVIDIA MAISI-specific architecture settings</span>
-        <span class="s2">&quot;use_encoder_mid&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># NVIDIA encoder has no mid blocks</span>
-        <span class="s2">&quot;decoder_blocks_per_stage&quot;</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># NVIDIA decoder: up.0=2, up.1=2, up.2=0</span>
+        <span class="s2">"use_encoder_mid"</span><span class="p">:</span> <span class="kc">False</span><span class="p">,</span>  <span class="c1"># NVIDIA encoder has no mid blocks</span>
+        <span class="s2">"decoder_blocks_per_stage"</span><span class="p">:</span> <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span>  <span class="c1"># NVIDIA decoder: up.0=2, up.1=2, up.2=0</span>
     <span class="p">}</span>
 
 <div class="viewcode-block" id="MAISITokenizer.__init__">
@@ -502,43 +504,43 @@ window.runMermaid = runMermaid;</script>
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">from_pretrained</span><span class="p">(</span>
         <span class="bp">cls</span><span class="p">,</span> <span class="n">pretrained_model_name_or_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">&quot;MAISITokenizer&quot;</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load from local checkpoint.&quot;&quot;&quot;</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="s2">"MAISITokenizer"</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Load from local checkpoint."""</span>
         <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">pretrained</span><span class="o">=</span><span class="n">pretrained_model_name_or_path</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_pretrained</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">]):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load weights from local path.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Load weights from local path."""</span>
         <span class="n">path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="ow">not</span> <span class="n">path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
             <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> not found. To use NVIDIA MAISI weights, first convert them &quot;</span>
-                <span class="s2">&quot;with scripts/convert_maisi_to_hf.py, then point this loader at the &quot;</span>
-                <span class="s2">&quot;converted checkpoint.&quot;</span>
+                <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2"> not found. To use NVIDIA MAISI weights, first convert them "</span>
+                <span class="s2">"with scripts/convert_maisi_to_hf.py, then point this loader at the "</span>
+                <span class="s2">"converted checkpoint."</span>
             <span class="p">)</span>
 
         <span class="c1"># Check if path is a directory (traditional HuggingFace format)</span>
         <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
-            <span class="n">checkpoint_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">&quot;pytorch_model.pt&quot;</span>
+            <span class="n">checkpoint_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="s2">"pytorch_model.pt"</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">checkpoint_path</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
-                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">&quot;model.pt&quot;</span><span class="p">,</span> <span class="s2">&quot;tokenizer.pt&quot;</span><span class="p">,</span> <span class="s2">&quot;vae.pt&quot;</span><span class="p">]:</span>
+                <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="p">[</span><span class="s2">"model.pt"</span><span class="p">,</span> <span class="s2">"tokenizer.pt"</span><span class="p">,</span> <span class="s2">"vae.pt"</span><span class="p">]:</span>
                     <span class="k">if</span> <span class="p">(</span><span class="n">path</span> <span class="o">/</span> <span class="n">name</span><span class="p">)</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
                         <span class="n">checkpoint_path</span> <span class="o">=</span> <span class="n">path</span> <span class="o">/</span> <span class="n">name</span>
                         <span class="k">break</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;No checkpoint found in </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"No checkpoint found in </span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="c1"># Path is directly a checkpoint file</span>
             <span class="n">checkpoint_path</span> <span class="o">=</span> <span class="n">path</span>
 
         <span class="c1"># Converted MAISI checkpoints are plain state dicts (tensors only), optionally</span>
-        <span class="c1"># wrapped under a &quot;state_dict&quot; / &quot;model&quot; key, so weights_only=True is safe.</span>
-        <span class="n">state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">checkpoint_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s2">&quot;cpu&quot;</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">if</span> <span class="s2">&quot;state_dict&quot;</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">:</span>
-            <span class="n">state_dict</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="s2">&quot;state_dict&quot;</span><span class="p">]</span>
-        <span class="k">elif</span> <span class="s2">&quot;model&quot;</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">:</span>
-            <span class="n">state_dict</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="s2">&quot;model&quot;</span><span class="p">]</span>
+        <span class="c1"># wrapped under a "state_dict" / "model" key, so weights_only=True is safe.</span>
+        <span class="n">state_dict</span> <span class="o">=</span> <span class="n">torch</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">checkpoint_path</span><span class="p">,</span> <span class="n">map_location</span><span class="o">=</span><span class="s2">"cpu"</span><span class="p">,</span> <span class="n">weights_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="s2">"state_dict"</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">:</span>
+            <span class="n">state_dict</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="s2">"state_dict"</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="s2">"model"</span> <span class="ow">in</span> <span class="n">state_dict</span><span class="p">:</span>
+            <span class="n">state_dict</span> <span class="o">=</span> <span class="n">state_dict</span><span class="p">[</span><span class="s2">"model"</span><span class="p">]</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">load_state_dict</span><span class="p">(</span><span class="n">state_dict</span><span class="p">,</span> <span class="n">strict</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
@@ -546,37 +548,37 @@ window.runMermaid = runMermaid;</script>
 <a class="viewcode-back" href="../../../api/tokenizers.html#medtokenizers.MAISITokenizer.get_training_config">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_training_config</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recommended training hyperparameters from MAISI paper.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Recommended training hyperparameters from MAISI paper."""</span>
         <span class="k">return</span> <span class="p">{</span>
-            <span class="s2">&quot;reconstruction_loss&quot;</span><span class="p">:</span> <span class="s2">&quot;l1&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;reconstruction_weight&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
-            <span class="s2">&quot;perceptual_weight&quot;</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
-            <span class="s2">&quot;kl_weight&quot;</span><span class="p">:</span> <span class="mf">1e-7</span><span class="p">,</span>
-            <span class="s2">&quot;adversarial_weight&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-            <span class="s2">&quot;discriminator_start_iter&quot;</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
-            <span class="s2">&quot;target_std_min&quot;</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
-            <span class="s2">&quot;target_std_max&quot;</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span>
-            <span class="s2">&quot;kl_adaptation_rate&quot;</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
-            <span class="s2">&quot;learning_rate&quot;</span><span class="p">:</span> <span class="mf">1e-4</span><span class="p">,</span>
-            <span class="s2">&quot;weight_decay&quot;</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
-            <span class="s2">&quot;optimizer&quot;</span><span class="p">:</span> <span class="s2">&quot;adamw&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;batch_size&quot;</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
-            <span class="s2">&quot;patch_size_stage1&quot;</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
-            <span class="s2">&quot;patch_size_stage2&quot;</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
-            <span class="s2">&quot;epochs_stage1&quot;</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
-            <span class="s2">&quot;epochs_stage2&quot;</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
-            <span class="s2">&quot;normalization&quot;</span><span class="p">:</span> <span class="s2">&quot;hounsfield&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;random_crop&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;spacing_type&quot;</span><span class="p">:</span> <span class="s2">&quot;rand_zoom&quot;</span><span class="p">,</span>
-            <span class="s2">&quot;amp&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
-            <span class="s2">&quot;gradient_accumulation_steps&quot;</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
-            <span class="s2">&quot;max_grad_norm&quot;</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s2">"reconstruction_loss"</span><span class="p">:</span> <span class="s2">"l1"</span><span class="p">,</span>
+            <span class="s2">"reconstruction_weight"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
+            <span class="s2">"perceptual_weight"</span><span class="p">:</span> <span class="mf">0.3</span><span class="p">,</span>
+            <span class="s2">"kl_weight"</span><span class="p">:</span> <span class="mf">1e-7</span><span class="p">,</span>
+            <span class="s2">"adversarial_weight"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="s2">"discriminator_start_iter"</span><span class="p">:</span> <span class="mi">5000</span><span class="p">,</span>
+            <span class="s2">"target_std_min"</span><span class="p">:</span> <span class="mf">0.9</span><span class="p">,</span>
+            <span class="s2">"target_std_max"</span><span class="p">:</span> <span class="mf">1.1</span><span class="p">,</span>
+            <span class="s2">"kl_adaptation_rate"</span><span class="p">:</span> <span class="mf">0.1</span><span class="p">,</span>
+            <span class="s2">"learning_rate"</span><span class="p">:</span> <span class="mf">1e-4</span><span class="p">,</span>
+            <span class="s2">"weight_decay"</span><span class="p">:</span> <span class="mf">0.01</span><span class="p">,</span>
+            <span class="s2">"optimizer"</span><span class="p">:</span> <span class="s2">"adamw"</span><span class="p">,</span>
+            <span class="s2">"batch_size"</span><span class="p">:</span> <span class="mi">1</span><span class="p">,</span>
+            <span class="s2">"patch_size_stage1"</span><span class="p">:</span> <span class="mi">64</span><span class="p">,</span>
+            <span class="s2">"patch_size_stage2"</span><span class="p">:</span> <span class="mi">128</span><span class="p">,</span>
+            <span class="s2">"epochs_stage1"</span><span class="p">:</span> <span class="mi">100</span><span class="p">,</span>
+            <span class="s2">"epochs_stage2"</span><span class="p">:</span> <span class="mi">200</span><span class="p">,</span>
+            <span class="s2">"normalization"</span><span class="p">:</span> <span class="s2">"hounsfield"</span><span class="p">,</span>
+            <span class="s2">"random_crop"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"spacing_type"</span><span class="p">:</span> <span class="s2">"rand_zoom"</span><span class="p">,</span>
+            <span class="s2">"amp"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span>
+            <span class="s2">"gradient_accumulation_steps"</span><span class="p">:</span> <span class="mi">2</span><span class="p">,</span>
+            <span class="s2">"max_grad_norm"</span><span class="p">:</span> <span class="mf">1.0</span><span class="p">,</span>
         <span class="p">}</span></div>
 </div>
 
 
 
-<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">&quot;MAISITokenizer&quot;</span><span class="p">]</span>
+<span class="n">__all__</span> <span class="o">=</span> <span class="p">[</span><span class="s2">"MAISITokenizer"</span><span class="p">]</span>
 </pre></div>
 
            </div>
@@ -587,7 +589,7 @@ window.runMermaid = runMermaid;</script>
 
   <div role="contentinfo">
     <p>&#169; Copyright 2026, Liam Chalcroft.
-      <span class="lastupdated">Last updated on Aug 07, 2026.
+      <span class="lastupdated">Last updated on Sep 25, 2026.
       </span></p>
   </div>
 
