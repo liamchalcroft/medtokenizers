@@ -1,5 +1,7 @@
 # medtokenizers
 
+[![arXiv](https://img.shields.io/badge/arXiv-2608.07713-b31b1b.svg)](https://arxiv.org/abs/2608.07713)
+
 `medtokenizers` compresses 2D and 3D medical images into latents or discrete
 token grids. It provides one encoder-decoder backbone with interchangeable
 quantization heads (VQ, LFQ, FSQ, Residual FSQ, VAE, AE), so the quantizer can
@@ -7,8 +9,11 @@ be treated as a controlled variable rather than a fixed preprocessing choice.
 It also provides shared reconstruction metrics and dataset tokenization
 utilities.
 
-This library accompanies the paper *Tokenizer-Generator Coupling in Medical
-Image Generation*, which uses it for the tokenizer half of a factorial study.
+This library accompanies the NeurIPS 2026 paper
+[*Tokenizer-Generator Coupling in Medical Image Generation*](https://arxiv.org/abs/2608.07713),
+which uses it for the tokenizer half of a factorial study. The paper's
+experiments live in
+[tokenizer-generator-coupling](https://github.com/liamchalcroft/tokenizer-generator-coupling).
 See [Citation](#citation).
 
 ## Install
@@ -218,18 +223,19 @@ community standards.
 ## Citation
 
 ```bibtex
-@article{chalcroft2026coupling,
-  author = {Chalcroft, Liam},
-  title  = {Tokenizer--Generator Coupling in Medical Image Generation},
-  year   = {2026},
-  note   = {arXiv preprint, to appear}
+@inproceedings{chalcroft2026tokenizer,
+  title     = {Tokenizer--Generator Coupling in Medical Image Generation},
+  author    = {Chalcroft, Liam},
+  booktitle = {Advances in Neural Information Processing Systems},
+  year      = {2026},
+  note      = {arXiv:2608.07713}
 }
 
 @software{chalcroft_medtokenizers,
   author  = {Chalcroft, Liam},
   title   = {{medtokenizers}: Continuous and discrete tokenizers for volumetric medical imaging},
   url     = {https://github.com/liamchalcroft/medtokenizers},
-  version = {0.1.0}
+  version = {0.1.1}
 }
 ```
 
@@ -245,4 +251,4 @@ NVIDIA Cosmos-Tokenizer and MONAI/MAISI under Apache-2.0. Their terms are
 preserved in [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and
 [NOTICE](NOTICE). Two things are outside the MIT licence: NVIDIA MAISI
 pretrained *weights*, if you use them, remain under NSCLv1; and the bundled
-bundled BrainWeb volume is data carrying its own citation requirement.
+BrainWeb volume is data carrying its own citation requirement.

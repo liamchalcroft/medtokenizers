@@ -6,6 +6,18 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [0.1.1] - 2026-09-25
+
+### Changed
+
+- The paper is linked from the README (arXiv badge), from `pyproject.toml`
+  (`Paper` project URL), and from `CITATION.cff`, whose preferred citation is
+  now the NeurIPS 2026 conference paper (arXiv:2608.07713). The README BibTeX
+  entry is updated to match.
+- The README points to
+  [tokenizer-generator-coupling](https://github.com/liamchalcroft/tokenizer-generator-coupling),
+  the repository holding the paper's experiments.
+
 ## [0.1.0] - 2026-08-07
 
 First public release, accompanying the paper *Tokenizer-Generator Coupling in

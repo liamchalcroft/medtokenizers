@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "medtokenizers"
-version = "0.1.0"
+version = "0.1.1"
 description = "Tokenization modules for volumetric medical imagery."
 readme = "README.md"
 requires-python = ">=3.10"
@@ -89,6 +89,7 @@ Documentation = "https://liamchalcroft.github.io/medtokenizers/"
 Repository = "https://github.com/liamchalcroft/medtokenizers"
 Issues = "https://github.com/liamchalcroft/medtokenizers/issues"
 Changelog = "https://github.com/liamchalcroft/medtokenizers/blob/main/CHANGELOG.md"
+Paper = "https://arxiv.org/abs/2608.07713"
 
 [tool.setuptools.packages.find]
 where = ["src"]

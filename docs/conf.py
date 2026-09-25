@@ -24,7 +24,7 @@ copyright = f"2026, {author}"
 try:
     version = importlib.metadata.version("medtokenizers")
 except importlib.metadata.PackageNotFoundError:
-    version = "0.1.0"
+    version = "0.1.1"
 release = version
 
 language = "en"
