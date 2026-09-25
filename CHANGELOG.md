@@ -6,6 +6,24 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to
 [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [Unreleased]
+
+### Fixed
+
+- `VectorQuantizer.get_codebook_entry` (and so `indices_to_codes` and
+  `DiscreteTokenizer.detokenize`) now L2-normalises codebook entries when
+  `use_norm=True`, matching `forward`. Previously, decoding VQ tokens from a
+  `use_norm=True` model fed the decoder unnormalised embeddings.
+- `DiscreteTokenizer.detokenize` now places the channel axis by quantizer type
+  instead of inferring it from the tensor shape. Latents with a side equal to
+  `embedding_dim` were decoded transposed, and flattened LFQ indices were
+  reshaped incorrectly.
+
+### Removed
+
+- `DiscreteTokenizer._reshape_quant`; `detokenize` reshapes flattened indices
+  (given `spatial_shape`) before the codebook lookup.
+
 ## [0.1.1] - 2026-09-25
 
 ### Changed

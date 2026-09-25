@@ -1086,7 +1086,7 @@ class VectorQuantizer(BaseQuantizer):
         Returns:
             Codebook embeddings, reshaped if shape provided
         """
-        z_q = self.embedding(indices)
+        z_q = self._normalize(self.embedding(indices))
 
         if shape is not None:
             z_q = z_q.view(shape)

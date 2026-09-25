@@ -261,6 +261,21 @@ class TestVectorQuantizerEdgeCases:
         _, _, indices = vq_cosine(z)
         assert indices.item() == 0
 
+    @pytest.mark.parametrize("use_norm", [False, True])
+    def test_vq_indices_to_codes_matches_forward(self, use_norm: bool) -> None:
+        """Test that decoding indices reproduces the codes forward() emits."""
+        vq = VectorQuantizer(
+            num_embeddings=16, embedding_dim=4, dim=2, use_norm=use_norm
+        )
+        with torch.no_grad():
+            vq.embedding.weight.normal_(std=3.0)
+        vq.eval()
+        z = torch.randn(2, 4, 5, 6)
+        with torch.no_grad():
+            z_q, _, indices = vq(z)
+            codes = vq.indices_to_codes(indices.long().view(-1), shape=(2, 5, 6, 4))
+        assert torch.allclose(codes, z_q, atol=1e-6)
+
 
 class TestResidualFSQEdgeCases:
     """Edge case tests for ResidualFSQuantizer."""

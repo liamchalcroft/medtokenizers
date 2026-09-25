@@ -65,7 +65,6 @@ from typing import TYPE_CHECKING, Any, Literal, Optional
 
 import torch
 import torch.nn as nn
-from einops import rearrange
 
 from medtokenizers.modules.base import BaseTokenizer
 from medtokenizers.modules.layers import Decoder, Encoder
@@ -485,66 +484,6 @@ class DiscreteTokenizer(BaseTokenizer):
         quant = self.post_quant_conv(quant)
         return self.decoder(quant)
 
-    def _reshape_quant(
-        self,
-        quant: Float[torch.Tensor, ...],
-        spatial_shape: tuple[int, ...] | None = None,
-    ) -> Float[torch.Tensor, "batch embedding_dim *spatial"]:
-        """Reshape quantized codes to (B, C, *spatial) format.
-
-        Handles multiple input formats:
-        - (B, N, C): Flattened spatial with channels last
-        - (B, H, W, C): 2D spatial with channels last
-        - (B, H, W, D, C): 3D spatial with channels last
-        - (B, C, H, W) / (B, C, H, W, D): Already in correct format
-
-        Args:
-            quant: Quantized codes in various formats
-            spatial_shape: Original spatial dimensions (H, W) or (H, W, D).
-                          Required when quant is flattened (3D tensor).
-
-        Returns:
-            Quantized codes in (B, C, *spatial) format
-
-        Raises:
-            ValueError: If spatial_shape is required but not provided
-        """
-        ndim = len(quant.shape)
-
-        if ndim == 3:
-            # Flattened format: (B, N, C) -> (B, C, *spatial)
-            if spatial_shape is None:
-                raise ValueError(
-                    "spatial_shape is required when reshaping flattened codes. "
-                    "This prevents incorrect assumptions about spatial dimensions "
-                    "for anisotropic volumes (e.g., medical images with non-cubic shapes)."
-                )
-            if self.dim == 2:
-                h, w = spatial_shape
-                quant = rearrange(quant, "b (h w) c -> b c h w", h=h, w=w)
-            else:
-                h, w, d = spatial_shape
-                quant = rearrange(quant, "b (h w d) c -> b c h w d", h=h, w=w, d=d)
-        elif ndim == 4 and self.dim == 2:
-            # Could be (B, C, H, W) or (B, H, W, C)
-            # Check if channels are in position 1 or -1
-            if (
-                quant.shape[1] != self.embedding_dim
-                and quant.shape[-1] == self.embedding_dim
-            ):
-                # Channels last: (B, H, W, C) -> (B, C, H, W)
-                quant = quant.permute(0, 3, 1, 2).contiguous()
-        elif ndim == 5 and self.dim == 3:
-            # Could be (B, C, H, W, D) or (B, H, W, D, C)
-            if (
-                quant.shape[1] != self.embedding_dim
-                and quant.shape[-1] == self.embedding_dim
-            ):
-                # Channels last: (B, H, W, D, C) -> (B, C, H, W, D)
-                quant = quant.permute(0, 4, 1, 2, 3).contiguous()
-
-        return quant
-
     def forward(
         self, input: Float[torch.Tensor, "batch channels *spatial"]
     ) -> dict[str, torch.Tensor] | NetworkEval:
@@ -628,10 +567,22 @@ class DiscreteTokenizer(BaseTokenizer):
         Raises:
             ValueError: If spatial_shape is required but not provided
         """
-        # Convert indices to continuous codes (all quantizers implement this)
-        quant = self.quantizer.indices_to_codes(indices)
+        # RESFSQ indices are (B, Q, *spatial), the rest (B, *spatial). VQ and FSQ return channels-last
+        # codes, LFQ and RESFSQ channels-first; the layout cannot be inferred from shape when a latent
+        # side equals embedding_dim.
+        spatial_axis = 2 if self.quantizer_type == "RESFSQ" else 1
+        if indices.ndim == spatial_axis + 1 and self.dim > 1:
+            if spatial_shape is None:
+                raise ValueError(
+                    "spatial_shape is required to detokenize flattened indices. "
+                    "This prevents incorrect assumptions about spatial dimensions "
+                    "for anisotropic volumes (e.g., medical images with non-cubic shapes)."
+                )
+            indices = indices.unflatten(spatial_axis, tuple(spatial_shape))
 
-        quant = self._reshape_quant(quant, spatial_shape=spatial_shape)
+        quant = self.quantizer.indices_to_codes(indices)
+        if self.quantizer_type in ("VQ", "FSQ"):
+            quant = quant.movedim(-1, 1)
         quant = self.post_quant_conv(quant)
         return self.decoder(quant)
 

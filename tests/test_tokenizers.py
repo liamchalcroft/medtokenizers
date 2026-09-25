@@ -88,18 +88,17 @@ def test_discrete_tokenizer_residual_fsq_handles_flat_tokens(base_kwargs: dict) 
         num_quantizers=3,
         **base_kwargs,
     ).to(torch.float32)
-    x = torch.randn(1, 1, 16, 16, 16, dtype=torch.float32)
+    model.eval()
+    x = torch.randn(1, 1, 16, 16, 24, dtype=torch.float32)
 
-    tokens, quantised, _ = model.encode(x)
-    # Get spatial shape from quantised: (B, C, H, W, D) -> (H, W, D)
-    spatial_shape = quantised.shape[2:]
-    flattened = quantised.view(quantised.shape[0], -1, quantised.shape[1])
-    # spatial_shape is required to avoid cubic assumption for anisotropic volumes
-    reshaped = model._reshape_quant(flattened, spatial_shape=spatial_shape)
+    with torch.no_grad():
+        tokens = model.tokenize(x)
+        spatial_shape = tokens.shape[2:]
+        recon = model.detokenize(tokens.flatten(2), spatial_shape=spatial_shape)
 
-    assert reshaped.shape == quantised.shape
-    recon = model.decode(reshaped)
-    assert recon.shape == x.shape
+        assert torch.allclose(recon, model.detokenize(tokens), atol=1e-5)
+    with pytest.raises(ValueError, match="spatial_shape"):
+        model.detokenize(tokens.flatten(2))
 
 
 def test_discrete_tokenizer_rejects_unknown_quantizer(base_kwargs: dict) -> None:
@@ -233,6 +232,44 @@ class TestDeterminism:
             recon2 = model.detokenize(tokens)
 
         assert torch.allclose(recon1, recon2), "Detokenize not deterministic"
+
+    @pytest.mark.parametrize(
+        "quantizer_kwargs",
+        [
+            {"quantizer": "VQ", "num_embeddings": 64, "use_norm": False},
+            {"quantizer": "VQ", "num_embeddings": 64, "use_norm": True},
+            {"quantizer": "FSQ", "levels": [8, 5, 5, 5]},
+            {"quantizer": "LFQ", "codebook_size": 64, "codebook_dim": 6},
+            {"quantizer": "RESFSQ", "levels": [8, 8, 8, 8], "num_codebooks": 2},
+        ],
+        ids=["vq", "vq-norm", "fsq", "lfq", "resfsq"],
+    )
+    def test_detokenize_matches_forward(
+        self, base_kwargs: dict, quantizer_kwargs: dict
+    ) -> None:
+        """Test that detokenize(tokenize(x)) equals the forward reconstruction."""
+        model = DiscreteTokenizer(
+            dim=2, z_channels=4, embedding_dim=4, **quantizer_kwargs, **base_kwargs
+        )
+        if quantizer_kwargs["quantizer"] == "VQ":
+            with torch.no_grad():
+                model.quantizer.embedding.weight.normal_(std=3.0)
+        model.eval()
+
+        # A 4 x 4 latent with embedding_dim=4 makes channels-first and channels-last codes the same shape.
+        x = torch.randn(2, 1, 16, 16)
+
+        with torch.no_grad():
+            recon = model(x).reconstructions
+            tokens = model.tokenize(x)
+            roundtrip = model.detokenize(tokens)
+            spatial_axis = 2 if quantizer_kwargs["quantizer"] == "RESFSQ" else 1
+            flat = model.detokenize(
+                tokens.flatten(spatial_axis, spatial_axis + 1), spatial_shape=(4, 4)
+            )
+
+        assert torch.allclose(roundtrip, recon, atol=1e-5)
+        assert torch.allclose(flat, recon, atol=1e-5)
 
     def test_seeded_vae_reproducible(self, base_kwargs: dict) -> None:
         """Test that VAE is reproducible with manual seeding."""
