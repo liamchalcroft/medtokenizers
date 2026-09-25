@@ -38,7 +38,7 @@ python examples/inference_on_brain.py --input brain.nii --model ./checkpoints/my
 - `retinamnist`, `breastmnist`, `bloodmnist`, `tissuemnist`
 - `organamnist`, `organcmnist`, `organsmnist`
 
-### 3D Datasets  
+### 3D Datasets
 - `organmnist3d`, `nodulemnist3d`, `adrenalmnist3d`
 - `fracturemnist3d`, `vesselmnist3d`, `synapsemnist3d`
 
