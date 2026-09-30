@@ -14,6 +14,7 @@ This library accompanies the NeurIPS 2026 paper
 which uses it for the tokenizer half of a factorial study. The paper's
 experiments live in
 [tokenizer-generator-coupling](https://github.com/liamchalcroft/tokenizer-generator-coupling).
+The [research page](https://liamchalcroft.com/publication/2026-tokenizer-generator-coupling/) includes a paper summary and figures.
 See [Citation](#citation).
 
 ## Install
